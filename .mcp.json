@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "heygen-hyperframes": {
+      "url": "https://mcp.heygen.com/mcp/hyperframes/",
+      "type": "sse"
+    }
+  }
+}
