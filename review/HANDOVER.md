@@ -52,3 +52,12 @@ Note on the test browser: the bundled Chromium has no H.264 decoder, so the test
 - Hero video: Kling 3.0 take, reversed so the scroll descends onto the suits (raw takes stay in the Higgsfield library).
 - Hero resting frame, color cards, macro, step stills: GPT Image 2.5 with your two AliExpress photos as references.
 - Lookbook, faces, turnarounds: the series' own Itay and Yuval generations from the Higgsfield history.
+
+## Where we left off (10 Oct 2026)
+
+- Site complete and tested in `yuval-itay-set/`, pushed on branch `claude/chat-4bn7t1`.
+- Decisions made by the owner: real AliExpress print for the product, Itay and Yuval cloud photos for the lookbook, buy buttons go to a shop link that does not exist yet (placeholder mode), no price shown.
+- Waiting on the owner for: the shop link or WhatsApp number (`SHOP` block in `assets/site.js`), Hostinger connection for deploy, and confirmation of the size guide and shipping or exchange lines.
+- Open: the review panel's findings (`review/review-findings.md`) to apply when they land; a photo-ranking cross-check never finished and is not needed.
+- Higgsfield spend for this build: about 94 credits. Other sessions spent the rest that day.
+- Network blocks in this environment: `d8j0ntlcm91z4.cloudfront.net` and `upload.higgsfield.ai`; the sandbox image bridge (`image_paths`, md5-matched blobs) is the workaround.
