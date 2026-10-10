@@ -10,7 +10,7 @@
 //   form             submit the form empty, then valid
 //   dom              probe band k values and video time at several scroll positions
 import { spawn, execFileSync } from 'node:child_process';
-import { writeFileSync, mkdirSync, existsSync } from 'node:fs';
+import { writeFileSync, readFileSync, mkdirSync, existsSync } from 'node:fs';
 import { setTimeout as sleep } from 'node:timers/promises';
 import http from 'node:http';
 
@@ -48,6 +48,14 @@ class CDP {
     c.on('Runtime.consoleAPICalled', (p) => { if (p.type === 'error' || p.type === 'warning') c.console.push(p.type + ': ' + p.args.map((a) => a.value ?? a.description).join(' ')); });
     c.on('Runtime.exceptionThrown', (p) => c.errors.push(p.exceptionDetails.text + ' ' + (p.exceptionDetails.exception?.description || '')));
     c.on('Log.entryAdded', (p) => { if (p.entry.level === 'error') c.console.push('log: ' + p.entry.text + ' ' + (p.entry.url || '')); });
+    // The bundled Chromium has no H.264 decoder, so in tests the mp4 request is answered with a VP9 copy of the same frames.
+    if (process.env.TEST_WEBM && existsSync(process.env.TEST_WEBM)) {
+      const body = readFileSync(process.env.TEST_WEBM).toString('base64');
+      await c.send('Fetch.enable', { patterns: [{ urlPattern: '*hero-scrub.mp4*', requestStage: 'Request' }] });
+      c.on('Fetch.requestPaused', (p) => {
+        c.send('Fetch.fulfillRequest', { requestId: p.requestId, responseCode: 200, responseHeaders: [{ name: 'Content-Type', value: 'video/webm' }, { name: 'Content-Length', value: String(Buffer.byteLength(body, 'base64')) }], body }).catch(() => {});
+      });
+    }
     return c;
   }
   send(method, params = {}) { const id = ++this.id; this.ws.send(JSON.stringify({ id, method, params })); return new Promise((res, rej) => this.pending.set(id, { res, rej })); }
@@ -94,6 +102,15 @@ try {
       await c.close();
     }
   }
+  if (mode === 'heroshots') {
+    for (const [w, h] of [[1440, 900], [1920, 1080], [1280, 800]]) {
+      const c = await CDP.open(); await c.viewport(w, h); await c.go(SITE); await sleep(4500);
+      const heroH = await c.eval('document.getElementById("hero").offsetHeight');
+      for (const p of [0, 0.1, 0.36, 0.64, 0.86, 1]) { await c.scroll(Math.round((heroH - h) * p)); await sleep(900); await c.shot(`hero-p${Math.round(p * 100)}-${w}`); }
+      out.push(`${w}x${h} ready=` + await c.eval('document.querySelector(".stage").classList.contains("video-ready")'));
+      await c.close();
+    }
+  }
   if (mode === 'sections') {
     for (const [w, h, mob] of [[1440, 900, false], [375, 812, true]]) {
       const c = await CDP.open(); await c.viewport(w, h, { mobile: mob, touch: mob }); await c.go(SITE); await sleep(1500);
@@ -108,6 +125,7 @@ try {
   if (mode === 'dom') {
     const c = await CDP.open(); await c.viewport(1440, 900); await c.go(SITE); await sleep(4000);
     const heroH = await c.eval('document.getElementById("hero").offsetHeight');
+    out.push('diag: ' + await c.eval(`(()=>{const v=document.getElementById('heroVideo');return 'canPlay h264='+v.canPlayType('video/mp4; codecs="avc1.42E01E"')+' webm='+v.canPlayType('video/webm; codecs="vp9"')+' readyState='+v.readyState+' networkState='+v.networkState+' error='+(v.error?v.error.code+':'+v.error.message:'none')+' src='+(v.src?v.src.slice(0,30):'')+' classes='+document.querySelector('.stage').className+' preload='+v.preload})()`));
     for (const p of [0, 0.1, 0.22, 0.36, 0.5, 0.64, 0.78, 0.9, 1]) {
       await c.scroll(Math.round((heroH - 900) * p)); await sleep(700);
       out.push(`p=${p} ` + await c.eval(`(()=>{const v=document.getElementById('heroVideo');return 'video t='+v.currentTime.toFixed(2)+'/'+(v.duration||0).toFixed(2)+' ready='+document.querySelector('.stage').classList.contains('video-ready')+' bands='+[...document.querySelectorAll('.band')].map((b,i)=>i+':op'+getComputedStyle(b).opacity+'/k'+(getComputedStyle(b).getPropertyValue('--k')||'-').trim()).join(' ')})()`));

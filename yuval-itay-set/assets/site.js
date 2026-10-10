@@ -118,7 +118,7 @@
     k: -1,
   }));
   const VIDEO_URL = 'assets/hero-scrub.mp4';
-  const VIDEO_BYTES = 5500000; /* real byte size patched after the encode */
+  const VIDEO_BYTES = 4607909; /* real byte size of hero-scrub.mp4 */
   const POSTER_URL = 'assets/hero-poster.jpg';
 
   let target = 0, shown = 0, rafId = null, lastTick = 0;
@@ -238,7 +238,8 @@
     }
     clearTimeout(watchdog);
     ring.style.setProperty('--ld', 0);
-    video.src = URL.createObjectURL(new Blob(chunks, { type: 'video/mp4' }));
+    video.preload = 'auto'; /* the bytes are already here; let the element parse them now */
+    video.src = URL.createObjectURL(new Blob(chunks, { type: res.headers.get('Content-Type') || 'video/mp4' }));
     video.load();
     video.addEventListener('canplay', () => {
       requestSeek(heroProgress() * video.duration);
