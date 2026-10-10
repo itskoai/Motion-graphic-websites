@@ -1,7 +1,20 @@
-/* חליפת הענן · יובל ואיתי — site engine
+/* הטרנינג של יובל ואיתי: site engine.
    Plain vanilla JS. No build step. */
 (() => {
   'use strict';
+
+  /* ------------------------------------------------------------------
+     WHERE THE BUY BUTTONS GO (the only thing to edit before going live)
+     url:      your shop or checkout link. When set, every buy button opens it.
+     whatsapp: your number in international form, digits only (e.g. 9725XXXXXXXX).
+               When set (and url is empty), buy buttons open WhatsApp with the
+               chosen color and size pre-filled.
+     form:     a form service endpoint (e.g. Formspree). When set, the form
+               posts there and shows a real success or failure.
+     With all three empty the page is in preview mode: buttons scroll to the
+     form and the form only shows its thank-you state.
+  ------------------------------------------------------------------ */
+  const SHOP = { url: '', whatsapp: '', form: '' };
 
   const $ = (s, r = document) => r.querySelector(s);
   const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
@@ -342,7 +355,9 @@
   ------------------------------------------------------------------ */
   const puffSection = $('#puff');
   const puffBtn = $('#puffBtn');
-  let holding = false, puffP = 0, puffRaf = null, puffLast = 0, puffDone = false, puffShown = -1;
+  let holding = false, puffP = 0, puffRaf = null, puffDone = false, puffShown = -1;
+  let holdT0 = 0, releaseP = 0, releaseT0 = 0;
+  const HOLD_MS = 1400, RELEASE_MS = 700;
   function puffComplete(instant) {
     if (puffDone) return;
     puffDone = true;
@@ -360,19 +375,19 @@
     }
   }
   function puffTick(now) {
-    const dt = Math.min(80, now - (puffLast || now));
-    puffLast = now;
-    if (holding) puffP = clamp(puffP + dt / 1400, 0, 1);
-    else puffP = clamp(puffP - dt / 700, 0, 1);
+    /* time-based, so a slow frame rate never slows the hold */
+    if (holding) puffP = clamp((now - holdT0) / HOLD_MS, 0, 1);
+    else puffP = clamp(releaseP - (now - releaseT0) / RELEASE_MS, 0, 1);
     writePuff();
-    if (puffP >= 1 && holding) { puffComplete(false); puffRaf = null; puffLast = 0; return; }
-    if ((!holding && puffP <= 0) || puffDone) { puffRaf = null; puffLast = 0; return; }
+    if (puffP >= 1 && holding) { puffComplete(false); puffRaf = null; return; }
+    if ((!holding && puffP <= 0) || puffDone) { puffRaf = null; return; }
     puffRaf = requestAnimationFrame(puffTick);
   }
   function holdStart(e) {
     if (puffDone) return;
     if (e.type === 'pointerdown' && e.button !== 0) return;
     holding = true;
+    holdT0 = performance.now() - puffP * HOLD_MS;
     puffSection.classList.add('holding');
     if (puffRaf === null) puffRaf = requestAnimationFrame(puffTick);
     e.preventDefault();
@@ -380,6 +395,8 @@
   function holdEnd() {
     if (!holding) return;
     holding = false;
+    releaseP = puffP;
+    releaseT0 = performance.now();
     puffSection.classList.remove('holding');
     if (puffRaf === null && !puffDone) puffRaf = requestAnimationFrame(puffTick);
   }
@@ -393,8 +410,9 @@
   }
 
   /* ------------------------------------------------------------------
-     7. Which cloud are you: the sky picker
+     7. Which side are you: the sort
   ------------------------------------------------------------------ */
+  const form = $('#dropForm');
   const skyPick = $('#skyPick');
   if (skyPick) {
     $$('[data-sky]', skyPick).forEach((btn) => {
@@ -410,14 +428,43 @@
   }
 
   /* ------------------------------------------------------------------
+     7b. Buy buttons: route to the shop, WhatsApp, or the form
+  ------------------------------------------------------------------ */
+  const COLOR_HE = { night: 'נייבי של איתי', day: 'תכלת של יובל', both: 'שניהם' };
+  function chosenSize() { const s = $('#f-size'); return s && s.value ? s.value : ''; }
+  function waLink(color) {
+    const c = COLOR_HE[color] || '';
+    const size = chosenSize();
+    const text = `היי, אני רוצה להזמין את הטרנינג של יובל ואיתי${c ? ' בצבע ' + c : ''}${size ? ' במידה ' + size : ''}.`;
+    return `https://wa.me/${SHOP.whatsapp}?text=${encodeURIComponent(text)}`;
+  }
+  $$('[data-buy]').forEach((a) => {
+    a.addEventListener('click', (e) => {
+      const color = a.dataset.color;
+      if (color) { const r = $(`input[name="color"][value="${color}"]`); if (r) r.checked = true; }
+      if (SHOP.url) { a.href = SHOP.url; a.target = '_blank'; a.rel = 'noopener'; return; }
+      if (SHOP.whatsapp) { e.preventDefault(); open(waLink(color || (form && form.querySelector('input[name="color"]:checked') || {}).value), '_blank', 'noopener'); return; }
+      /* preview mode: let the anchor scroll to #order */
+    });
+  });
+  const shopPanel = $('#shopPanel');
+  if (SHOP.url && shopPanel) {
+    shopPanel.hidden = false;
+    $('#shopBtn').href = SHOP.url;
+    $('#shopBtn').target = '_blank';
+    if (form) form.hidden = true;
+  }
+
+  /* ------------------------------------------------------------------
      8. 360 views: click the dots to switch the view
   ------------------------------------------------------------------ */
   $$('.turn').forEach((turn) => {
     const img = $('img', turn);
     const dots = $$('.turn-dot', turn);
     const views = parseInt(turn.dataset.views || '4', 10);
+    const pos = (turn.dataset.pos || '0,25,50,75').split(',').map(Number);
     function setView(i) {
-      img.style.setProperty('--view', i);
+      img.style.setProperty('--tx', pos[i] || 0);
       dots.forEach((d, n) => d.setAttribute('aria-selected', String(n === i)));
       turn.dataset.view = i;
     }
@@ -433,9 +480,8 @@
   /* ------------------------------------------------------------------
      9. The drop-list form (static site: JS-only success state)
   ------------------------------------------------------------------ */
-  const form = $('#dropForm');
   if (form) {
-    form.addEventListener('submit', (e) => {
+    form.addEventListener('submit', async (e) => {
       e.preventDefault();
       const name = $('#f-name').value.trim();
       const contact = $('#f-contact').value.trim();
@@ -450,9 +496,22 @@
       }
       err.hidden = true;
       const color = (form.querySelector('input[name="color"]:checked') || {}).value || 'both';
+      const btn = form.querySelector('button[type="submit"]');
+      if (SHOP.form) {
+        btn.disabled = true;
+        try {
+          const res = await fetch(SHOP.form, { method: 'POST', headers: { 'Accept': 'application/json' }, body: new FormData(form) });
+          if (!res.ok) throw new Error('send failed');
+        } catch (_) {
+          btn.disabled = false;
+          err.hidden = false;
+          err.textContent = 'משהו נתקע בדרך. נסו שוב עוד רגע.';
+          return;
+        }
+      }
       const done = $('.form-done');
       done.querySelector('.done-name').textContent = name;
-      done.querySelector('.done-color').textContent = { night: 'לילה', day: 'יום', both: 'שניהם' }[color];
+      done.querySelector('.done-color').textContent = COLOR_HE[color];
       form.classList.add('sent');
       done.hidden = false;
       done.focus();

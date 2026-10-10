@@ -1,5 +1,5 @@
-/* חליפת הענן · יובל ואיתי — styles
-   One world: wet asphalt at night, two skies, a cloud you can touch. */
+/* הטרנינג של יובל ואיתי: styles.
+   One world: wet asphalt at night, two sides, a print you can feel. */
 
 :root {
   --canvas: #0b1020;
@@ -29,6 +29,7 @@
 }
 
 *, *::before, *::after { box-sizing: border-box; }
+[hidden] { display: none !important; }
 html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
 html, body { overflow-x: hidden; overflow-x: clip; }
 body {
@@ -179,7 +180,9 @@ main { position: relative; z-index: 1; }
 .static-hero img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 30%; }
 .static-hero .veil { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(11, 16, 32, 0.35) 0%, rgba(11, 16, 32, 0) 30%, rgba(11, 16, 32, 0.1) 55%, rgba(11, 16, 32, 0.92) 100%); }
 .static-hero .copy { position: relative; z-index: 1; padding: 0 var(--gutter) 44px; display: flex; flex-direction: column; justify-content: flex-end; min-height: 100svh; text-shadow: var(--tshadow); }
+.static-hero .chip { display: inline-block; width: max-content; margin-bottom: 14px; padding: 6px 12px; border-radius: 10px; font-family: var(--mono); font-size: 12px; letter-spacing: 0.08em; color: var(--accent); background: rgba(8, 8, 15, 0.55); border: 1px solid rgba(96, 96, 126, 0.3); backdrop-filter: blur(10px); }
 .static-hero h1 { font-size: clamp(38px, 11vw, 60px); line-height: 1.06; }
+.band.settle .big.display { font-family: var(--display); font-size: clamp(34px, 4.2vw, 60px); line-height: 1.1; }
 .static-hero h1 .display { color: var(--accent); font-size: 1.15em; }
 .static-hero p { margin-top: 14px; color: var(--text-secondary); font-size: 18px; max-width: 34ch; }
 .static-hero .row { margin-top: 22px; display: flex; gap: 12px; flex-wrap: wrap; }
@@ -194,7 +197,7 @@ main { position: relative; z-index: 1; }
    Sections
 ------------------------------------------------------------------ */
 section { position: relative; }
-.pad { padding-block: clamp(72px, 10vw, 140px); }
+.pad { padding-block: clamp(64px, 8vw, 112px); }
 .head { display: grid; gap: 14px; margin-bottom: clamp(32px, 5vw, 64px); }
 
 /* the sky section: two halves */
@@ -235,6 +238,14 @@ section { position: relative; }
 .fact p { color: var(--text-secondary); font-size: 16px; }
 @media (max-width: 760px) { .facts { grid-template-columns: 1fr; } }
 
+/* the care line and the macro strip */
+.puff .care { margin: 36px auto 0; max-width: 60ch; display: flex; align-items: center; justify-content: center; gap: 12px; color: var(--text-secondary); font-size: 16px; }
+.cloudmark.small { width: 28px; height: 28px; flex: 0 0 auto; }
+.macro figure { margin: 0; position: relative; border-radius: var(--radius); overflow: hidden; aspect-ratio: 21 / 9; background: var(--panel); }
+.macro img { width: 100%; height: 100%; object-fit: cover; }
+.macro figcaption { position: absolute; right: 24px; bottom: 20px; font-family: var(--mono); font-size: 12px; letter-spacing: 0.08em; color: var(--text-primary); background: rgba(8, 8, 15, 0.55); border: 1px solid rgba(96, 96, 126, 0.3); backdrop-filter: blur(10px); padding: 8px 12px; border-radius: 10px; max-width: calc(100% - 48px); }
+@media (max-width: 760px) { .macro figure { aspect-ratio: 4 / 3; } }
+
 /* lookbook: asymmetric grid */
 .look .grid { display: grid; grid-template-columns: repeat(6, 1fr); grid-auto-rows: 180px; gap: 12px; }
 .look figure { margin: 0; position: relative; border-radius: 18px; overflow: hidden; background: var(--panel); }
@@ -258,7 +269,8 @@ section { position: relative; }
 .turns { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
 .turn { background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; outline-offset: -3px; }
 .turn .frame { position: relative; aspect-ratio: 4 / 5; overflow: hidden; background: #d7d9de; }
-.turn img { position: absolute; top: 0; height: 100%; width: auto; max-width: none; left: 0; --view: 0; transform: translateX(calc(var(--view) * -25% * (var(--sheet, 4) / 4) * 1)); transition: transform 0.7s var(--ease-out); }
+.turn .frame { aspect-ratio: 17 / 30; }
+.turn img { position: absolute; top: 0; height: 100%; width: auto; max-width: none; left: 0; --tx: 0; transform: translateX(calc(var(--tx) * -1%)); transition: transform 0.7s var(--ease-out); }
 .turn .meta { padding: 18px 22px 22px; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
 .turn .meta .t { font-family: var(--head); font-size: 20px; }
 .turn .dots { display: flex; gap: 8px; }
@@ -325,7 +337,10 @@ details p { color: var(--text-secondary); padding-bottom: 20px; font-size: 16px;
 .join .visual img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 30% 50%; }
 .join .visual .glow { position: absolute; inset: 0; background: radial-gradient(ellipse 60% 50% at 30% 50%, rgba(143, 192, 236, 0.18), transparent 70%); animation: breathe 6s var(--ease-soft) infinite -2s; }
 @keyframes breathe { 0%, 100% { opacity: 0.5 } 50% { opacity: 1 } }
-.join form { padding: clamp(24px, 4vw, 48px); display: grid; gap: 16px; align-content: start; }
+.join form, .join .shop { padding: clamp(24px, 4vw, 48px); display: grid; gap: 16px; align-content: start; }
+.join .shop .btn { justify-self: start; padding: 18px 34px; font-size: 19px; }
+.join form[hidden], .join .shop[hidden] { display: none; }
+.field .label { font-family: var(--mono); font-size: 12px; letter-spacing: 0.08em; color: var(--text-secondary); }
 .field { display: grid; gap: 6px; }
 .field label { font-family: var(--mono); font-size: 12px; letter-spacing: 0.08em; color: var(--text-secondary); }
 .field input, .field select { background: rgba(11, 16, 32, 0.7); border: 1px solid var(--line-strong); color: var(--text-primary); border-radius: 12px; padding: 14px 16px; font: inherit; width: 100%; transition: border-color 0.3s, box-shadow 0.3s; }
