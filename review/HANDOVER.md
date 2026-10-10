@@ -31,6 +31,22 @@ Site folder: `yuval-itay-set/` (one `index.html` plus `assets/`). Everything in 
 
 The lookbook photos are the series' cloud version of the suit; the product photos (hero, color cards, macro, steps) were generated from your AliExpress photos and show the real puff-print lettering. The page says so under the lookbook and in the FAQ. The footer discloses that the photos of the boys are AI generated.
 
+## Test receipts (headless Chrome, local server)
+
+- Scrub: the video time follows scroll from 0 to 6.04 s across the 500vh hero; bands switch at the planned ranges; zero console errors at 1280, 1440, 1920, 375x812 and 375x667.
+- Flick test: at 120px wheel steps every caption holds full opacity for 5 to 8 steps; no caption is skippable at 360px steps.
+- Worst-frame legibility (text hidden, lightest pixel under each caption box, real video frames): band 1 5.3:1, band 2 4.1:1, band 3 4.3:1, settle 4.4:1 (floor 3.5:1).
+- Static-hero gates: portrait tablet and landscape phone get the still hero and never request the video; rotating to landscape re-arms the scrub live.
+- Reduced motion flipped on mid-session pins the hold and the drawn line; flipped off re-arms the scrub.
+- Video blocked: the page stays complete over the poster with the settle copy visible.
+- Press-and-hold builds, eases back on early release, completes at 1.4 s.
+- Form validation, success state, the side sort, the turnaround dots and all anchors work.
+- Copy gate: zero em dashes, zero stock words.
+
+Weights: page 27 KB, styles 31 KB, script 21 KB, hero video 4.5 MB (streamed behind the ring), photos 215 to 447 KB each.
+
+Note on the test browser: the bundled Chromium has no H.264 decoder, so the tests swap in a VP9 copy of the same frames (`review/hero-scrub-test.webm`). Real Chrome, Safari, Edge and Firefox play the shipped MP4.
+
 ## Where the files came from
 
 - Hero video: Kling 3.0 take, reversed so the scroll descends onto the suits (raw takes stay in the Higgsfield library).
