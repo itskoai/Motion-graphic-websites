@@ -94,6 +94,17 @@ try {
       await c.close();
     }
   }
+  if (mode === 'sections') {
+    for (const [w, h, mob] of [[1440, 900, false], [375, 812, true]]) {
+      const c = await CDP.open(); await c.viewport(w, h, { mobile: mob, touch: mob }); await c.go(SITE); await sleep(1500);
+      for (const id of ['colors', 'puff', 'look', 'turn', 'who', 'how', 'sizes', 'faq', 'order']) {
+        await c.eval(`document.getElementById('${id}').scrollIntoView({block:'start'}); window.scrollBy(0, -72); true`); await sleep(1400);
+        await c.shot(`sec-${id}-${w}`);
+      }
+      await c.close();
+    }
+    out.push('section shots written');
+  }
   if (mode === 'dom') {
     const c = await CDP.open(); await c.viewport(1440, 900); await c.go(SITE); await sleep(4000);
     const heroH = await c.eval('document.getElementById("hero").offsetHeight');
