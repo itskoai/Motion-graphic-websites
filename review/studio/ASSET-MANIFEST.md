@@ -56,6 +56,20 @@ Each generated asset is documented below in the brief's required structure. The 
 - **SUCCESS TEST:** horizon level, upper half calm enough for text, no sun disc, no birds or aircraft, no text. Passed.
 - Sent: "16:9 cinematic still, the final resting frame of a film. An endless sea of soft clouds seen from just above, stretching to a perfectly level horizon that sits slightly below the middle of the frame. First light before sunrise: a single thin luminous line of warm white light runs along the entire horizon, the sun not yet visible. The sky above is a calm, deep slate blue that softens into a pale warm haze just above the horizon. The cloud tops in the foreground are cool blue-grey with soft shadows, catching faint warm light toward the horizon. Thin wisps of mist drift between the cloud tops. Symmetrical, calm composition, one continuous world from edge to edge, with a wide quiet sky filling the upper half. Photoreal, shot on an ARRI Alexa from high altitude, anamorphic lens, subtle film grain, restrained grade, no lens flare. No text, no logos, no lettering, no birds, no aircraft anywhere."
 
+### KF-H2g · The world, comparison render (not used)
+- Job: `41be53bf-…` · GPT Image 2.5 high · 16:9 2K · 2.75 credits
+- Used as: nothing. Rendered from the same prompt as KF-H2n to compare two models.
+- **OUTPUT:** one 16:9 photoreal still, the resting frame.
+- **SOURCE OF TRUTH:** text only (the KF-H2n prompt).
+- **PRESERVE:** n/a.
+- **PRIMARY CHANGE:** n/a.
+- **CAMERA:** high altitude, level, symmetrical.
+- **LIGHTING:** first light before sunrise, a thin warm line along the horizon.
+- **ACTION TIMELINE:** still.
+- **FINAL STATE:** a sea of clouds under a calm sky.
+- **SUCCESS TEST:** the horizon light must continue the doorway's warm light. Failed: the glow came out cooler, so KF-H2n was used instead.
+- Sent: the same text as KF-H2n.
+
 ### KF-HM · The open doorway (joins the two hero shots)
 - Job: `19d54c74-34cc-4bb5-a3f0-1e81b14639d4` · Nano Banana Pro with 2 references (KF-H1, KF-H2n) · 16:9 2K · 2 credits
 - Used as: end frame of V-HA and start frame of V-HB, so the two shots meet on the same image.
@@ -98,9 +112,22 @@ Each generated asset is documented below in the brief's required structure. The 
 - **SUCCESS TEST:** continuous with V-HA at the seam (same image), level horizon at rest. Passed; trimmed at about 5.3s where it came to rest.
 - Sent: see `ASSET-PROMPTS.txt` (V-HB).
 
-### KF-S2 + V-S2 · The salt flat (transformation sequence)
-- Still job: `39a54dc2-2424-4e85-9ada-2c43ce4cc25b` · GPT Image 2.5 high · 2.75 credits
-- Video job: `3b05ce04-4531-4338-a1a3-86b9094bbdb8` · MiniMax H3 · 2K · 6s · 12 credits · start KF-S2 · preset declined
+### KF-S2 · The salt flat, still (start frame of the transformation)
+- Job: `39a54dc2-2424-4e85-9ada-2c43ce4cc25b` · GPT Image 2.5 high · 16:9 2K · 2.75 credits
+- Used as: the start frame of V-S2.
+- **OUTPUT:** one 16:9 photoreal still.
+- **SOURCE OF TRUTH:** text only.
+- **PRESERVE:** n/a (first frame).
+- **PRIMARY CHANGE:** n/a.
+- **CAMERA:** eye level, distant, horizon low (about one third up).
+- **LIGHTING:** dusk under a heavy storm sky, a pale warm band on the horizon.
+- **ACTION TIMELINE:** still.
+- **FINAL STATE:** a mirror-water salt flat, one small figure from behind with an open red umbrella, slightly right of centre, reflected below.
+- **SUCCESS TEST:** the umbrella is the only saturated colour, the figure is small and clearly reflected, no text. Passed.
+- Sent: see `ASSET-PROMPTS.txt` (KF-S2).
+
+### V-S2 · The salt flat becomes a world (transformation sequence)
+- Job: `3b05ce04-4531-4338-a1a3-86b9094bbdb8` · MiniMax H3 · 2K · 6s · 12 credits · start KF-S2 · preset declined
 - Used as: `idea/d00..d31.webp` (desktop) and `idea/m00..m31.webp` (4:5 phone crops centred on the figure), and the SC 03 film still. The pencil storyboard before it is drawn in code to match this shot's composition.
 - **OUTPUT:** a 6s shot that starts on a still and becomes a world.
 - **SOURCE OF TRUTH:** KF-S2.
@@ -111,11 +138,24 @@ Each generated asset is documented below in the brief's required structure. The 
 - **ACTION TIMELINE:** 0 to 2s rain rings appear; 2 to 6s crane up and back.
 - **FINAL STATE:** a wide calm aerial view, the figure a small red point.
 - **SUCCESS TEST:** the figure stays recognisable and still; no cut. Partly passed: the camera move came out gentler than asked, so the page adds the "world" growth itself (the frame scales past the screen in code).
-- Sent: see `ASSET-PROMPTS.txt` (KF-S2, V-S2).
+- Sent: see `ASSET-PROMPTS.txt` (V-S2).
 
-### KF-DOOR + V-DOOR · The light slit (meet the minds, mystery)
-- Still job: `0becec53-b0c6-42b6-a6d9-ed6d5667829b` · GPT Image 2.5 medium · 1 credit
-- Video job: `25aeaef8-b5b0-49cf-9b14-715561cc4836` · MiniMax H3 · 2K · 5s · 10 credits · start and end KF-DOOR
+### KF-DOOR · The light slit, still
+- Job: `0becec53-b0c6-42b6-a6d9-ed6d5667829b` · GPT Image 2.5 medium · 16:9 2K · 1 credit
+- Used as: first and last frame of V-DOOR, and `door-poster.jpg` (also the no-JS picture in "meet the minds").
+- **OUTPUT:** one 16:9 photoreal still.
+- **SOURCE OF TRUTH:** text only.
+- **PRESERVE:** n/a.
+- **PRIMARY CHANGE:** n/a.
+- **CAMERA:** locked, wide, the door at the far left edge.
+- **LIGHTING:** intense warm white through a narrow gap, a long wedge across the concrete floor, fine dust in the beam.
+- **ACTION TIMELINE:** still.
+- **FINAL STATE:** an almost black concrete room, a sliver of door ajar at the left, a calm dark area across the right two thirds.
+- **SUCCESS TEST:** the gap sits at the frame edge so two mirrored copies meet as one beam; the right side stays empty; no text. Passed.
+- Sent: see `ASSET-PROMPTS.txt` (KF-DOOR).
+
+### V-DOOR · The light slit breathes (meet the minds)
+- Job: `25aeaef8-b5b0-49cf-9b14-715561cc4836` · MiniMax H3 · 2K · 5s · 10 credits · start and end KF-DOOR
 - Used as: `door-loop.mp4` (both panels of "meet the minds", one mirrored, so their two slits meet as one beam), `door-poster.jpg`.
 - **OUTPUT:** a seamless ambient loop.
 - **SOURCE OF TRUTH:** KF-DOOR for both first and last frame.
@@ -126,7 +166,7 @@ Each generated asset is documented below in the brief's required structure. The 
 - **ACTION TIMELINE:** 0 to 5s slow brighten and soften; ends as it began.
 - **FINAL STATE:** identical to the first frame.
 - **SUCCESS TEST:** loops without a jump. Passed after processing: interpolated from 8 to 24 fps and the tail crossfaded into the head (1.2s).
-- Sent: see `ASSET-PROMPTS.txt` (KF-DOOR, V-DOOR).
+- Sent: see `ASSET-PROMPTS.txt` (V-DOOR). The "next frame" door in SC 08 is drawn in CSS, not taken from this video.
 
 ## Derived assets (no generation)
 

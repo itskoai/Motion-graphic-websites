@@ -31,6 +31,8 @@ try {
     ['iPad landscape 1024x768 touch', 1024, 768, { mobile: true, touch: true, scale: 2 }, 'video'],
     ['phone 375x667', 375, 667, { mobile: true, touch: true, scale: 2 }, 'frames'],
     ['phone landscape 844x390 touch', 844, 390, { mobile: true, touch: true, scale: 3 }, 'static'],
+    ['short desktop window 1280x500', 1280, 500, {}, 'static'],
+    ['laptop at 200% zoom 683x384', 683, 384, {}, 'static'],
   ];
   for (const [name, w, h, opt, want] of gates) {
     const p = await Page.open(PORT, { swaps });
@@ -164,6 +166,41 @@ try {
     check('endpoint down: failure shown, never a fake success', /השתבש/.test(st4[0]) && !st4[1], JSON.stringify(st4));
     check('forms console clean', p.errors.length === 0, JSON.stringify(p.errors));
     await p.close();
+  }
+
+  // ---------- double opt-in on (the production default), on a throwaway server ----------
+  for (const [label, mailOk] of [['confirm mail sent', true], ['confirm mail fails', false]]) {
+    const { spawn } = await import('node:child_process');
+    const { readdirSync, readFileSync, rmSync } = await import('node:fs');
+    const dir = path.join(out, 'optin-' + (mailOk ? 'ok' : 'fail'));
+    rmSync(dir, { recursive: true, force: true }); mkdirSync(dir, { recursive: true });
+    const cfg = path.join(dir, 'config.php');
+    writeFileSync(cfg, `<?php return ['LEADS_DIR' => '${dir}/leads', 'CONFIRM_EMAILS' => true, 'MAIL_FROM' => 'site@example.com', 'SITE_URL' => 'https://example.com', 'RATE_MAX' => 50, 'SITE_MAX' => 100];`);
+    const port = 8796;
+    const srv = spawn('php', ['-d', 'sendmail_path=' + (mailOk ? '/bin/true' : '/bin/false'), '-S', `127.0.0.1:${port}`, '-t', path.join(ROOT, 'studio-site')], { env: { ...process.env, LEAD_CONFIG: cfg }, stdio: 'ignore' });
+    await sleep(800);
+    try {
+      const p = await Page.open(PORT, { swaps });
+      await p.viewport(1440, 900);
+      await p.go(`http://127.0.0.1:${port}/index.html`, 2500);
+      await p.eval(`document.querySelector('#notify-form-2').scrollIntoView({block:'center'}), 1`); await sleep(400);
+      await p.eval(`(() => { const f = document.querySelector('#notify-form-2'); f.querySelector('#n2-email').value = 'optin@example.com'; f.querySelector('#n2-consent').checked = true; f.querySelector('button[type=submit]').click(); return 1; })()`); await sleep(3400);
+      const st = await p.eval(`[document.querySelector('#notify-form-2 .form-status').textContent, document.querySelector('#notify-form-2').classList.contains('sent'), document.querySelector('#notify-form-2 .form-status').className]`);
+      const rows = readdirSync(path.join(dir, 'leads')).filter((f) => f.startsWith('notify-'));
+      const saved = rows.length ? readFileSync(path.join(dir, 'leads', rows[0]), 'utf8').trim().split('\n').map((l) => JSON.parse(l)) : [];
+      if (mailOk) {
+        check('double opt-in: saved, page asks to confirm by email', /כמעט סיימנו/.test(st[0]) && st[1] && saved.length === 1 && saved[0].confirmed === false, JSON.stringify(st));
+        const token = saved[0] && saved[0].token;
+        const get = await (await fetch(`http://127.0.0.1:${port}/api/confirm.php?t=${token}`)).text();
+        const before = readdirSync(path.join(dir, 'leads')).some((f) => f.startsWith('confirm-'));
+        const post = await fetch(`http://127.0.0.1:${port}/api/confirm.php`, { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: 't=' + token });
+        const after = readdirSync(path.join(dir, 'leads')).some((f) => f.startsWith('confirm-'));
+        check('double opt-in: the link opens a confirm page, only the button press confirms', /עוד לחיצה/.test(get) && !before && post.ok && after, `get=${/עוד לחיצה/.test(get)} before=${before} post=${post.status} after=${after}`);
+      } else {
+        check('double opt-in: a failed confirm mail is said plainly and the form stays usable', /לא יצא/.test(st[0]) && !st[1] && /err/.test(st[2]) && saved.length === 1, JSON.stringify(st));
+      }
+      await p.close();
+    } finally { srv.kill('SIGKILL'); }
   }
 
   // ---------- menu, dialog, entrances, links ----------

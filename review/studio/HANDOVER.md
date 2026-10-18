@@ -23,15 +23,18 @@ Open http://127.0.0.1:8080. Without PHP (a plain static server) the site works, 
 
 Local test submissions land in a `site-leads/` folder next to `studio-site/` (it carries its own `.gitignore`, so git skips it). To keep them somewhere else, point the server at a throwaway config: `LEAD_CONFIG=/path/to/test-config.php php -S 127.0.0.1:8080`, where that file returns `['LEADS_DIR' => '/tmp/leads-test']`. Delete `site-leads/` before uploading anything.
 
-Tests (headless Chromium, from the repo root, with the PHP server above running on port 8790): `node review/studio/tools/qa_states.mjs <outdir>` (forms, menu, viewer, reduced motion, fallbacks), `node review/studio/tools/qa_hero.mjs <outdir> both` then `python3 -I review/studio/tools/audit.py <outdir>/desktop-report.json` (scroll scrub, flick test, text contrast over video), `node review/studio/tools/shots.mjs <outdir> both` (screenshot tour).
+Tests (headless Chromium, from the repo root). They expect the site at `http://127.0.0.1:8790/` (start `php -S 127.0.0.1:8790` the same way, or set `SITE_BASE=http://127.0.0.1:8080/`), and `CDP_PORT` picks the browser's debugging port when you run several at once. The bundled Chromium cannot play H.264, so the tools swap in `.webm` copies from `review/studio/enc/`; that folder is not in git and is rebuilt by `build_media.py` and `build_media2.py` (which need `review/studio/frames/`, also not in git).
+- `node review/studio/tools/qa_states.mjs <outdir>`: hero modes per device, reduced motion, missing media, forms (including double opt-in on a throwaway server), menu, viewer.
+- `node review/studio/tools/qa_hero.mjs <outdir> both`, then `python3 -I review/studio/tools/audit.py <outdir>/desktop-report.json` (and `mobile-report.json`): scroll scrub, flick test, text contrast over the video.
+- `node review/studio/tools/shots.mjs <outdir> both`: a screenshot tour (`ONLY=<regex>` limits it).
 
 ## Put it online (Hostinger or any PHP host). Not done yet: needs your go-ahead and your domain.
-1. **Live address.** Find and replace `DEPLOY-DOMAIN` with the real address across `studio-site/` (`index.html` 4 places, `privacy.html`, `accessibility.html`, `sitemap.xml` 3 places). Set `siteUrl` in `assets/config.js`.
+1. **Live address.** Find and replace `DEPLOY-DOMAIN` with the real address across `studio-site/` (`index.html` 4 places, `privacy.html`, `accessibility.html`, `sitemap.xml` 3 places).
 2. **Form settings.** Copy `studio-site/api/config.sample.php` to `studio-site/api/config.php` and fill at least:
    - `NOTIFY_TO`: the studio mailbox. Every new inquiry is copied there, and `privacy.html` tells visitors so.
    - `MAIL_FROM`: a sender address on your own domain that exists in hPanel (Emails), e.g. `site@your-domain.co.il`, so the copies pass SPF/DKIM and stay out of spam. It is never taken from the visitor's request.
    - `CONTACT_EMAIL`: shown on the error page that visitors without JavaScript get.
-   - `SITE_URL => 'https://your-domain.co.il'`. Double opt-in (`CONFIRM_EMAILS => true`) is on by default and must stay on: each new list member gets a short mail with a confirm link right away, and `privacy.html` promises that a mailing service only ever gets confirmed addresses. predeploy.sh fails if it is off.
+   - `SITE_URL => 'https://your-domain.co.il'`. Double opt-in (`CONFIRM_EMAILS => true`) is on by default (in `config.sample.php`, and in `lead.php` when the key is missing) and must stay on: each new list member gets a short mail with a confirm link right away, and `privacy.html` promises that a mailing service only ever gets confirmed addresses. predeploy.sh fails if it is off.
    No secret is needed: `lead.php` creates its own random secret (`.salt`) next to the data on first use. `config.php` is ignored by git and denied to the web.
 3. **Real facts** in `assets/config.js`: `contact.email`, `legal.owner` (plus `businessId`, `email`, `address`), `accessibility.coordinator`. See the next section.
 4. **Run the check** from the repo root: `review/studio/tools/predeploy.sh`. It only reads files and uploads nothing. It fails while `DEPLOY-DOMAIN` is left, `api/config.php` is missing, points at a temp folder or lacks `NOTIFY_TO`/`MAIL_FROM`, test submissions sit in `api/data`, `contact.email`/`legal.owner`/`accessibility.coordinator` are empty, or `robots.txt` still blocks search engines after the name is marked final. Upload only after it says READY.
@@ -44,6 +47,7 @@ Tests (headless Chromium, from the repo root, with the PHP server above running 
 - If the host does not allow that folder, the files go to `public_html/api/data/` with names like `inquiry-2026-10-<16 characters>.php`. Their first line is `<?php exit; ?>` (skip it when reading); in a browser they show an empty page, on purpose.
 - Inquiry files are deleted automatically after 24 months. List and confirm files are never deleted automatically.
 - **If the form says it is busy.** A monthly file stops at `MAX_FILE_MB` (20 MB, thousands of inquiries), and the site-wide limit `SITE_MAX` pauses the form for a few minutes during a flood. Either way `NOTIFY_TO` gets one short mail ("הטופס באתר דוחה פניות"). To reopen a full month: download that month's file, then rename or delete it on the server, and check whether it is spam.
+- **Privacy requests (answer within 30 days, `privacy.html` promises it).** Download the `inquiry-*`, `notify-*` and `confirm-*` files and search for the person's email or phone. To show them their data, send them their lines. To correct or delete an inquiry, edit or delete those lines and upload the file back (in `api/data` files keep the `<?php exit; ?>` first line). To delete a list signup, delete its line from `notify-*` and add the address to `suppress.jsonl` (below), so it is never mailed again. Delete the matching copy in the `NOTIFY_TO` mailbox too.
 - A notify row stores the address, `consent_version`, `consent_text` (the server's own copy of the checkbox wording), `consent_at`, `source`, a random `token` and `confirmed: false`. Confirmations are separate lines (`token` and time) in `confirm-*` files.
 
 **Mailing the list (Communications Law, section 30A).**
@@ -74,8 +78,8 @@ Tests (headless Chromium, from the repo root, with the PHP server above running 
   ```
 
 ## What still needs real information (optional fields are hidden until filled; predeploy.sh insists on the required ones)
-- **Studio name.** "OUTFRAME" is a working name. Change it in `config.js` (`brand.name`) and in the `<title>`/meta tags of the three HTML pages. While it is a working name, search engines are asked not to index the site (`robots.txt` has `Disallow: /`, `index.html` has a noindex robots tag). When the name is final: set `brand.isWorkingName: false`, switch `robots.txt` to the Allow and Sitemap lines written in its comment, and the robots tag to `index,follow`. predeploy.sh fails if these disagree.
-- **Contact (required: email).** `config.js → contact`: email, phone, WhatsApp. Without an email, the inquiry form's "write to us directly" line stays hidden. Put the same email in `api/config.php → CONTACT_EMAIL`.
+- **Studio name.** "OUTFRAME" is a working name. Change it in `config.js` (`brand.name`), in the `<title>` of all three HTML pages, in `og:site_name` and `og:title` in `index.html`, and in `"name"` in the JSON-LD block of `index.html`. predeploy.sh fails while any of them still shows a different name. While it is a working name, search engines are asked not to index the site (`robots.txt` has `Disallow: /`, `index.html` has a noindex robots tag). When the name is final: set `brand.isWorkingName: false`, switch `robots.txt` to the Allow and Sitemap lines written in its comment, and the robots tag to `index,follow`. predeploy.sh fails if these disagree.
+- **Contact (required: email).** `config.js → contact`: email (shown under the inquiry form with a copy button, and on the privacy and accessibility pages), phone (under the inquiry form and on the accessibility page), WhatsApp (a `https://wa.me/...` link, shown next to the phone). Each line stays hidden while its value is empty. Put the same email in `api/config.php → CONTACT_EMAIL`.
 - **Legal owner (required: owner).** `config.js → legal`: `owner` (the legal name of the business or of the person running it), `businessId` (ע.מ. or ח.פ.), `email` for privacy requests (falls back to `contact.email`, then to the contact form), `address`. `privacy.html` then shows "בעל השליטה במידע: ...".
 - **Accessibility contact (required).** `config.js → accessibility.coordinator`, e.g. a name and a phone number, shown as "לפניות בנושא נגישות: ...". Plus a check by a certified accessibility tester when possible.
 - **Mailboxes.** A studio mailbox for `NOTIFY_TO` and a sender address on the domain for `MAIL_FROM`.
@@ -84,6 +88,7 @@ Tests (headless Chromium, from the repo root, with the PHP server above running 
 - **Founders:** names, roles, and real photos (`config.js → founders`). Until then the two panels show light, labelled צד א׳ / צד ב׳. No generated portrait is used.
 - **Privacy:** confirm what `privacy.html` now promises (inquiries kept up to two years, deleted automatically on the server and by you in the mailbox; list until removal, then only the address, the consent details and the removal date; first mail carries a confirm link) and have a lawyer read it once.
 - **Domain** and hosting account for the deploy.
+- **Your sign-off on the content** (from `ASSET-MANIFEST.md`): the AI-made cars in the reel and in "דור העתיד" look like real production cars, so please confirm you are comfortable showing them; please confirm the puff-print pattern on the merch sets is yours to use. Optional: final-resolution "דור העתיד" clips to replace the 480p drafts in the reel.
 
 ## Decisions made on the way (and why)
 - **Video model:** MiniMax H3 at 2K instead of Seedance 2.5, to stay inside your 100-credit cap. Total spent: 57.25 credits.
@@ -94,4 +99,4 @@ Tests (headless Chromium, from the repo root, with the PHP server above running 
 
 ## Session notes
 - The container could not download from the Higgsfield CDN, so footage came across as frame tiles. Allowing `d8j0ntlcm91z4.cloudfront.net` and `upload.higgsfield.ai` in this environment's network settings would make future rebuilds simpler.
-- The heavy working files (frames, test encodes) are not committed. `review/studio/tools/build_media.py` rebuilds every media file from `review/studio/frames/`.
+- The heavy working files (frames, test encodes) are not committed. `review/studio/tools/build_media.py` and then `build_media2.py` rebuild every media file and the test encodes from `review/studio/frames/`.

@@ -139,6 +139,21 @@ if command -v php >/dev/null 2>&1; then
 fi
 
 echo
+echo "Studio name"
+brand=$(sed -n "s/^[[:space:]]*name: '\([^']*\)'.*/\1/p" "$SITE/assets/config.js" | head -1)
+if [ -z "$brand" ]; then fail "could not read brand.name from assets/config.js"
+else
+  name_bad=0
+  for f in index.html privacy.html accessibility.html; do
+    grep -o '<title>[^<]*</title>' "$SITE/$f" | grep -qF "$brand" || { fail "$f: the <title> does not contain \"$brand\" (brand.name)"; name_bad=1; }
+  done
+  grep -qF "<meta property=\"og:site_name\" content=\"$brand\">" "$SITE/index.html" || { fail "index.html: og:site_name is not \"$brand\""; name_bad=1; }
+  grep -o '<meta property="og:title" content="[^"]*">' "$SITE/index.html" | grep -qF "$brand" || { fail "index.html: og:title does not contain \"$brand\""; name_bad=1; }
+  grep -qF "\"@type\":\"Organization\",\"name\":\"$brand\"" "$SITE/index.html" || { fail "index.html: the JSON-LD \"name\" is not \"$brand\""; name_bad=1; }
+  [ "$name_bad" = 0 ] && pass "\"$brand\" is the name in config.js, all three titles, og tags and JSON-LD"
+fi
+
+echo
 echo "Consent wording"
 if command -v php >/dev/null 2>&1; then
   while IFS= read -r line; do

@@ -146,6 +146,7 @@ body.paused *, body.paused *::before, body.paused *::after { animation-play-stat
 .nav-list { display: flex; gap: 6px; list-style: none; margin: 0; padding: 0; }
 .nav-list a { display: inline-flex; align-items: center; min-height: 44px; padding: 0 12px; text-decoration: none; font-weight: 400; font-size: 15px; color: var(--mist); transition: color .3s; position: relative; }
 .nav-list a[aria-current="true"] { color: var(--bone); }
+.site-head:not(.solid) .nav-list a { color: var(--bone); }
 .nav-list a[aria-current="true"]::after { content: ""; position: absolute; inset-inline: 12px; bottom: 8px; height: 1px; background: var(--bone); }
 .nav-next::before { content: ""; display: inline-block; width: 6px; height: 6px; margin-inline-end: 8px; border-radius: 50%; background: var(--signal); }
 .head-cta { min-height: 42px; padding: 0 18px; font-size: 15px; }
@@ -155,13 +156,18 @@ body.paused *, body.paused *::before, body.paused *::after { animation-play-stat
 .motion-ico::before, .motion-ico::after { content: ""; position: absolute; top: 0; bottom: 0; width: 3px; background: currentColor; border-radius: 1px; }
 .motion-ico::before { left: 0; } .motion-ico::after { right: 0; }
 .motion-btn[aria-pressed="true"] { color: var(--bone); border-color: var(--bone); }
-html:not(.js) .motion-btn { display: none; }
+html:not(.js) .motion-btn, html:not(.js) [data-open] { display: none; }
+html:not(.js) .side-video { display: none; }
+html:not(.js) .side { background: #050608 url("media/door-poster.jpg") 0% 50% / cover; }
+/* side B is the mirror image, so the two slits meet at the seam (the label stays readable above it) */
+html:not(.js) .side-b { background: #050608; }
+html:not(.js) .side-b::before { content: ""; position: absolute; inset: 0; background: url("media/door-poster.jpg") 0% 50% / cover; transform: scaleX(-1); filter: saturate(.8) brightness(.92); }
+.motion-btn[aria-pressed="true"] .motion-ico::after { display: none; }
+.motion-btn[aria-pressed="true"] .motion-ico::before { left: 2px; width: 0; height: 0; background: none; border-radius: 0; border-style: solid; border-width: 6px 0 6px 10px; border-color: transparent transparent transparent currentColor; }
 @media (forced-colors: active) {
   .motion-ico::before, .motion-ico::after { forced-color-adjust: none; background: ButtonText; }
   .motion-btn[aria-pressed="true"] .motion-ico::before { background: none; border-color: transparent transparent transparent ButtonText; }
 }
-.motion-btn[aria-pressed="true"] .motion-ico::after { display: none; }
-.motion-btn[aria-pressed="true"] .motion-ico::before { left: 2px; width: 0; height: 0; background: none; border-radius: 0; border-style: solid; border-width: 6px 0 6px 10px; border-color: transparent transparent transparent currentColor; }
 html.still .cue-line, html.still .spine-tc .rec, html.still .wm-slit { animation: none !important; }
 .menu-btn { display: none; align-items: center; gap: 10px; margin-inline-start: auto; min-height: 44px; padding: 0 4px; background: none; border: 0; cursor: pointer; }
 .menu-lines { width: 22px; height: 10px; position: relative; }
@@ -200,7 +206,7 @@ html.still .cue-line, html.still .spine-tc .rec, html.still .wm-slit { animation
 /* ================= SC 01 HERO ================= */
 .hero { position: relative; height: 640vh; }
 .hero-stage { position: sticky; top: 0; height: 100vh; height: 100svh; overflow: hidden; background: var(--canvas); }
-.hero-stage::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 22vh; z-index: 1; pointer-events: none; background: linear-gradient(to bottom, rgba(11, 13, 17, 0), rgba(11, 13, 17, .85)); }
+.hero-stage::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 22vh; z-index: 1; pointer-events: none; background: linear-gradient(to bottom, rgba(11, 13, 17, 0), var(--canvas)); }
 .hero-media { position: absolute; inset: 0; }
 .hero-media > img, .hero-media > video, .hero-media > canvas, .hero-media noscript img { position: absolute; inset: 0; width: 100%; height: 100%; max-width: none; object-fit: cover; }
 .hero-video { opacity: 0; transition: opacity .8s var(--ease-out); will-change: transform; transform: translateZ(0); }
@@ -291,7 +297,7 @@ html[data-hero="static"] .hero-media > img { object-position: 50% 40%; }
 /* ================= SC 02 TRANSFORMATION ================= */
 .xform { position: relative; height: 460vh; background: linear-gradient(to bottom, var(--canvas), rgba(11, 13, 17, 0) 40vh); }
 .xform-pin { position: sticky; top: 0; height: 100vh; height: 100svh; overflow: hidden; }
-.xform-pin::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 18vh; z-index: 2; pointer-events: none; background: linear-gradient(to bottom, rgba(11, 13, 17, 0), rgba(11, 13, 17, .7)); opacity: var(--world-fade, 1); }
+.xform-pin::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 18vh; z-index: 2; pointer-events: none; background: linear-gradient(to bottom, rgba(11, 13, 17, 0), var(--canvas)); opacity: var(--world-fade, 1); }
 .xform-head { position: absolute; z-index: 3; top: calc(var(--head-total) + 3vh); left: 0; right: 0; }
 .xform-head .h-sec { font-size: clamp(44px, 5vw, 92px); }
 .xform-sketch-fig { display: none; margin: 0; }
@@ -301,7 +307,7 @@ html[data-hero="static"] .hero-media > img { object-position: 50% 40%; }
   background: #efe9dd; box-shadow: 0 30px 80px rgba(0, 0, 0, .45);
   will-change: transform;
 }
-@media (max-height: 880px) and (min-width: 721px) { .xform-frame { width: min(56vw, 980px, calc(42svh * 16 / 9)); } }
+@media (max-height: 960px) and (min-width: 721px) { .xform-frame { width: min(56vw, 980px, calc(42svh * 16 / 9)); } }
 .xform-frame > canvas, .xform-frame > img { position: absolute; inset: 0; width: 100%; height: 100%; max-width: none; object-fit: cover; }
 .xform-still { display: none; }
 .crop { position: absolute; width: 18px; height: 18px; border-color: var(--bone); border-style: solid; border-width: 0; opacity: calc(.8 * var(--chrome, 1)); }
@@ -337,7 +343,7 @@ html[data-hero="static"] .hero-media > img { object-position: 50% 40%; }
 .world-media-inline { display: none; }
 .worlds-media { position: sticky; top: calc(var(--head-total) + 8vh); }
 /* one dark screen; each work appears in its own format, opening from a centre slit */
-.wm-frame { position: relative; aspect-ratio: 4 / 5; max-height: 72vh; width: 100%; margin-inline: auto; background: var(--panel); overflow: hidden; }
+.wm-frame { position: relative; aspect-ratio: 4 / 5; max-height: 72vh; width: 100%; margin-inline: auto; background: #050608; overflow: hidden; }
 .wm { position: absolute; inset: 0; margin: auto; width: 100%; height: auto; aspect-ratio: 2.39 / 1; clip-path: inset(0 50% 0 50%); transition: clip-path 1.1s var(--ease-out); z-index: 1; overflow: hidden; }
 .wm[data-i="1"] { width: auto; height: 100%; aspect-ratio: 9 / 16; }
 .wm[data-i="2"] { aspect-ratio: 16 / 10; }
@@ -358,7 +364,7 @@ html:not(.js) .wm[data-i="0"] { clip-path: none; opacity: 1; }
 
 /* ================= SC 04 MINDS ================= */
 .minds { position: relative; height: 320vh; }
-.minds-pin { position: sticky; top: 0; height: 100vh; height: 100svh; overflow: hidden; }
+.minds-pin { position: sticky; top: 0; height: 100vh; height: 100svh; overflow: hidden; --mo: 40vw; }
 .minds-stage { position: absolute; left: 0; right: 0; top: calc(var(--head-total) + 5vh); height: 46svh; display: flex; justify-content: center; }
 .side { position: relative; margin: 0; width: min(26vw, 420px); height: 100%; overflow: hidden; background: #050608; }
 .side-a { transform: translateX(calc(var(--mx, 1) * var(--mo, 62vw))); }
@@ -387,6 +393,7 @@ html:not(.js) .wm[data-i="0"] { clip-path: none; opacity: 1; }
 .vision-h { margin: 0 0 clamp(40px, 7vh, 80px); font-family: var(--f-display); font-weight: 700; font-size: clamp(64px, 9vw, 168px); line-height: .9; }
 .vline { margin: 0 auto clamp(26px, 4.5vh, 46px); font-family: var(--f-serif); font-weight: 300; font-size: clamp(28px, 3.4vw, 54px); line-height: 1.22; max-width: 24ch; text-wrap: balance; text-shadow: 0 0 14px var(--canvas), 0 0 4px var(--canvas); }
 .vline-last { font-size: clamp(32px, 4.1vw, 66px); max-width: 20ch; }
+.vline-last .vw:nth-child(3)::after { content: "\A"; white-space: pre; }
 .vline .vw { opacity: calc(.18 + .82 * clamp(0, var(--lit, 1) * var(--n, 1) - var(--i, 0), 1)); transition: opacity .2s linear; }
 .vline .vw.em { color: var(--beam); }
 
@@ -525,7 +532,7 @@ h3.lead-title { font-family: var(--f-display); font-weight: 700; font-size: 34px
 /* ---------- footer ---------- */
 .site-foot { position: relative; padding-block: clamp(60px, 10vh, 120px) max(40px, env(safe-area-inset-bottom, 0px)); border-top: 1px solid var(--line); background: #08090c; overflow: hidden; }
 .foot-line { margin: 0; font-family: var(--f-display); font-weight: 400; font-size: clamp(30px, 3vw, 48px); color: var(--mist); }
-.foot-mark { margin: 8px 0 clamp(36px, 6vh, 64px); display: flex; align-items: center; gap: clamp(10px, 1.6vw, 26px); direction: ltr; justify-content: flex-end; font-family: var(--f-display); font-weight: 700; font-size: clamp(96px, 21vw, 380px); line-height: .78; letter-spacing: .02em; color: var(--bone); }
+.foot-mark { margin: 8px 0 clamp(36px, 6vh, 64px); display: flex; flex-direction: row-reverse; align-items: center; gap: clamp(10px, 1.6vw, 26px); direction: ltr; justify-content: flex-start; font-family: var(--f-display); font-weight: 700; font-size: clamp(96px, 21vw, 380px); line-height: .78; letter-spacing: .02em; color: var(--bone); }
 .foot-beam { width: clamp(3px, .4vw, 6px); align-self: stretch; background: var(--beam); box-shadow: 0 0 26px 4px rgba(255, 244, 226, .45); }
 .foot-cols { display: flex; flex-wrap: wrap; gap: 20px 40px; align-items: center; justify-content: space-between; border-top: 1px solid var(--line); padding-top: 26px; font-size: 15px; }
 .foot-nav { display: flex; flex-wrap: wrap; gap: 4px 20px; }
@@ -535,6 +542,7 @@ h3.lead-title { font-family: var(--f-display); font-weight: 700; font-size: 34px
 
 /* ---------- viewer dialog ---------- */
 .viewer:not([open]) { display: none; }
+.viewer.nodlg[open] { display: block; position: fixed; inset: 0; z-index: 100; max-height: none; overflow: auto; }
 .viewer { width: min(1100px, 100vw); max-width: 100vw; max-height: 100svh; margin: auto; padding: 0; border: 1px solid var(--line-strong); background: var(--canvas); color: var(--bone); }
 .viewer::backdrop { background: rgba(4, 5, 7, .86); }
 .viewer[open] { animation: viewerIn .5s var(--ease-out); }

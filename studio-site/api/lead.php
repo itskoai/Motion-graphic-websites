@@ -66,7 +66,7 @@ function lead_boot(): array {
     'MAIL_FROM' => $s('MAIL_FROM'),
     'CONTACT_EMAIL' => $s('CONTACT_EMAIL'),
     'SITE_URL' => rtrim($s('SITE_URL'), '/'),
-    'CONFIRM_EMAILS' => ($raw['CONFIRM_EMAILS'] ?? false) === true,
+    'CONFIRM_EMAILS' => ($raw['CONFIRM_EMAILS'] ?? true) === true,   // on unless config.php turns it off (privacy.html promises it)
     'TRUSTED_PROXIES' => array_values(array_filter((array)($raw['TRUSTED_PROXIES'] ?? []), 'is_string')),
     'RATE_MAX' => $n('RATE_MAX', 8),
     'RATE_WINDOW' => $n('RATE_WINDOW', 600),

@@ -30,8 +30,8 @@ The **beam**. It opens the film, splits into the two sides of the door, becomes 
 |---|---|---|---|---|
 | b1 כל רעיון מתחיל ככה. | 0 to 0.17 | about 80vh | the beam holds | characters open out of a single vertical line |
 | b2 שני צדדים של אותה מסגרת. | 0.21 to 0.42 | about 92vh | the line splits into a doorway | the two halves part from the centre |
-| b3 ומעבר למסגרת, עולם. | 0.46 to 0.66 | about 86vh | the camera approaches the door | words approach from depth |
-| (breath) | 0.66 to 0.76 | | passing through the door | no text |
+| b3 ומעבר למסגרת, עולם. | 0.47 to 0.70 | about 86vh | the camera approaches the door | words approach from depth |
+| (breath) | 0.70 to 0.76 | | passing through the door | no text |
 | settle מה שנשאר אחרי שהמסך נכבה. | 0.76 to 1 | about 120vh | the world settles | words rise, then line, then buttons |
 
 Progress to film frame is a piecewise map (0 to 0, 0.16 to 3, 0.42 to 40, 0.72 to 100, 1 to 133), so the beam is allowed to hold before the door opens.

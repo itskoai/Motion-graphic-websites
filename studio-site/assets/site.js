@@ -24,7 +24,7 @@ window.__ofReady = 1;
     phone: '(max-width: 720px)',
     portraitTablet: '(orientation: portrait) and (max-width: 1024px)',
     coarsePortrait: '(orientation: portrait) and (pointer: coarse)',
-    landscapePhone: '(orientation: landscape) and (pointer: coarse) and (max-height: 560px)',
+    landscapePhone: '(orientation: landscape) and (max-height: 560px)',   // short landscape windows too (phones, 200% zoom)
     reduce: '(prefers-reduced-motion: reduce)',
     wide: '(min-width: 901px)'
   };
@@ -57,6 +57,17 @@ window.__ofReady = 1;
         const sel = () => { const r = D.createRange(); r.selectNodeContents(b.previousElementSibling); const s = getSelection(); s.removeAllRanges(); s.addRange(r); };
         try { navigator.clipboard.writeText(email).then(done, sel); } catch (e) { sel(); }
       }));
+    }
+
+    const phone = ((CFG.contact && CFG.contact.phone) || '').trim();
+    if (phone) {
+      $$('[data-contact-phone]').forEach((a) => { a.textContent = phone; a.href = 'tel:' + phone.replace(/[^\d+]/g, ''); });
+      $$('[data-phone-wrap]').forEach((el) => { el.hidden = false; });
+    }
+    const wa = ((CFG.contact && CFG.contact.whatsapp) || '').trim();
+    if (/^https:\/\/(wa\.me|api\.whatsapp\.com)\//.test(wa)) {
+      $$('[data-contact-wa]').forEach((a) => { a.href = wa; });
+      $$('[data-wa-wrap]').forEach((el) => { el.hidden = false; });
     }
 
     const socials = (CFG.socials || []).filter((s) => s && s.url);
@@ -904,7 +915,7 @@ window.__ofReady = 1;
     }
     workVideos.forEach((v) => v.pause());
     if (worldsCtl) worldsCtl.pause();
-    if (typeof viewer.showModal === 'function') viewer.showModal(); else viewer.setAttribute('open', '');
+    if (typeof viewer.showModal === 'function') viewer.showModal(); else { viewer.setAttribute('open', ''); viewer.classList.add('nodlg'); }
     root.classList.add('viewer-open');
     pushOverlay('viewer');
     const v = $('video', vBody); if (v && !reduced && !motionOff) v.play().catch(() => {});
@@ -1077,9 +1088,10 @@ window.__ofReady = 1;
         const res = await submitLead(kind, data);
         status.className = 'form-status ok';
         const conf = res && res.confirm;
-        status.textContent = kind !== 'notify' ? MSG.inquiryOk : conf === 'sent' ? MSG.confirmSent : conf === 'failed' ? MSG.confirmFailed : MSG.notifyOk;
-        form.classList.add('sent');
-        form.reset();
+        const mailFailed = kind === 'notify' && conf === 'failed';
+        if (mailFailed) status.className = 'form-status err';
+        status.textContent = kind !== 'notify' ? MSG.inquiryOk : conf === 'sent' ? MSG.confirmSent : mailFailed ? MSG.confirmFailed : MSG.notifyOk;
+        if (!mailFailed) { form.classList.add('sent'); form.reset(); }
         status.tabIndex = -1; status.focus({ preventScroll: true });
       } catch (err) {
         const code = err && err.code;
@@ -1142,7 +1154,11 @@ window.__ofReady = 1;
     motionBtn.setAttribute('aria-pressed', String(motionOff));
     motionBtn.addEventListener('click', () => setStill(!motionOff));
   }
-  D.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !sheet.hidden) setMenu(false); });
+  D.addEventListener('keydown', (e) => {
+    if (e.key !== 'Escape') return;
+    if (!sheet.hidden) setMenu(false);
+    else if (viewer.classList.contains('nodlg') && viewer.hasAttribute('open')) closeViewer();   // no <dialog>: Esc by hand
+  });
 
   D.addEventListener('click', (e) => {
     const a = e.target.closest('a[href^="#"]');
