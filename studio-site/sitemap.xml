@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- DEPLOY STEP: replace DEPLOY-DOMAIN with the live address -->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://DEPLOY-DOMAIN/</loc><changefreq>monthly</changefreq><priority>1.0</priority></url>
+  <url><loc>https://DEPLOY-DOMAIN/accessibility.html</loc><changefreq>yearly</changefreq><priority>0.2</priority></url>
+  <url><loc>https://DEPLOY-DOMAIN/privacy.html</loc><changefreq>yearly</changefreq><priority>0.2</priority></url>
+</urlset>

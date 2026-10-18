@@ -1,0 +1,4 @@
+# Large working files: rebuilt by tools/assemble.py and tools/build_media.py
+frames/
+enc/
+__pycache__/

@@ -1,0 +1,5 @@
+# Only lead.php is public in this folder.
+<FilesMatch "^(config\.php|config\.sample\.php)$">
+  Require all denied
+</FilesMatch>
+Options -Indexes

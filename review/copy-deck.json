@@ -1,0 +1,560 @@
+{
+ "note": "Approved Hebrew copy for the studio site. slot = where it appears, he = the line, gloss = plain English meaning.",
+ "lines": [
+  {
+   "slot": "meta.title",
+   "he": "OUTFRAME · סטודיו ליצירה קולנועית",
+   "gloss": "OUTFRAME · a studio for cinematic creation"
+  },
+  {
+   "slot": "meta.description",
+   "he": "סטודיו של שני יוצרים. סרטים ופרסומות ב־AI, אתרים מונפשים, דמויות ועולמות מקוריים. מהרעיון ועד הפריים האחרון.",
+   "gloss": "A studio of two creators. AI films and commercials, animated websites, original characters and worlds. From the idea to the last frame."
+  },
+  {
+   "slot": "nav.worlds",
+   "he": "מה אנחנו עושים",
+   "gloss": "What we do"
+  },
+  {
+   "slot": "nav.work",
+   "he": "עבודות",
+   "gloss": "Work"
+  },
+  {
+   "slot": "nav.minds",
+   "he": "מי אנחנו",
+   "gloss": "Who we are"
+  },
+  {
+   "slot": "nav.next",
+   "he": "הפריים הבא",
+   "gloss": "The next frame"
+  },
+  {
+   "slot": "nav.contact",
+   "he": "כתבו לנו",
+   "gloss": "Write to us"
+  },
+  {
+   "slot": "a11y.skip",
+   "he": "דילוג לתוכן",
+   "gloss": "Skip to content"
+  },
+  {
+   "slot": "hero.kicker",
+   "he": "שני יוצרים מציגים",
+   "gloss": "Two creators present"
+  },
+  {
+   "slot": "hero.b1",
+   "he": "כל רעיון מתחיל ככה.",
+   "gloss": "Every idea starts like this."
+  },
+  {
+   "slot": "hero.b1_sub",
+   "he": "קו אור דק. תנו לו רגע.",
+   "gloss": "A thin line of light. Give it a moment."
+  },
+  {
+   "slot": "hero.b2",
+   "he": "שני צדדים של אותה מסגרת.",
+   "gloss": "Two sides of the same frame."
+  },
+  {
+   "slot": "hero.b3",
+   "he": "ומעבר למסגרת, עולם.",
+   "gloss": "And beyond the frame, a world."
+  },
+  {
+   "slot": "hero.settle_h",
+   "he": "מה שנשאר אחרי שהמסך נכבה.",
+   "gloss": "What stays after the screen goes dark."
+  },
+  {
+   "slot": "hero.settle_p",
+   "he": "אנחנו עושים סרטים ופרסומות ב־AI, אתרים מונפשים, דמויות ועולמות מקוריים. מהרעיון ועד הפריים האחרון.",
+   "gloss": "We make AI films and commercials, animated websites, original characters and worlds. From the idea to the last frame."
+  },
+  {
+   "slot": "hero.cta_primary",
+   "he": "צפייה בעבודות",
+   "gloss": "View the work"
+  },
+  {
+   "slot": "hero.cta_secondary",
+   "he": "ספרו לנו",
+   "gloss": "Tell us"
+  },
+  {
+   "slot": "hero.scroll_hint",
+   "he": "גללו לאט",
+   "gloss": "Scroll slowly"
+  },
+  {
+   "slot": "static.h",
+   "he": "מקו אור אחד לעולם שלם.",
+   "gloss": "From one line of light to a whole world."
+  },
+  {
+   "slot": "static.p",
+   "he": "אנחנו שני יוצרים שעושים סרטים ופרסומות ב־AI, אתרים מונפשים, דמויות ועולמות מקוריים.",
+   "gloss": "We are two creators who make AI films and commercials, animated websites, original characters and worlds."
+  },
+  {
+   "slot": "transform.kicker",
+   "he": "מהנייר אל המסך",
+   "gloss": "From paper to the screen"
+  },
+  {
+   "slot": "transform.h",
+   "he": "ככה נולד עולם.",
+   "gloss": "This is how a world is born."
+  },
+  {
+   "slot": "transform.w1",
+   "he": "רעיון",
+   "gloss": "Idea"
+  },
+  {
+   "slot": "transform.w2",
+   "he": "פריים",
+   "gloss": "Frame"
+  },
+  {
+   "slot": "transform.w3",
+   "he": "תנועה",
+   "gloss": "Motion"
+  },
+  {
+   "slot": "transform.w4",
+   "he": "עולם",
+   "gloss": "World"
+  },
+  {
+   "slot": "transform.l1",
+   "he": "כמה קווים בעיפרון, ותחושה שיש פה משהו.",
+   "gloss": "A few pencil lines, and a feeling that there's something here."
+  },
+  {
+   "slot": "transform.l2",
+   "he": "הפריים הראשון. פתאום יש אור, צבע ועומק.",
+   "gloss": "The first frame. Suddenly there's light, color and depth."
+  },
+  {
+   "slot": "transform.l3",
+   "he": "ואז משהו זז, והתמונה מתעוררת.",
+   "gloss": "Then something moves, and the image wakes up."
+  },
+  {
+   "slot": "transform.l4",
+   "he": "עולם שלם, עם חוקים, מזג אוויר ודמויות משלו.",
+   "gloss": "A whole world, with its own rules, weather and characters."
+  },
+  {
+   "slot": "transform.outro",
+   "he": "השרבוט עדיין שם. רק שעכשיו אפשר להיכנס אליו.",
+   "gloss": "The sketch is still there. Only now you can walk into it."
+  },
+  {
+   "slot": "worlds.kicker",
+   "he": "מה אנחנו עושים",
+   "gloss": "What we do"
+  },
+  {
+   "slot": "worlds.h",
+   "he": "ארבע דרכים לספר סיפור.",
+   "gloss": "Four ways to tell a story."
+  },
+  {
+   "slot": "worlds.lede",
+   "he": "ליזמים, למותגים וליוצרים שרוצים להשאיר רושם.",
+   "gloss": "For entrepreneurs, brands and creators who want to leave an impression."
+  },
+  {
+   "slot": "worlds.i1_title",
+   "he": "סרטים וסיפורים",
+   "gloss": "Films and stories"
+  },
+  {
+   "slot": "worlds.i1_line",
+   "he": "עלילה, קצב ורגע אחד שלא יוצא לכם מהראש.",
+   "gloss": "Plot, pacing, and one moment you can't get out of your head."
+  },
+  {
+   "slot": "worlds.i2_title",
+   "he": "פרסומות וקמפיינים",
+   "gloss": "Commercials and campaigns"
+  },
+  {
+   "slot": "worlds.i2_line",
+   "he": "פרסומות שעוצרות את הגלילה ושרוצים לראות עד הסוף.",
+   "gloss": "Ads that stop the scroll, and that you want to watch to the end."
+  },
+  {
+   "slot": "worlds.i3_title",
+   "he": "אתרים מונפשים",
+   "gloss": "Animated websites"
+  },
+  {
+   "slot": "worlds.i3_line",
+   "he": "אתרים שנראים כמו סרט, רק שהשלט אצלכם.",
+   "gloss": "Websites that look like a film, except you hold the remote."
+  },
+  {
+   "slot": "worlds.i4_title",
+   "he": "דמויות ועולמות מקוריים",
+   "gloss": "Original characters and worlds"
+  },
+  {
+   "slot": "worlds.i4_line",
+   "he": "דמויות עם אופי וקול משלהן. כאלה שמתגעגעים אליהן.",
+   "gloss": "Characters with their own personality and voice. The kind you miss."
+  },
+  {
+   "slot": "minds.kicker",
+   "he": "מאחורי המסגרת",
+   "gloss": "Behind the frame"
+  },
+  {
+   "slot": "minds.h",
+   "he": "שני אנשים. אותה תמונה בראש.",
+   "gloss": "Two people. The same picture in mind."
+  },
+  {
+   "slot": "minds.p",
+   "he": "זה התחיל מסקרנות. המשכנו כשהבנו שהדמיון כבר לא חייב לעצור בגבול של מה שנראה אפשרי. מאז אנחנו הולכים דווקא על הרעיונות הקשים ומתעקשים על כל פרט בדרך, עד שהם מופיעים על המסך כמו שדמיינו.",
+   "gloss": "It started with curiosity. We kept going when we realized imagination no longer has to stop at the border of what seemed possible. Since then we go for the hard ideas on purpose and insist on every detail along the way, until they appear on screen the way we imagined."
+  },
+  {
+   "slot": "minds.left_label",
+   "he": "צד א׳",
+   "gloss": "Side A"
+  },
+  {
+   "slot": "minds.right_label",
+   "he": "צד ב׳",
+   "gloss": "Side B"
+  },
+  {
+   "slot": "minds.merge",
+   "he": "כל צד לבד הוא קו. ביחד, מסגרת.",
+   "gloss": "Each side alone is a line. Together, a frame."
+  },
+  {
+   "slot": "vision.kicker",
+   "he": "מה שהשתנה",
+   "gloss": "What changed"
+  },
+  {
+   "slot": "vision.h",
+   "he": "הקו זז.",
+   "gloss": "The line has moved."
+  },
+  {
+   "slot": "vision.l1",
+   "he": "הקו שבין מה שאפשר לדמיין לבין מה שאפשר באמת לעשות.",
+   "gloss": "The line between what can be imagined and what can actually be done."
+  },
+  {
+   "slot": "vision.l2",
+   "he": "פעם, כדי להפוך רעיון לסרט היה צריך הפקה ענקית, צוות גדול ותקציב בהתאם.",
+   "gloss": "Once, turning an idea into a film needed a huge production, a big crew and a budget to match."
+  },
+  {
+   "slot": "vision.l3",
+   "he": "היום, אנחנו עושים את זה עם צוות קטן ושאיפות גדולות.",
+   "gloss": "Today, we do it with a small team and big ambitions."
+  },
+  {
+   "slot": "vision.l4",
+   "he": "אבל מישהו עדיין צריך לראות את התמונה לפני שיש מה לראות.",
+   "gloss": "But someone still has to see the image before there's anything to see."
+  },
+  {
+   "slot": "vision.l5",
+   "he": "הטכנולוגיה היא הכלי. הדמיון הוא הסיבה.",
+   "gloss": "Technology is the instrument. Imagination is the reason."
+  },
+  {
+   "slot": "work.kicker",
+   "he": "עבודות נבחרות",
+   "gloss": "Selected work"
+  },
+  {
+   "slot": "work.h",
+   "he": "מה שעשינו בשביל עצמנו.",
+   "gloss": "What we made for ourselves."
+  },
+  {
+   "slot": "work.lede",
+   "he": "שלוש עבודות מקוריות, בלי לקוח ובלי בריף. פשוט רצינו לראות אותן על המסך.",
+   "gloss": "Three original pieces, no client and no brief. We simply wanted to see them on screen."
+  },
+  {
+   "slot": "work.p1_title",
+   "he": "דור העתיד",
+   "gloss": "Dor HaAtid (series title)"
+  },
+  {
+   "slot": "work.p1_type",
+   "he": "סדרת קומדיה, דמויות AI",
+   "gloss": "Comedy series, AI characters"
+  },
+  {
+   "slot": "work.p1_line",
+   "he": "יובל ואיתי הם שני ילדים קטנים שלא קיימים באמת. הצחוק דווקא כן.",
+   "gloss": "Yuval and Itay are two little kids who don't really exist. The laughs do."
+  },
+  {
+   "slot": "work.p2_title",
+   "he": "אתר המרצ׳ של דור העתיד",
+   "gloss": "The Dor HaAtid merch website"
+  },
+  {
+   "slot": "work.p2_type",
+   "he": "אתר מונפש ותמונות מוצר",
+   "gloss": "Animated website and product imagery"
+  },
+  {
+   "slot": "work.p2_line",
+   "he": "כל גלילה מזיזה משהו, והמוצרים נראים כאילו יצאו ישר מהסדרה.",
+   "gloss": "Every scroll moves something, and the products look like they came straight out of the series."
+  },
+  {
+   "slot": "work.p3_title",
+   "he": "הסרט שפותח את האתר",
+   "gloss": "The film that opens this site"
+  },
+  {
+   "slot": "work.p3_type",
+   "he": "סרט קונספט",
+   "gloss": "Concept film"
+  },
+  {
+   "slot": "work.p3_line",
+   "he": "קו אור שהופך לעולם. אם גללתם מההתחלה, כבר הייתם בתוכו.",
+   "gloss": "A line of light that becomes a world. If you scrolled from the start, you were already inside it."
+  },
+  {
+   "slot": "work.own_label",
+   "he": "פרויקט שלנו",
+   "gloss": "Our own project"
+  },
+  {
+   "slot": "work.view",
+   "he": "לצפייה",
+   "gloss": "Watch / view"
+  },
+  {
+   "slot": "work.close",
+   "he": "סגירה",
+   "gloss": "Close"
+  },
+  {
+   "slot": "process.kicker",
+   "he": "איך אנחנו חושבים",
+   "gloss": "How we think"
+  },
+  {
+   "slot": "process.h",
+   "he": "שלוש מילים, בסדר הזה.",
+   "gloss": "Three words, in this order."
+  },
+  {
+   "slot": "process.s1_t",
+   "he": "לדמיין",
+   "gloss": "Imagine"
+  },
+  {
+   "slot": "process.s1_l",
+   "he": "קודם הרעיון. אם הוא לא עובד בעיפרון, שום אפקט לא יציל אותו.",
+   "gloss": "The idea comes first. If it doesn't work in pencil, no effect will save it."
+  },
+  {
+   "slot": "process.s2_t",
+   "he": "ליצור",
+   "gloss": "Create"
+  },
+  {
+   "slot": "process.s2_l",
+   "he": "מחברים הרבה כלים לתהליך אחד, ולא מרפים עד שכל פריים מדויק.",
+   "gloss": "We connect many tools into one process, and don't let go until every frame is exact."
+  },
+  {
+   "slot": "process.s3_t",
+   "he": "לגעת",
+   "gloss": "To touch (impact)"
+  },
+  {
+   "slot": "process.s3_l",
+   "he": "עבודה שמדברים עליה וחוזרים אליה, ושמביאה אליכם אנשים.",
+   "gloss": "Work people talk about and come back to, and that brings people to you."
+  },
+  {
+   "slot": "mystery.kicker",
+   "he": "הפריים הבא",
+   "gloss": "The next frame"
+  },
+  {
+   "slot": "mystery.l1",
+   "he": "יש משהו שעוד לא הראינו לכם.",
+   "gloss": "There's something we haven't shown you yet."
+  },
+  {
+   "slot": "mystery.l2",
+   "he": "הוא נוצר עכשיו, בשקט, בחושך. כמו כל מה שראיתם כאן.",
+   "gloss": "It's being made right now, quietly, in the dark. Like everything you've seen here."
+  },
+  {
+   "slot": "mystery.l3",
+   "he": "יותר מזה לא נגיד. עדיין.",
+   "gloss": "We won't say more than that. Yet."
+  },
+  {
+   "slot": "mystery.cta",
+   "he": "גלו ראשונים",
+   "gloss": "Discover first"
+  },
+  {
+   "slot": "mystery.email_label",
+   "he": "המייל שלכם",
+   "gloss": "Your email"
+  },
+  {
+   "slot": "mystery.email_placeholder",
+   "he": "name@example.com",
+   "gloss": "Example email address"
+  },
+  {
+   "slot": "mystery.consent",
+   "he": "כן, שלחו לי עדכונים והכרזות במייל, כולל תוכן שיווקי. אפשר לבטל בכל רגע.",
+   "gloss": "Yes, send me updates and announcements by email, including marketing content. You can cancel at any time."
+  },
+  {
+   "slot": "mystery.button",
+   "he": "אני רוצה לדעת",
+   "gloss": "I want to know"
+  },
+  {
+   "slot": "mystery.success",
+   "he": "אתם ברשימה. נכתוב לכם כשהאור יידלק.",
+   "gloss": "You're on the list. We'll write to you when the light comes on."
+  },
+  {
+   "slot": "mystery.error",
+   "he": "משהו השתבש בדרך. נסו שוב בעוד רגע.",
+   "gloss": "Something went wrong on the way. Try again in a moment."
+  },
+  {
+   "slot": "mystery.privacy",
+   "he": "נשתמש במייל רק כדי לעדכן אתכם. הכול כתוב במדיניות הפרטיות.",
+   "gloss": "We'll only use your email to update you. It's all in the privacy policy."
+  },
+  {
+   "slot": "final.kicker",
+   "he": "התור שלכם",
+   "gloss": "Your turn"
+  },
+  {
+   "slot": "final.h",
+   "he": "בואו נעשה משהו שיישאר.",
+   "gloss": "Let's make something that lasts."
+  },
+  {
+   "slot": "final.inq_title",
+   "he": "יש לכם רעיון?",
+   "gloss": "Got an idea?"
+  },
+  {
+   "slot": "final.inq_line",
+   "he": "סרט, קמפיין, אתר או דמות. ספרו לנו מה אתם רואים ונחזור אליכם.",
+   "gloss": "A film, a campaign, a site or a character. Tell us what you see and we'll get back to you."
+  },
+  {
+   "slot": "final.name_label",
+   "he": "השם שלכם",
+   "gloss": "Your name"
+  },
+  {
+   "slot": "final.contact_label",
+   "he": "מייל או טלפון",
+   "gloss": "Email or phone"
+  },
+  {
+   "slot": "final.message_label",
+   "he": "מה אתם מדמיינים?",
+   "gloss": "What are you imagining?"
+  },
+  {
+   "slot": "final.message_placeholder",
+   "he": "אפשר בכמה מילים. אפשר גם רק תחושה.",
+   "gloss": "A few words are fine. Even just a feeling."
+  },
+  {
+   "slot": "final.inq_button",
+   "he": "שליחה",
+   "gloss": "Send"
+  },
+  {
+   "slot": "final.inq_privacy",
+   "he": "נשתמש בפרטים רק כדי לחזור אליכם. הכול כתוב במדיניות הפרטיות.",
+   "gloss": "We'll only use your details to get back to you. It's all in the privacy policy."
+  },
+  {
+   "slot": "final.inq_success",
+   "he": "קיבלנו. נקרא, נדמיין קצת ונחזור אליכם.",
+   "gloss": "Got it. We'll read, imagine a little and get back to you."
+  },
+  {
+   "slot": "final.inq_error",
+   "he": "ההודעה לא נשלחה. נסו שוב, או כתבו לנו ישירות במייל.",
+   "gloss": "The message didn't send. Try again, or email us directly."
+  },
+  {
+   "slot": "final.direct_label",
+   "he": "אפשר גם ישירות במייל:",
+   "gloss": "You can also email us directly:"
+  },
+  {
+   "slot": "final.notify_title",
+   "he": "סתם סקרנים?",
+   "gloss": "Just curious?"
+  },
+  {
+   "slot": "final.notify_line",
+   "he": "השאירו מייל, ותדעו ראשונים כשהפריים הבא ייצא מהחושך.",
+   "gloss": "Leave your email, and you'll be first to know when the next frame comes out of the dark."
+  },
+  {
+   "slot": "final.notify_button",
+   "he": "עדכנו אותי",
+   "gloss": "Keep me posted"
+  },
+  {
+   "slot": "footer.line",
+   "he": "נתראה בפריים הבא.",
+   "gloss": "See you in the next frame."
+  },
+  {
+   "slot": "footer.rights",
+   "he": "כל הזכויות שמורות",
+   "gloss": "All rights reserved"
+  },
+  {
+   "slot": "form.required",
+   "he": "שדה חובה",
+   "gloss": "Required field"
+  },
+  {
+   "slot": "form.invalid_email",
+   "he": "כתובת המייל לא נראית תקינה. כדאי לבדוק שוב.",
+   "gloss": "The email address doesn't look valid. Worth checking again."
+  },
+  {
+   "slot": "form.sending",
+   "he": "שולחים…",
+   "gloss": "Sending…"
+  }
+ ]
+}

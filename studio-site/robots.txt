@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /api/
+
+# DEPLOY STEP: replace DEPLOY-DOMAIN with the live address
+Sitemap: https://DEPLOY-DOMAIN/sitemap.xml
