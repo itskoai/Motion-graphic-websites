@@ -37,6 +37,10 @@ window.__ofReady = 1;
   const unpinNow = () => reduced || MQ.landscapePhone.matches;
   const isPortraitSet = () => MQ.phone.matches || (innerHeight > innerWidth * 1.05);
   root.classList.toggle('rm', reduced);
+  // the header's stop-motion button: pauses every looping video and the ambient motion, for this visit
+  let motionOff = false;
+  try { motionOff = sessionStorage.getItem('of-still') === '1'; } catch (e) { /* storage blocked */ }
+  root.classList.toggle('still', motionOff);
 
   /* ------------------------------------------------------------------ config */
   function applyConfig() {
@@ -179,11 +183,12 @@ window.__ofReady = 1;
     }
     if (busy) raf = requestAnimationFrame(tick); else lastT = 0;
   }
-  let anchor = null, secs = [];
+  let anchor = null, secs = [], measureT = 0;
   function onScroll() {
     const y = scrollY;
     for (const s of scenes) if (s.live) s.target = s.progress(y);
-    for (const s of secs) if (y < s.top + s.h) { anchor = { s, f: (y - s.top) / Math.max(1, s.h) }; break; }
+    // while a re-measure is pending (rotation, mode switch) the page height is stale: keep the old anchor
+    if (!measureT) for (const s of secs) if (y < s.top + s.h) { anchor = { s, f: (y - s.top) / Math.max(1, s.h) }; break; }
     requestTick();
   }
   function scene(def) {
@@ -349,6 +354,7 @@ window.__ofReady = 1;
     video.preload = 'auto';
     video.addEventListener('loadeddata', () => {
       if (heroMode !== 'video') return;
+      if (videoFailed) { videoFailed = false; hero.classList.remove('media-failed'); }
       video.pause();
       heroReady = true;
       hero.classList.add('video-ready');
@@ -383,7 +389,7 @@ window.__ofReady = 1;
     const push = (i) => { if (i >= 0 && i < FR_N && !seen.has(i)) { seen.add(i); order.push(i); } };
     push(0); push(FR_N - 1);
     [16, 8, 4, 2, 1].forEach((step) => { for (let i = 0; i < FR_N; i += step) push(i); });
-    let next = 0, inflight = 0, fails = 0;
+    let next = 0, inflight = 0, fails = 0, retry0 = false;
     const pump = () => {
       while (inflight < 6 && next < order.length) {
         const i = order[next++]; inflight++;
@@ -395,7 +401,13 @@ window.__ofReady = 1;
           if (Math.abs(i - curFi) < 3 || i === 0) { lastDrawn = -1; H.dirty = true; requestTick(); }
           pump();
         };
-        const bad = () => { inflight--; if (++fails > 6 && !heroReady) failHero('frames'); pump(); };
+        const bad = () => {
+          inflight--;
+          if (i === 0 && !retry0) { retry0 = true; setTimeout(() => { order.splice(next, 0, 0); pump(); }, 700); }
+          else if (i === 0 && !heroReady) failHero('frames');
+          else if (++fails > 6 && !heroReady) failHero('frames');
+          pump();
+        };
         (img.decode ? img.decode() : new Promise((r, j) => { img.onload = r; img.onerror = j; })).then(ok, bad);
       }
     };
@@ -500,7 +512,9 @@ window.__ofReady = 1;
     const dpr = Math.min(2, devicePixelRatio || 1);
     const fw = xfFrame.offsetWidth, fh = xfFrame.offsetHeight;
     if (!fw || !fh) return;
-    xCover = Math.max(innerWidth / fw, xfPin.offsetHeight / fh) * 1.04;
+    const pr = xfPin.getBoundingClientRect(), fr = xfFrame.getBoundingClientRect();
+    const cy = (fr.top + fr.bottom) / 2 - pr.top, pinH = xfPin.offsetHeight;
+    xCover = Math.max(innerWidth / fw, 2 * Math.max(cy, pinH - cy) / fh) * 1.04;
     // the bitmap is sized for the full-bleed end state, so the world is sharp when it fills the screen
     const k = Math.min(xCover * dpr, 2560 / fw);
     const w = Math.round(fw * k), h = Math.round(fh * k);
@@ -691,7 +705,7 @@ window.__ofReady = 1;
     let active = -1, frameVisible = false;
     const playSite = () => {
       if (!siteVideo) return;
-      if (active === 2 && frameVisible && !reduced && MQ.wide.matches && !jumping() && !D.hidden && !(viewer && viewer.open)) {
+      if (active === 2 && frameVisible && !reduced && !motionOff && MQ.wide.matches && !jumping() && !D.hidden && !(viewer && viewer.open)) {
         if (!siteVideo.src) siteVideo.src = siteVideo.dataset.src;
         siteVideo.play().catch(() => {});
       } else siteVideo.pause();
@@ -726,7 +740,7 @@ window.__ofReady = 1;
   const mindsPin = $('.minds-pin');
   const sideVideos = $$('.side-video');
   M.wake = () => {
-    if (reduced || D.hidden) return;
+    if (reduced || motionOff || D.hidden) return;
     sideVideos.forEach((v, i) => {
       if (!v.src) {
         v.src = MQ.phone.matches && v.dataset.srcM ? v.dataset.srcM : v.dataset.src;
@@ -765,14 +779,17 @@ window.__ofReady = 1;
   const P = scene({ el: process });
   const rail = $('.process-rail');
   const pSteps = $$('.pstep');
-  let railTop = 0, railShown = true;
-  P.onMeasure = () => { const r = rail.getBoundingClientRect(); railTop = r.top + scrollY; railShown = getComputedStyle(rail).display !== 'none'; };
+  let railTop = 0, railShown = true, nodeAt = [0.02, 0.5, 0.98];
+  P.onMeasure = () => {
+    const r = rail.getBoundingClientRect(); railTop = r.top + scrollY; railShown = getComputedStyle(rail).display !== 'none';
+    if (railShown && r.width) nodeAt = pSteps.map((st) => { const n = $('.pnode', st).getBoundingClientRect(); return clamp((r.right - (n.left + n.width / 2)) / r.width, 0.01, 1); });
+  };
   P.progress = (y) => clamp((vh * 0.8 - (railTop - y)) / (vh * 0.42), 0, 1);
   let pLit = -1;
   P.render = (rp) => {
     if (!railShown) return;
     setVar(rail, '--rp', rp);
-    const lit = rp >= 0.98 ? 3 : rp >= 0.5 ? 2 : rp > 0.02 ? 1 : 0;
+    const lit = nodeAt.filter((f) => rp >= f + 0.005).length;
     if (lit !== pLit) { pLit = lit; pSteps.forEach((s, i) => s.classList.toggle('lit', i < lit)); }
   };
   // on one-column layouts each step lights as it reaches the middle of the screen
@@ -832,7 +849,7 @@ window.__ofReady = 1;
   const viewer = $('#viewer');
   const workVideos = $$('.proj-video');
   const wantPlay = new Set();
-  const playWork = (v) => { if (reduced || D.hidden || jumping() || viewer.open) return; if (!v.src) v.src = v.dataset.src; v.play().catch(() => {}); };
+  const playWork = (v) => { if (reduced || motionOff || D.hidden || jumping() || viewer.open) return; if (!v.src) v.src = v.dataset.src; v.play().catch(() => {}); };
   const vio = new IntersectionObserver((es) => es.forEach((e) => {
     const v = e.target;
     if (e.isIntersecting) { wantPlay.add(v); playWork(v); if (jumping()) setTimeout(() => { if (wantPlay.has(v)) playWork(v); }, 1800); }
@@ -857,6 +874,13 @@ window.__ofReady = 1;
   const vTitle = $('#viewer-t');
   let opener = null, worldsCtl = null;
   const GALLERY = ['look-night', 'look-falls', 'look-car', 'faces-itay', 'turn-itay'];
+  const GALLERY_ALT = {
+    'look-night': 'יובל ואיתי, דמויות AI שיצרנו, בחליפות המרצ׳ ברחוב בלילה',
+    'look-falls': 'יובל ואיתי בחליפות המרצ׳ ליד מפל',
+    'look-car': 'יובל ואיתי בחליפות המרצ׳ ליד מכונית',
+    'faces-itay': 'איתי בכמה הבעות פנים',
+    'turn-itay': 'איתי בחליפת המרצ׳ מכל הצדדים'
+  };
   function openViewer(kind, btn) {
     opener = btn;
     vBody.textContent = '';
@@ -869,7 +893,7 @@ window.__ofReady = 1;
     } else if (kind === 'merch') {
       vTitle.textContent = 'אתר המרצ׳ של דור העתיד';
       const g = D.createElement('div'); g.className = 'viewer-gallery';
-      GALLERY.forEach((n) => { const i = D.createElement('img'); i.src = MEDIA + 'merch/' + n + '-720.webp'; i.alt = ''; i.loading = 'lazy'; i.decoding = 'async'; g.appendChild(i); });
+      GALLERY.forEach((n) => { const i = D.createElement('img'); i.src = MEDIA + 'merch/' + n + '-720.webp'; i.alt = GALLERY_ALT[n] || ''; i.loading = 'lazy'; i.decoding = 'async'; g.appendChild(i); });
       vBody.append(vid(MEDIA + 'site-capture.mp4', MEDIA + 'site-poster.jpg'),
         note('הקלטה של גלילה באתר, ותמונות המוצר שיצרנו בשבילו. יובל ואיתי הם דמויות שיצרנו, לא ילדים אמיתיים.'), g);
     } else {
@@ -882,7 +906,7 @@ window.__ofReady = 1;
     if (typeof viewer.showModal === 'function') viewer.showModal(); else viewer.setAttribute('open', '');
     root.classList.add('viewer-open');
     pushOverlay('viewer');
-    const v = $('video', vBody); if (v && !reduced) v.play().catch(() => {});
+    const v = $('video', vBody); if (v && !reduced && !motionOff) v.play().catch(() => {});
   }
   function closeViewer() {
     if (!viewer.open) return;
@@ -951,13 +975,14 @@ window.__ofReady = 1;
     rate: 'שלחתם כמה פעמים ברצף. נסו שוב בעוד כמה דקות.',
     sending: 'שולחים…',
     notifyOk: 'אתם ברשימה. נכתוב לכם כשהאור יידלק.',
+    confirmSent: 'שלחנו אליכם מייל קצר עם קישור לאישור ההרשמה.',
     notifyErr: 'משהו השתבש בדרך. נסו שוב בעוד רגע.',
     inquiryOk: 'קיבלנו. נקרא, נדמיין קצת ונחזור אליכם.',
     inquiryErr: 'ההודעה לא נשלחה. נסו שוב, או כתבו לנו ישירות במייל.',
     inquiryErrNoMail: 'ההודעה לא נשלחה. נסו שוב בעוד רגע.'
   };
   // the same rules the server applies (PHP FILTER_VALIDATE_EMAIL, ASCII domains)
-  const EMAIL_RE = /^(?!\.)(?!.*\.\.)[A-Za-z0-9.!#$%&'*+/=?^_`{|}~-]+(?<!\.)@(?!-)[A-Za-z0-9-]+(?<!-)(\.(?!-)[A-Za-z0-9-]+(?<!-))+$/;
+  const EMAIL_RE = /^[A-Za-z0-9!#$%&'*+/=?^_`{|}~-]+(\.[A-Za-z0-9!#$%&'*+/=?^_`{|}~-]+)*@[A-Za-z0-9]([A-Za-z0-9-]*[A-Za-z0-9])?(\.[A-Za-z0-9]([A-Za-z0-9-]*[A-Za-z0-9])?)+$/;
   const PHONE_RE = /^\+?[0-9][0-9\s\-().]{7,18}$/;
   const norm = (s) => s.replace(/\s+/g, ' ').trim();
 
@@ -1002,6 +1027,13 @@ window.__ofReady = 1;
     const labelText = label ? label.textContent : '';
     let t0 = 0;
     form.addEventListener('focusin', () => { if (!t0) t0 = performance.now(); });
+    form.addEventListener('keydown', (e) => {
+      if (e.key !== 'Enter' || e.isComposing || !e.target.matches('input[enterkeyhint="next"]')) return;
+      e.preventDefault();
+      const f = $$('.field input, .field textarea', form);
+      const n = f[f.indexOf(e.target) + 1];
+      if (n) n.focus();
+    });
     form.addEventListener('input', (e) => { if (e.target.getAttribute('aria-invalid')) fieldError(e.target, ''); });
     form.addEventListener('change', (e) => { if (e.target.type === 'checkbox') e.target.closest('.consent').classList.remove('invalid'); });
     form.addEventListener('submit', async (e) => {
@@ -1019,7 +1051,8 @@ window.__ofReady = 1;
         else if (!EMAIL_RE.test(v)) { fieldError(email, MSG.email); bad = bad || email; }
         if (!consent.checked) { consent.closest('.consent').classList.add('invalid'); if (!bad) { status.className = 'form-status err'; status.textContent = MSG.consent; } bad = bad || consent; }
         data.email = v; data.consent = consent.checked;
-        data.consentText = norm(consent.closest('.consent').textContent);
+        const ct = form.elements.consentText;
+        data.consentText = norm(ct ? ct.value : consent.closest('.consent').textContent);
         data.source = ($('input[name="source"]', form) || {}).value || '';
       } else {
         const name = $('input[name="name"]', form), contact = $('input[name="contact"]', form), msg = $('textarea[name="message"]', form);
@@ -1039,9 +1072,9 @@ window.__ofReady = 1;
         const since = performance.now() - t0;
         if (since < 1600) await sleep(1600 - since);   // the server treats instant posts as bots
         data.elapsed = Math.round(performance.now() - t0);
-        await submitLead(kind, data);
+        const res = await submitLead(kind, data);
         status.className = 'form-status ok';
-        status.textContent = kind === 'notify' ? MSG.notifyOk : MSG.inquiryOk;
+        status.textContent = kind === 'notify' ? MSG.notifyOk + (res && res.confirm === 'sent' ? ' ' + MSG.confirmSent : '') : MSG.inquiryOk;
         form.classList.add('sent');
         form.reset();
         status.tabIndex = -1; status.focus({ preventScroll: true });
@@ -1054,7 +1087,7 @@ window.__ofReady = 1;
           const f = $(code === 'email' ? 'input[name="email"]' : 'input[name="contact"]', form);
           if (f) { fieldError(f, MSG[code]); f.focus(); }
           status.textContent = '';
-        } else if (code === 'consent') {
+        } else if (code === 'consent' && !($('input[name="consent"]', form) || {}).checked) {
           const c = $('.consent', form); if (c) c.classList.add('invalid');
           status.textContent = MSG.consent;
         } else if (code === 'rate') status.textContent = MSG.rate;
@@ -1084,6 +1117,28 @@ window.__ofReady = 1;
     else { popOverlay('menu'); menuBtn.focus({ preventScroll: true }); }
   }
   menuBtn.addEventListener('click', () => setMenu(menuBtn.getAttribute('aria-expanded') !== 'true'));
+  onMQ(matchMedia('(max-width: 1000px)'), (e) => { if (!e.matches && !sheet.hidden) setMenu(false); });
+
+  const motionBtn = $('[data-motion]');
+  function setStill(on) {
+    motionOff = on;
+    root.classList.toggle('still', on);
+    if (motionBtn) motionBtn.setAttribute('aria-pressed', String(on));
+    try { if (on) sessionStorage.setItem('of-still', '1'); else sessionStorage.removeItem('of-still'); } catch (e) { /* storage blocked */ }
+    if (on) {
+      sideVideos.forEach((v) => v.pause());
+      workVideos.forEach((v) => v.pause());
+      if (worldsCtl) worldsCtl.pause();
+    } else if (!reduced && !D.hidden) {
+      if (M.live) M.wake();
+      wantPlay.forEach(playWork);
+      if (worldsCtl) worldsCtl.playSite();
+    }
+  }
+  if (motionBtn) {
+    motionBtn.setAttribute('aria-pressed', String(motionOff));
+    motionBtn.addEventListener('click', () => setStill(!motionOff));
+  }
   D.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !sheet.hidden) setMenu(false); });
 
   D.addEventListener('click', (e) => {
@@ -1156,10 +1211,10 @@ window.__ofReady = 1;
   [MQ.phone, MQ.portraitTablet, MQ.coarsePortrait, MQ.landscapePhone].forEach((m) => onMQ(m, applyHeroMode));
 
   /* ------------------------------------------------------------------ boot */
-  let measureT = 0;
   function measureSoon() {
     clearTimeout(measureT);
     measureT = setTimeout(() => {
+      measureT = 0;
       const a = anchor, oldH = docH;
       if (heroMode === 'frames') sizeCanvas();
       measure();

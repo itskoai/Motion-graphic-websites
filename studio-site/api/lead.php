@@ -196,6 +196,20 @@ function lead_append(array $B, string $path, string $line): string {
   return '';
 }
 
+/** Tell the owner once (per month for a full file, per day for the site-wide limit) that the form is turning people away. */
+function lead_alert_full(array $B, string $what): void {
+  $cfg = $B['cfg'];
+  if ($cfg['NOTIFY_TO'] === '') { return; }
+  $stamp = $B['dir'] . '/alert-' . $what . '-' . ($what === 'busy' ? gmdate('Y-m-d') : gmdate('Y-m'));
+  $fh = @fopen($stamp, 'x');
+  if ($fh === false) { return; }   // already sent
+  fclose($fh);
+  $body = $what === 'busy'
+    ? "הטופס באתר הגיע למגבלת השליחות הכללית (SITE_MAX) ודחה פניות לכמה דקות.\n\nאם זה קורה הרבה, ייתכן שמישהו מציף את הטופס. אפשר להעלות את SITE_MAX ב־api/config.php."
+    : "קובץ הפניות של החודש הגיע לגודל המקסימלי (MAX_FILE_MB), והטופס עונה עכשיו שהוא עמוס.\n\nכדי לפתוח אותו שוב: להוריד את קובץ החודש מתיקיית הנתונים, ואז לשנות את שמו או למחוק אותו מהשרת. כדאי לבדוק אם הוא מלא בספאם.";
+  lead_mail($cfg, $cfg['NOTIFY_TO'], 'הטופס באתר דוחה פניות', $body);
+}
+
 /** Delete inquiry files once they are LEAD_KEEP_INQUIRY_MONTHS old. List files are never touched. */
 function lead_purge(array $B): int {
   if (!is_dir($B['dir'])) { return 0; }
@@ -204,6 +218,10 @@ function lead_purge(array $B): int {
   foreach (glob($B['dir'] . '/inquiry-*') ?: [] as $f) {
     if (preg_match('/^inquiry-(\d{4})-(\d{2})(?:\.jsonl|-[a-f0-9]{16}\.php)$/', basename($f), $m) !== 1) { continue; }
     if ($now - ((int)$m[1] * 12 + (int)$m[2] - 1) >= LEAD_KEEP_INQUIRY_MONTHS && @unlink($f)) { $gone++; }
+  }
+  // the empty "already told the owner" stamps of lead_alert_full
+  foreach (glob($B['dir'] . '/alert-*') ?: [] as $f) {
+    if (preg_match('/^alert-[a-z]+-[0-9-]+$/', basename($f)) === 1 && (int)@filemtime($f) < time() - 86400 * 62) { @unlink($f); }
   }
   return $gone;
 }
@@ -576,7 +594,7 @@ if ($SALT === null) { reply(500, ['ok' => false, 'error' => 'store']); }
 
 $verdict = lead_rate($B, $SALT, lead_client_key(lead_client_ip($CFG)));
 if ($verdict === 'rate') { reply(429, ['ok' => false, 'error' => 'rate']); }
-if ($verdict === 'full') { reply(503, ['ok' => false, 'error' => 'full']); }
+if ($verdict === 'full') { lead_alert_full($B, 'busy'); reply(503, ['ok' => false, 'error' => 'full']); }
 if ($verdict !== '') { reply(500, ['ok' => false, 'error' => 'store']); }
 
 $now = gmdate('c');
@@ -601,7 +619,7 @@ $record['page'] = $page;
 $line = json_encode($record, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_INVALID_UTF8_SUBSTITUTE);
 if ($line === false) { reply(500, ['ok' => false, 'error' => 'save']); }
 $fail = lead_append($B, lead_path($B, $SALT, $kind), $line . "\n");
-if ($fail === 'full') { reply(503, ['ok' => false, 'error' => 'full']); }
+if ($fail === 'full') { lead_alert_full($B, $kind); reply(503, ['ok' => false, 'error' => 'full']); }
 if ($fail !== '') { reply(500, ['ok' => false, 'error' => 'store']); }
 
 // Saved. Everything below is best effort and never changes the answer.

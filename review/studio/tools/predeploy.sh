@@ -100,7 +100,7 @@ if (($c['CONFIRM_EMAILS'] ?? false) === true && !preg_match('#^https://[^\s/?\#]
   echo "ERR:CONFIRM_EMAILS is true, so SITE_URL must be the live https address (e.g. https://example.co.il)\n";
 }
 if (($c['CONFIRM_EMAILS'] ?? false) !== true) {
-  echo "WARN:CONFIRM_EMAILS is off: the first mailing must carry each person's confirm link (see HANDOVER.md)\n";
+  echo "ERR:CONFIRM_EMAILS must be true: privacy.html promises that a mailing service only gets confirmed addresses\n";
 }
 $ce = $c['CONTACT_EMAIL'] ?? '';
 if ($ce !== '' && !$addr($ce)) { echo "ERR:CONTACT_EMAIL is not an email address\n"; }
@@ -114,6 +114,7 @@ else
   if grep -Eq "['\"]LEADS_DIR['\"][[:space:]]*=>[[:space:]]*['\"][^'\"]*(/tmp|/var/tmp|/dev/shm|scratchpad|claude-0)" "$CFGPHP"; then
     fail "api/config.php mentions a temp or test folder. Start again from config.sample.php."
   fi
+  grep -Eq "['\"]CONFIRM_EMAILS['\"][[:space:]]*=>[[:space:]]*true" "$CFGPHP" || fail "CONFIRM_EMAILS must be true in api/config.php (privacy.html promises it)"
   for k in NOTIFY_TO MAIL_FROM; do
     if grep -Eq "['\"]$k['\"][[:space:]]*=>[[:space:]]*['\"][^'\" ]+@[^'\" ]+\.[^'\" ]+['\"]" "$CFGPHP"; then pass "$k is set"
     else fail "$k is empty in api/config.php"; fi
@@ -136,6 +137,11 @@ if command -v php >/dev/null 2>&1; then
     if php -l "$f" >/dev/null 2>&1; then pass "${f#"$SITE"/} has no syntax errors"; else fail "${f#"$SITE"/}: $(php -l "$f" 2>&1 | head -1)"; fi
   done
 fi
+
+echo
+echo "Browser support"
+if grep -q '(?<' "$SITE/assets/site.js"; then fail "assets/site.js uses a regex lookbehind; Safari before 16.4 cannot run the whole script"
+else pass "assets/site.js has no regex lookbehind (older iPhones can run it)"; fi
 
 echo
 echo "HTTPS"
@@ -188,4 +194,5 @@ if [ "$FAILS" -gt 0 ]; then
   exit 1
 fi
 echo "READY: every check passed. Upload the CONTENTS of $SITE/ (see HANDOVER.md, 'Put it online')."
+echo "Then, by hand: set up the daily purge cron job (HANDOVER.md step 7). The privacy page promises it."
 exit 0

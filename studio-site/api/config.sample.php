@@ -27,10 +27,9 @@ return [
   // Usually the same address as contact.email in assets/config.js.
   'CONTACT_EMAIL' => '',
 
-  // Optional double opt-in. true = right after someone joins the list, they get a short mail with a confirm link
-  // (needs MAIL_FROM and SITE_URL). false = no mail is sent at signup, and your FIRST mailing must carry each
-  // person's confirm link instead (SITE_URL/api/confirm.php?t=TOKEN, TOKEN from their notify row).
-  'CONFIRM_EMAILS' => false,
+  // Double opt-in: right after someone joins the list, they get a short mail with a confirm link (needs MAIL_FROM
+  // and SITE_URL). Keep it true: privacy.html promises that a mailing service only ever gets confirmed addresses.
+  'CONFIRM_EMAILS' => true,
 
   // The live address of the site, where index.html lives, with https and no trailing slash, e.g. 'https://example.co.il'.
   // Used only to build the confirm link in confirmation mails.

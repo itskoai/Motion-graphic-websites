@@ -428,8 +428,8 @@
   },
   {
    "slot": "mystery.consent",
-   "he": "כן, שלחו לי עדכונים והכרזות במייל, כולל תוכן שיווקי. אפשר לבטל בכל רגע.",
-   "gloss": "Yes, send me updates and announcements by email, including marketing content. You can cancel at any time."
+   "he": "כן, שלחו לי עדכונים והכרזות במייל, כולל דברי פרסומת. אפשר לבטל בכל רגע.",
+   "gloss": "Yes, send me updates and announcements by email, including marketing content. You can cancel at any time. \"דברי פרסומת\" is the term of the Communications Law, section 30A. This exact text is pinned in api/lead.php (LEAD_CONSENT v1): change both together, as a new version."
   },
   {
    "slot": "mystery.button",
