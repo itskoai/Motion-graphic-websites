@@ -101,7 +101,7 @@ Each generated asset is documented below in the brief's required structure. The 
 ### KF-S2 + V-S2 · The salt flat (transformation sequence)
 - Still job: `39a54dc2-2424-4e85-9ada-2c43ce4cc25b` · GPT Image 2.5 high · 2.75 credits
 - Video job: `3b05ce04-4531-4338-a1a3-86b9094bbdb8` · MiniMax H3 · 2K · 6s · 12 credits · start KF-S2 · preset declined
-- Used as: `idea/d00..d31.webp` (desktop) and `idea/m00..m31.webp` (4:5 phone crops centred on the figure); frame 0 also produced the pencil sketch (below).
+- Used as: `idea/d00..d31.webp` (desktop) and `idea/m00..m31.webp` (4:5 phone crops centred on the figure), and the SC 03 film still. The pencil storyboard before it is drawn in code to match this shot's composition.
 - **OUTPUT:** a 6s shot that starts on a still and becomes a world.
 - **SOURCE OF TRUTH:** KF-S2.
 - **PRESERVE:** the figure, the red umbrella, the mirror water, the storm sky.
@@ -130,22 +130,29 @@ Each generated asset is documented below in the brief's required structure. The 
 
 ## Derived assets (no generation)
 
+Rebuild everything with `python3 -I review/studio/tools/build_media.py` and then `build_media2.py` (both read `review/studio/frames/`, which is not committed).
+
 | File | Made from | How |
 |---|---|---|
 | `media/hero-scrub.mp4` | V-HA + V-HB | 134 selected frames, 1440x810, H.264 crf 20, keyframe every 8 frames, faststart, no audio |
-| `media/herom/00..67.webp` | the same frames | centre crop 810x1440 to 720x1280, every second desktop frame plus the last |
-| `media/hero-poster(-m).jpg`, `hero-end(-m).jpg` | first and last frames | stills for loading, static and fallback states |
-| `media/idea/sketch-d.webp`, `sketch-m.webp` | V-S2 frame 0 | pencil storyboard look made with an edge and hatching filter (`review/studio/tools/sketch.py`) |
-| `media/og.jpg` | hero end frame | 1200x630 crop, no text |
+| `media/herom/00..67.webp` | the same frames | centre crop to 720x1280, every second desktop frame plus the last (the phone scrub) |
+| `media/hero-poster(-m).jpg`, `hero-end(-m).jpg` | first and last hero frames | stills for loading, static and fallback states; also the start and end images of the film card in "עבודות" |
+| `media/idea/d00..d22.webp`, `m00..m22.webp` | V-S2 | 1280x720 desktop frames and 648x810 phone crops centred on the figure |
+| `media/idea/d23..d31.webp`, `m23..m31.webp` | V-S2, last 41 source frames | the full-bleed end of the sequence at 1920x1080 and 864x1080 |
+| the pencil storyboard in SC 02 | nothing (no file) | drawn live on a canvas by `site.js` from seeded strokes, so it can draw itself as you scroll |
+| `media/world-film-800/1600.webp` | V-S2 last frame | the "סרטים וסיפורים" image in SC 03 |
+| `media/og.jpg` | hero end frame | 1200x630 share image, no text |
+| `media/favicon-32.png`, `touch-icon-180.png` | nothing (drawn) | the mark: a frame and a beam, drawn in `build_media2.py` |
 | `media/site-capture.mp4`, `site-poster.jpg` | our merch website (`yuval-itay-set/`) | recorded in a headless browser while scrolling, 1120x700 |
-| `media/reel.mp4`, `reel-poster.jpg` | 6 of the owner's existing "דור העתיד" clips | 240 frames, 324x576, cut together (no new generation) |
-| `media/still-flycar.webp`, `still-plane.webp` | 2 of the owner's existing clips | single frames at the clips' native 480x854 |
-| `media/merch/*.webp` | images from our merch website project | resized only |
+| `media/reel.mp4`, `reel-poster.jpg` | 4 of the owner's existing "דור העתיד" clips | 163 frames at the clips' native 480x854, cut together (no new generation) |
+| `media/merch/*.webp` (+ `-360`, `-720` sizes) | images from our merch website project | resized only; the full-size files are kept as the source for the smaller sizes |
+| `media/door-loop.mp4`, `door-loop-m.mp4`, `door-poster.jpg` | V-DOOR | 1152x648 loop; the phone version is the slit side only, 320x576 |
 
-Owner clips used in the reel (from the account's history, made before this build): `397456ee`, `6c50241e`, `0f5930c8`, `5500a4a7`, `b3e0d600`, `bc7bf470`. They are drafts at 480p, which is why the series reel is shown at phone size.
+Owner clips in the reel (from the account's history, made before this build): `6c50241e`, `5500a4a7`, `b3e0d600`, `bc7bf470`. They are drafts at 480p, which is why the series reel is shown at phone size. Two shots were cut on purpose: a masked-kids shot with a striped strap that looked like a designer pattern, and a sneaker close-up with a swoosh-like mark.
 
-Fonts (self-hosted, SIL Open Font License): Karantina, IBM Plex Sans Hebrew, Frank Ruhl Libre, IBM Plex Mono.
+Fonts (self-hosted, SIL Open Font License): Karantina, IBM Plex Sans Hebrew, Frank Ruhl Libre, IBM Plex Mono. `review/studio/tools/fonts.py` downloads each face once, cut down to the letters the site uses (Hebrew plus Latin), and rewrites the `@font-face` block in `site.css`. Re-run it after changing the text.
 
 ## Content notes for the owner
-- The masked kids clip that opens the series reel shows a striped backpack strap. It is small and not a logo, but if the stripe resembles a designer pattern you would rather not show, cut the first 2 seconds of the reel (`review/studio/tools/build_media.py`, reel section).
+- The car designs in the reel and in "דור העתיד" are AI-made and look like real production cars. Please check you are comfortable showing them.
+- The merch images show a puff-print pattern on the sets. Please confirm the print is yours to use.
 - No portrait on the site is presented as a founder. The founder panels show light, not faces, until real photos are added in `assets/config.js`.

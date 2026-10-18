@@ -1,4 +1,4 @@
-// Screenshot tour of the studio site. node shots.mjs <outdir> <desktop|mobile|both> [baseUrl]
+// Screenshot tour of the studio site. node shots.mjs <outdir> <desktop|mobile|both> [baseUrl]   (ONLY=<regex> limits the tour)
 import { launch, Page, sleep } from './cdp.mjs';
 import { mkdirSync } from 'node:fs';
 import path from 'node:path';
@@ -12,6 +12,7 @@ const ENC = path.join(ROOT, 'review/studio/enc');
 const swaps = [
   { pattern: '*hero-scrub.mp4*', match: 'hero-scrub.mp4', file: path.join(ENC, 'hero-scrub.webm') },
   { pattern: '*door-loop.mp4*', match: 'door-loop.mp4', file: path.join(ENC, 'door-loop.webm') },
+  { pattern: '*door-loop-m.mp4*', match: 'door-loop-m.mp4', file: path.join(ENC, 'door-loop-m.webm') },
   { pattern: '*reel.mp4*', match: 'reel.mp4', file: path.join(ENC, 'reel.webm') },
   { pattern: '*site-capture.mp4*', match: 'site-capture.mp4', file: path.join(ENC, 'site-capture.webm') },
 ];
@@ -42,7 +43,7 @@ async function run(kind) {
     await sleep(2500);
     const mode = await p.eval("document.documentElement.dataset.hero");
     console.log(kind, 'mode', mode);
-    for (const [label, expr] of TOUR) {
+    for (const [label, expr] of TOUR.filter(([l]) => !process.env.ONLY || new RegExp(process.env.ONLY).test(l))) {
       const y = await p.eval(expr);
       // walk there in steps so scroll-driven scenes see a real path
       const cur = await p.eval('scrollY');

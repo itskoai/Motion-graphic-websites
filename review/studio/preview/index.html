@@ -1,19 +1,33 @@
 <title>OUTFRAME Studio Site</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <meta name="description" content="Preview of the OUTFRAME studio website: a cinematic, scroll-driven Hebrew site.">
-<link rel="preload" href="assets/fonts/karantina-700-hebrew.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="assets/site.css">
 <script>
-/* Decide the hero mode before first paint. The same five queries are re-checked live in site.js. */
+/* Decide the hero mode before first paint. The same queries are re-checked live in site.js.
+   If site.js never arrives, the page falls back to its complete static layout. */
 (function () {
   var d = document.documentElement, mm = function (q) { return window.matchMedia && matchMedia(q).matches; };
   var save = navigator.connection && navigator.connection.saveData;
   var reduce = mm('(prefers-reduced-motion: reduce)');
   var landscapePhone = mm('(orientation: landscape) and (pointer: coarse) and (max-height: 560px)');
   var compact = mm('(max-width: 720px)') || mm('(orientation: portrait) and (max-width: 1024px)') || mm('(orientation: portrait) and (pointer: coarse)');
+  var mode = reduce || save || landscapePhone ? 'static' : compact ? 'frames' : 'video';
   d.className += ' js';
-  d.setAttribute('lang', 'he'); d.setAttribute('dir', 'rtl');
-  d.setAttribute('data-hero', reduce || save || landscapePhone ? 'static' : compact ? 'frames' : 'video');
+  d.setAttribute('data-hero', mode);
+  if (mode === 'frames') {
+    var l = document.createElement('link');
+    l.rel = 'preload'; l.as = 'image'; l.href = 'assets/media/herom/00.webp';
+    try { l.fetchPriority = 'high'; } catch (e) {}
+    document.head.appendChild(l);
+  }
+  window.__ofFail = function () {
+    if (window.__ofReady) return;
+    d.classList.remove('js');
+    d.setAttribute('data-hero', 'static');
+    var s = document.querySelector('.hero-still');
+    if (s && !s.getAttribute('src')) s.src = 'assets/media/hero-end.jpg';
+  };
+  setTimeout(window.__ofFail, 9000);
 })();
 </script>
 <a class="skip" href="#main">דילוג לתוכן</a>
@@ -22,9 +36,9 @@
 
 <header class="site-head" id="site-head">
   <div class="head-inner">
-    <a class="mark" href="#top" aria-label="לראש העמוד">
+    <a class="mark" href="#top">
       <span class="mark-beam" aria-hidden="true"></span>
-      <span class="mark-name" data-brand>OUTFRAME</span>
+      <span class="mark-name" data-brand>OUTFRAME</span><span class="sr-only">, לראש העמוד</span>
     </a>
     <nav class="nav" aria-label="ניווט ראשי">
       <ul class="nav-list">
@@ -73,7 +87,7 @@
       </div>
 
       <div class="band b1" data-band="0,0.17" data-ramp="0.03">
-        <p class="kicker chip-soft">שני יוצרים מציגים</p>
+        <p class="kicker credit">שני יוצרים מציגים</p>
         <h1 class="hl hl-xl split" data-fx="focus">כל רעיון מתחיל ככה.</h1>
         <p class="sub">קו אור דק. תנו לו רגע.</p>
       </div>
@@ -84,7 +98,7 @@
         <p class="hl hl-l split" data-fx="depth">ומעבר למסגרת, עולם.</p>
       </div>
       <div class="band settle" data-band="0.76,1" data-ramp="0.04">
-        <h2 class="hl hl-l split" data-fx="rise">מה שנשאר אחרי שהמסך נכבה.</h2>
+        <h2 class="hl hl-l split" data-fx="rise">מה שנשאר אחרי&nbsp;שהמסך&nbsp;נכבה.</h2>
         <p class="sub settle-p">אנחנו עושים סרטים ופרסומות ב־AI, אתרים מונפשים, דמויות ועולמות מקוריים. מהרעיון ועד הפריים האחרון.</p>
         <div class="ctas">
           <a class="btn btn-key" href="#work"><span class="dot" aria-hidden="true"></span>צפייה בעבודות</a>
@@ -93,8 +107,8 @@
       </div>
 
       <div class="hero-static">
-        <p class="kicker">שני יוצרים מציגים</p>
-        <p class="hl hl-xl">מקו אור אחד לעולם שלם.</p>
+        <p class="kicker credit">שני יוצרים מציגים</p>
+        <h1 class="hl hl-xl"><span class="nw">מקו אור אחד</span> <span class="nw">לעולם שלם.</span></h1>
         <p class="sub">אנחנו שני יוצרים שעושים סרטים ופרסומות ב־AI, אתרים מונפשים, דמויות ועולמות מקוריים.</p>
         <div class="ctas">
           <a class="btn btn-key" href="#work"><span class="dot" aria-hidden="true"></span>צפייה בעבודות</a>
@@ -110,15 +124,16 @@
     </div>
   </section>
 
-  <!-- SC 02 · TRANSFORMATION: a pencil sketch becomes a frame, the frame moves, the frame becomes a world -->
+  <!-- SC 02 · TRANSFORMATION: a storyboard sketch becomes a frame, the frame moves, the frame becomes a world -->
   <section class="xform" id="idea" aria-labelledby="xform-h" data-scene="2">
     <div class="xform-pin">
       <header class="xform-head wrap">
-        <p class="kicker">מהנייר אל המסך</p>
+        <p class="kicker"><span class="sc" dir="ltr" aria-hidden="true">SC 02</span>מהנייר אל המסך</p>
         <h2 class="h-sec" id="xform-h">ככה נולד עולם.</h2>
       </header>
+      <figure class="xform-sketch-fig" aria-hidden="true"><canvas class="xform-sketch-canvas"></canvas></figure>
       <div class="xform-frame" aria-hidden="true">
-        <img class="xform-still" alt="" decoding="async" loading="lazy">
+        <img class="xform-still" alt="" decoding="async" loading="lazy" src="assets/media/idea/d31.webp" srcset="assets/media/idea/m31.webp 864w, assets/media/idea/d31.webp 1920w" sizes="(max-width: 720px) 84vw, 56vw">
         <canvas class="xform-canvas"></canvas>
         <span class="crop c1"></span><span class="crop c2"></span><span class="crop c3"></span><span class="crop c4"></span>
         <span class="slate"><span class="slate-shot">SHOT 01</span><span class="slate-tc">00:00:00:00</span></span>
@@ -133,7 +148,7 @@
         </ol>
         <div class="steps-beam" aria-hidden="true"><span></span></div>
       </div>
-      <p class="xform-outro">השרבוט עדיין שם. רק שעכשיו אפשר להיכנס אליו.</p>
+      <p class="xform-outro"><span class="nw">השרבוט עדיין שם.</span> רק שעכשיו אפשר להיכנס אליו.</p>
     </div>
   </section>
 
@@ -141,46 +156,46 @@
   <section class="worlds" id="worlds" aria-labelledby="worlds-h" data-scene="3">
     <div class="wrap worlds-wrap">
       <header class="worlds-head reveal">
-        <p class="kicker">מה אנחנו עושים</p>
+        <p class="kicker"><span class="sc" dir="ltr" aria-hidden="true">SC 03</span>מה אנחנו עושים</p>
         <h2 class="h-sec" id="worlds-h">ארבע דרכים לספר סיפור.</h2>
         <p class="lede">ליזמים, למותגים וליוצרים שרוצים להשאיר רושם.</p>
       </header>
       <div class="worlds-grid">
         <ol class="worlds-list">
           <li class="world" data-i="0">
-            <figure class="world-media-inline" aria-hidden="true"><img src="assets/media/still-flycar.webp" alt="" loading="lazy" decoding="async" width="480" height="854"></figure>
-            <span class="world-fmt">2.39:1 · 16:9</span>
+            <figure class="world-media-inline" aria-hidden="true"><img src="assets/media/world-film-800.webp" srcset="assets/media/world-film-800.webp 800w, assets/media/world-film-1600.webp 1600w" sizes="92vw" alt="" loading="lazy" decoding="async" width="800" height="450"></figure>
+            <span class="world-fmt" dir="ltr" aria-hidden="true">2.39:1 · 16:9</span>
             <h3 class="world-t">סרטים וסיפורים</h3>
-            <p class="world-l">עלילה, קצב ורגע אחד שלא יוצא לכם מהראש.</p>
+            <p class="world-l">עלילה, קצב ורגע אחד שלא יוצא לכם&nbsp;מהראש.</p>
           </li>
           <li class="world" data-i="1">
-            <figure class="world-media-inline" aria-hidden="true"><img src="assets/media/merch/look-night.webp" alt="" loading="lazy" decoding="async" width="900" height="1592"></figure>
-            <span class="world-fmt">9:16 · 1:1 · 16:9</span>
+            <figure class="world-media-inline" aria-hidden="true"><img src="assets/media/merch/look-night-720.webp" srcset="assets/media/merch/look-night-360.webp 360w, assets/media/merch/look-night-720.webp 720w" sizes="92vw" alt="" loading="lazy" decoding="async" width="720" height="1273"></figure>
+            <span class="world-fmt" dir="ltr" aria-hidden="true">9:16 · 1:1 · 16:9</span>
             <h3 class="world-t">פרסומות וקמפיינים</h3>
             <p class="world-l">פרסומות שעוצרות את הגלילה ושרוצים לראות עד הסוף.</p>
           </li>
           <li class="world" data-i="2">
             <figure class="world-media-inline" aria-hidden="true"><img src="assets/media/site-poster.jpg" alt="" loading="lazy" decoding="async" width="1120" height="700"></figure>
-            <span class="world-fmt">SCROLL · 60FPS</span>
+            <span class="world-fmt" dir="ltr" aria-hidden="true">SCROLL · SCRUB</span>
             <h3 class="world-t">אתרים מונפשים</h3>
-            <p class="world-l">אתרים שנראים כמו סרט, רק שהשלט אצלכם.</p>
+            <p class="world-l">אתרים שנראים כמו סרט, רק&nbsp;שהשלט&nbsp;אצלכם.</p>
           </li>
           <li class="world" data-i="3">
-            <figure class="world-media-inline" aria-hidden="true"><img src="assets/media/still-plane.webp" alt="" loading="lazy" decoding="async" width="480" height="854"></figure>
-            <span class="world-fmt">TURNAROUND · 360°</span>
+            <figure class="world-media-inline" aria-hidden="true"><img src="assets/media/merch/turn-itay-720.webp" srcset="assets/media/merch/turn-itay-720.webp 720w, assets/media/merch/turn-itay.webp 1600w" sizes="92vw" alt="" loading="lazy" decoding="async" width="720" height="407"></figure>
+            <span class="world-fmt" dir="ltr" aria-hidden="true">TURNAROUND · 360°</span>
             <h3 class="world-t">דמויות ועולמות מקוריים</h3>
-            <p class="world-l">דמויות עם אופי וקול משלהן. כאלה שמתגעגעים אליהן.</p>
+            <p class="world-l">דמויות עם אופי וקול משלהן. כאלה&nbsp;שמתגעגעים&nbsp;אליהן.</p>
           </li>
         </ol>
-        <div class="worlds-media" aria-hidden="true">
+        <div class="worlds-media" aria-hidden="true" data-on="0">
           <div class="wm-frame">
-            <figure class="wm" data-i="0"><img src="assets/media/still-flycar.webp" alt="" loading="lazy" decoding="async"></figure>
+            <figure class="wm" data-i="0"><img src="assets/media/world-film-1600.webp" alt="" loading="lazy" decoding="async"></figure>
             <figure class="wm" data-i="1"><img src="assets/media/merch/look-night.webp" alt="" loading="lazy" decoding="async"></figure>
-            <figure class="wm wm-site" data-i="2"><video muted playsinline loop preload="none" data-src="assets/media/site-capture.mp4" poster="assets/media/site-poster.jpg"></video></figure>
-            <figure class="wm" data-i="3"><img src="assets/media/still-plane.webp" alt="" loading="lazy" decoding="async"></figure>
+            <figure class="wm wm-site" data-i="2"><video muted playsinline loop preload="none" data-src="assets/media/site-capture.mp4" data-poster="assets/media/site-poster.jpg"></video></figure>
+            <figure class="wm" data-i="3"><img src="assets/media/merch/turn-itay.webp" alt="" loading="lazy" decoding="async"></figure>
             <span class="wm-slit"></span>
           </div>
-          <p class="wm-note">מתוך עבודות שלנו</p>
+          <p class="wm-note">מתוך העבודות שלנו. כל הדמויות נוצרו אצלנו.</p>
         </div>
       </div>
     </div>
@@ -191,12 +206,12 @@
     <div class="minds-pin">
       <div class="minds-stage" aria-hidden="true">
         <figure class="side side-a">
-          <video class="side-video" muted playsinline loop preload="none" data-src="assets/media/door-loop.mp4" poster="assets/media/door-poster.jpg"></video>
+          <video class="side-video" muted playsinline loop preload="none" data-src="assets/media/door-loop.mp4" data-src-m="assets/media/door-loop-m.mp4" data-poster="assets/media/door-poster.jpg"></video>
           <img class="side-photo" alt="" hidden>
           <figcaption class="side-label"><span class="side-name" data-founder="0">צד א׳</span><span class="side-role" data-founder-role="0"></span></figcaption>
         </figure>
         <figure class="side side-b">
-          <video class="side-video" muted playsinline loop preload="none" data-src="assets/media/door-loop.mp4" poster="assets/media/door-poster.jpg"></video>
+          <video class="side-video" muted playsinline loop preload="none" data-src="assets/media/door-loop.mp4" data-src-m="assets/media/door-loop-m.mp4" data-poster="assets/media/door-poster.jpg"></video>
           <img class="side-photo" alt="" hidden>
           <figcaption class="side-label"><span class="side-name" data-founder="1">צד ב׳</span><span class="side-role" data-founder-role="1"></span></figcaption>
         </figure>
@@ -204,9 +219,10 @@
       </div>
       <p class="minds-merge">כל צד לבד הוא קו. ביחד, מסגרת.</p>
       <div class="minds-copy wrap">
-        <p class="kicker">מאחורי המסגרת</p>
-        <h2 class="h-sec" id="minds-h">שני אנשים. אותה תמונה בראש.</h2>
-        <p class="minds-p">זה התחיל מסקרנות. המשכנו כשהבנו שהדמיון כבר לא חייב לעצור בגבול של מה שנראה אפשרי. מאז אנחנו הולכים דווקא על הרעיונות הקשים ומתעקשים על כל פרט בדרך, עד שהם מופיעים על המסך כמו שדמיינו.</p>
+        <p class="kicker"><span class="sc" dir="ltr" aria-hidden="true">SC 04</span>מאחורי המסגרת</p>
+        <h2 class="h-sec" id="minds-h">שני אנשים. <span class="nw">אותה תמונה בראש.</span></h2>
+        <p class="minds-p">זה התחיל מסקרנות. המשכנו כשהבנו שהדמיון כבר לא חייב לעצור בגבול של מה שנראה אפשרי. מאז אנחנו הולכים דווקא על הרעיונות הקשים ומתעקשים על כל פרט בדרך, עד שהם מופיעים על המסך כמו&nbsp;שדמיינו.</p>
+        <p class="sr-only" data-founders-sr></p>
       </div>
     </div>
   </section>
@@ -215,13 +231,13 @@
   <section class="vision" id="vision" aria-labelledby="vision-h" data-scene="5">
     <div class="vision-horizon" aria-hidden="true"><span></span></div>
     <div class="wrap vision-wrap">
-      <p class="kicker">מה שהשתנה</p>
+      <p class="kicker"><span class="sc" dir="ltr" aria-hidden="true">SC 05</span>מה שהשתנה</p>
       <h2 class="vision-h" id="vision-h">הקו זז.</h2>
-      <p class="vline">הקו שבין מה שאפשר לדמיין לבין מה שאפשר באמת לעשות.</p>
-      <p class="vline">פעם, כדי להפוך רעיון לסרט היה צריך הפקה ענקית, צוות גדול ותקציב בהתאם.</p>
-      <p class="vline">היום, אנחנו עושים את זה עם צוות קטן ושאיפות גדולות.</p>
-      <p class="vline">אבל מישהו עדיין צריך לראות את התמונה לפני שיש מה לראות.</p>
-      <p class="vline vline-last">הטכנולוגיה היא הכלי. הדמיון הוא הסיבה.</p>
+      <p class="vline">הקו שבין מה שאפשר לדמיין לבין&nbsp;מה&nbsp;שאפשר באמת לעשות.</p>
+      <p class="vline">פעם, כדי להפוך רעיון לסרט היה&nbsp;צריך הפקה ענקית, צוות גדול ותקציב בהתאם.</p>
+      <p class="vline">היום, אנחנו עושים את זה עם&nbsp;צוות קטן ושאיפות גדולות.</p>
+      <p class="vline">אבל מישהו עדיין צריך לראות את&nbsp;התמונה לפני שיש מה לראות.</p>
+      <p class="vline vline-last">הטכנולוגיה היא הכלי. הדמיון&nbsp;הוא&nbsp;הסיבה.</p>
     </div>
   </section>
 
@@ -229,21 +245,21 @@
   <section class="work" id="work" aria-labelledby="work-h" data-scene="6">
     <div class="wrap">
       <header class="work-head reveal">
-        <p class="kicker">עבודות נבחרות</p>
+        <p class="kicker"><span class="sc" dir="ltr" aria-hidden="true">SC 06</span>עבודות נבחרות</p>
         <h2 class="h-sec" id="work-h">מה שעשינו בשביל עצמנו.</h2>
-        <p class="lede">שלוש עבודות מקוריות, בלי לקוח ובלי בריף. פשוט רצינו לראות אותן על המסך.</p>
+        <p class="lede">שלוש עבודות מקוריות, בלי לקוח ובלי בריף. פשוט רצינו לראות אותן על&nbsp;המסך.</p>
       </header>
 
       <article class="proj proj-series reveal" aria-labelledby="p1-t">
         <div class="proj-media">
           <div class="device device-v">
-            <video class="proj-video" muted playsinline loop preload="none" data-src="assets/media/reel.mp4" poster="assets/media/reel-poster.jpg" aria-hidden="true" tabindex="-1"></video>
+            <video class="proj-video" muted playsinline loop preload="none" data-src="assets/media/reel.mp4" data-poster="assets/media/reel-poster.jpg" aria-hidden="true" tabindex="-1"></video>
           </div>
         </div>
         <div class="proj-text">
           <p class="proj-meta"><span class="badge">פרויקט שלנו</span><span class="proj-type">סדרת קומדיה, דמויות AI</span></p>
           <h3 class="proj-t" id="p1-t">דור העתיד</h3>
-          <p class="proj-l">יובל ואיתי הם שני ילדים קטנים שלא קיימים באמת. הצחוק דווקא כן.</p>
+          <p class="proj-l">יובל ואיתי הם שני ילדים קטנים שלא קיימים באמת. הצחוק דווקא&nbsp;כן.</p>
           <div class="proj-actions">
             <button class="btn btn-ghost" type="button" data-open="series">לצפייה</button>
             <a class="btn btn-text" data-link="series" href="#" target="_blank" rel="noopener" hidden>לעמוד הסדרה</a>
@@ -254,22 +270,22 @@
       <article class="proj proj-site reveal" aria-labelledby="p2-t">
         <div class="proj-media">
           <div class="device device-browser">
-            <span class="browser-bar" aria-hidden="true"><i></i><i></i><i></i></span>
-            <video class="proj-video" muted playsinline loop preload="none" data-src="assets/media/site-capture.mp4" poster="assets/media/site-poster.jpg" aria-hidden="true" tabindex="-1"></video>
+            <span class="browser-bar" aria-hidden="true"><span class="bar-label" dir="ltr">SC 06 · 02 · SCROLL</span></span>
+            <video class="proj-video" muted playsinline loop preload="none" data-src="assets/media/site-capture.mp4" data-poster="assets/media/site-poster.jpg" aria-hidden="true" tabindex="-1"></video>
           </div>
           <div class="proj-strip" aria-hidden="true">
-            <img src="assets/media/merch/flat-navy.webp" alt="" loading="lazy" decoding="async">
-            <img src="assets/media/merch/look-gate.webp" alt="" loading="lazy" decoding="async">
-            <img src="assets/media/merch/flat-sky.webp" alt="" loading="lazy" decoding="async">
+            <img src="assets/media/merch/look-night-360.webp" srcset="assets/media/merch/look-night-360.webp 360w, assets/media/merch/look-night-720.webp 720w" sizes="(max-width: 900px) 30vw, 12vw" alt="" loading="lazy" decoding="async">
+            <img src="assets/media/merch/look-falls-360.webp" srcset="assets/media/merch/look-falls-360.webp 360w, assets/media/merch/look-falls-720.webp 720w" sizes="(max-width: 900px) 30vw, 12vw" alt="" loading="lazy" decoding="async">
+            <img src="assets/media/merch/look-car-360.webp" srcset="assets/media/merch/look-car-360.webp 360w, assets/media/merch/look-car-720.webp 720w" sizes="(max-width: 900px) 30vw, 12vw" alt="" loading="lazy" decoding="async">
           </div>
         </div>
         <div class="proj-text">
           <p class="proj-meta"><span class="badge">פרויקט שלנו</span><span class="proj-type">אתר מונפש ותמונות מוצר</span></p>
           <h3 class="proj-t" id="p2-t">אתר המרצ׳ של דור העתיד</h3>
-          <p class="proj-l">כל גלילה מזיזה משהו, והמוצרים נראים כאילו יצאו ישר מהסדרה.</p>
+          <p class="proj-l">כל גלילה מזיזה משהו, והמוצרים זזים&nbsp;איתה.</p>
           <div class="proj-actions">
             <button class="btn btn-ghost" type="button" data-open="merch">לצפייה</button>
-            <a class="btn btn-text" data-link="merch" href="#" target="_blank" rel="noopener" hidden>לאתר</a>
+            <a class="btn btn-text" data-link="merch" href="#" target="_blank" rel="noopener" hidden>לאתר המרצ׳</a>
           </div>
         </div>
       </article>
@@ -277,14 +293,14 @@
       <article class="proj proj-film reveal" aria-labelledby="p3-t">
         <div class="proj-media">
           <div class="device device-film">
-            <img src="assets/media/hero-end.jpg" alt="" loading="lazy" decoding="async" width="1440" height="810">
-            <span class="film-beam" aria-hidden="true"></span>
+            <img class="film-start" src="assets/media/hero-poster.jpg" alt="" loading="lazy" decoding="async" width="1440" height="810">
+            <img class="film-end" src="assets/media/hero-end.jpg" alt="" loading="lazy" decoding="async" width="1440" height="810">
           </div>
         </div>
         <div class="proj-text">
           <p class="proj-meta"><span class="badge">פרויקט שלנו</span><span class="proj-type">סרט קונספט</span></p>
           <h3 class="proj-t" id="p3-t">הסרט שפותח את האתר</h3>
-          <p class="proj-l">קו אור שהופך לעולם. אם גללתם מההתחלה, כבר הייתם בתוכו.</p>
+          <p class="proj-l">קו אור שהופך לעולם. אם גללתם מההתחלה, כבר הייתם&nbsp;בתוכו.</p>
           <div class="proj-actions">
             <button class="btn btn-ghost" type="button" data-open="film">לצפייה</button>
           </div>
@@ -297,14 +313,14 @@
   <section class="process" id="process" aria-labelledby="process-h" data-scene="7">
     <div class="wrap">
       <header class="process-head reveal">
-        <p class="kicker">איך אנחנו חושבים</p>
+        <p class="kicker"><span class="sc" dir="ltr" aria-hidden="true">SC 07</span>איך אנחנו חושבים</p>
         <h2 class="h-sec" id="process-h">שלוש מילים, בסדר הזה.</h2>
       </header>
       <div class="process-rail" aria-hidden="true"><span class="rail-fill"></span></div>
       <ol class="process-steps">
-        <li class="pstep"><span class="pnode" aria-hidden="true"></span><span class="pnum">01</span><h3 class="pword">לדמיין</h3><p class="pline">קודם הרעיון. אם הוא לא עובד בעיפרון, שום אפקט לא יציל אותו.</p></li>
-        <li class="pstep"><span class="pnode" aria-hidden="true"></span><span class="pnum">02</span><h3 class="pword">ליצור</h3><p class="pline">מחברים הרבה כלים לתהליך אחד, ולא מרפים עד שכל פריים מדויק.</p></li>
-        <li class="pstep"><span class="pnode" aria-hidden="true"></span><span class="pnum">03</span><h3 class="pword">לגעת</h3><p class="pline">עבודה שמדברים עליה וחוזרים אליה, ושמביאה אליכם אנשים.</p></li>
+        <li class="pstep"><span class="pnode" aria-hidden="true"></span><span class="pnum" aria-hidden="true">01</span><h3 class="pword">לדמיין</h3><p class="pline">קודם הרעיון. אם הוא לא עובד בעיפרון, שום&nbsp;אפקט לא יציל אותו.</p></li>
+        <li class="pstep"><span class="pnode" aria-hidden="true"></span><span class="pnum" aria-hidden="true">02</span><h3 class="pword">ליצור</h3><p class="pline">מחברים הרבה כלים לתהליך אחד, ולא מרפים עד שכל פריים&nbsp;מדויק.</p></li>
+        <li class="pstep"><span class="pnode" aria-hidden="true"></span><span class="pnum" aria-hidden="true">03</span><h3 class="pword">לגעת</h3><p class="pline">עבודה שמדברים עליה וחוזרים אליה, ושמביאה אליכם&nbsp;אנשים.</p></li>
       </ol>
     </div>
   </section>
@@ -312,14 +328,16 @@
   <!-- SC 08 · THE NEXT FRAME: controlled withholding -->
   <section class="mystery" id="next" aria-labelledby="mystery-h" data-scene="8">
     <div class="door" aria-hidden="true">
-      <div class="door-slit"></div>
+      <div class="door-gap"></div>
+      <span class="door-edge l"></span><span class="door-edge r"></span>
+      <div class="door-spill"></div>
       <div class="door-flood"></div>
     </div>
     <div class="wrap mystery-wrap">
-      <p class="kicker" id="mystery-h">הפריים הבא</p>
+      <h2 class="kicker" id="mystery-h"><span class="sc" dir="ltr" aria-hidden="true">SC 08</span>הפריים הבא</h2>
       <div class="m-lines">
         <p class="m-line">יש משהו שעוד לא הראינו לכם.</p>
-        <p class="m-line">הוא נוצר עכשיו, בשקט, בחושך. כמו כל מה שראיתם כאן.</p>
+        <p class="m-line">הוא נוצר עכשיו, בשקט, בחושך. כמו כל מה שראיתם&nbsp;כאן.</p>
         <p class="m-line">יותר מזה לא נגיד. עדיין.</p>
       </div>
 
@@ -332,18 +350,21 @@
         <p class="peek-out" id="peek-out" aria-live="polite"></p>
       </div>
 
-      <form class="lead lead-notify" id="notify-form" data-kind="notify" novalidate>
-        <p class="lead-title">גלו ראשונים</p>
+      <form class="lead lead-notify" id="notify-form" data-kind="notify" action="api/lead.php" method="post" novalidate>
+        <input type="hidden" name="kind" value="notify">
+        <input type="hidden" name="source" value="next-frame">
+        <input type="hidden" name="consentText" value="כן, שלחו לי עדכונים והכרזות במייל, כולל דברי פרסומת. אפשר לבטל בכל רגע.">
+        <h3 class="lead-title">גלו ראשונים</h3>
         <div class="field-row">
           <div class="field">
             <label for="n-email">המייל שלכם</label>
-            <input id="n-email" name="email" type="email" inputmode="email" autocomplete="email" dir="ltr" placeholder="name@example.com" required>
+            <input id="n-email" name="email" type="email" inputmode="email" autocomplete="email" autocapitalize="none" spellcheck="false" enterkeyhint="send" dir="ltr" placeholder="name@example.com" required>
           </div>
           <button class="btn btn-key" type="submit"><span class="dot" aria-hidden="true"></span><span class="btn-label">אני רוצה לדעת</span></button>
         </div>
         <label class="consent" for="n-consent">
           <input id="n-consent" name="consent" type="checkbox" required>
-          <span>כן, שלחו לי עדכונים והכרזות במייל, כולל תוכן שיווקי. אפשר לבטל בכל רגע.</span>
+          <span>כן, שלחו לי עדכונים והכרזות במייל, כולל דברי פרסומת. <span class="nw">אפשר לבטל בכל רגע.</span></span>
         </label>
         <div class="hp" aria-hidden="true"><label for="n-website">אתר</label><input id="n-website" name="website" type="text" tabindex="-1" autocomplete="off"></div>
         <p class="form-status" role="status" aria-live="polite"></p>
@@ -356,21 +377,22 @@
   <section class="final" id="contact" aria-labelledby="final-h" data-scene="9">
     <div class="wrap">
       <header class="final-head reveal">
-        <p class="kicker">התור שלכם</p>
-        <h2 class="h-final" id="final-h">בואו נעשה משהו שיישאר.</h2>
+        <p class="kicker"><span class="sc" dir="ltr" aria-hidden="true">SC 09</span>התור שלכם</p>
+        <h2 class="h-final" id="final-h">בואו נעשה <span class="nw">משהו שיישאר.</span></h2>
       </header>
       <div class="paths">
         <div class="path path-inquiry reveal">
           <h3 class="path-t">יש לכם רעיון?</h3>
-          <p class="path-l">סרט, קמפיין, אתר או דמות. ספרו לנו מה אתם רואים ונחזור אליכם.</p>
-          <form class="lead lead-inquiry" id="inquiry-form" data-kind="inquiry" novalidate>
+          <p class="path-l">סרט, קמפיין, אתר או דמות. ספרו לנו מה אתם רואים ונחזור&nbsp;אליכם.</p>
+          <form class="lead lead-inquiry" id="inquiry-form" data-kind="inquiry" action="api/lead.php" method="post" novalidate>
+            <input type="hidden" name="kind" value="inquiry">
             <div class="field">
               <label for="q-name">השם שלכם</label>
-              <input id="q-name" name="name" type="text" autocomplete="name" required maxlength="120">
+              <input id="q-name" name="name" type="text" autocomplete="name" enterkeyhint="next" required maxlength="120">
             </div>
             <div class="field">
               <label for="q-contact">מייל או טלפון</label>
-              <input id="q-contact" name="contact" type="text" autocomplete="email" inputmode="email" dir="ltr" required maxlength="160">
+              <input id="q-contact" name="contact" type="text" autocomplete="email" autocapitalize="none" autocorrect="off" spellcheck="false" enterkeyhint="next" dir="ltr" required maxlength="160">
             </div>
             <div class="field">
               <label for="q-message">מה אתם מדמיינים?</label>
@@ -388,15 +410,18 @@
 
         <div class="path path-notify reveal">
           <h3 class="path-t">סתם סקרנים?</h3>
-          <p class="path-l">השאירו מייל, ותדעו ראשונים כשהפריים הבא ייצא מהחושך.</p>
-          <form class="lead lead-notify" id="notify-form-2" data-kind="notify" novalidate>
+          <p class="path-l">השאירו מייל, ותדעו ראשונים כשהפריים הבא ייצא&nbsp;מהחושך.</p>
+          <form class="lead lead-notify" id="notify-form-2" data-kind="notify" action="api/lead.php" method="post" novalidate>
+            <input type="hidden" name="kind" value="notify">
+            <input type="hidden" name="source" value="final">
+            <input type="hidden" name="consentText" value="כן, שלחו לי עדכונים והכרזות במייל, כולל דברי פרסומת. אפשר לבטל בכל רגע.">
             <div class="field">
               <label for="n2-email">המייל שלכם</label>
-              <input id="n2-email" name="email" type="email" inputmode="email" autocomplete="email" dir="ltr" placeholder="name@example.com" required>
+              <input id="n2-email" name="email" type="email" inputmode="email" autocomplete="email" autocapitalize="none" spellcheck="false" enterkeyhint="send" dir="ltr" placeholder="name@example.com" required>
             </div>
             <label class="consent" for="n2-consent">
               <input id="n2-consent" name="consent" type="checkbox" required>
-              <span>כן, שלחו לי עדכונים והכרזות במייל, כולל תוכן שיווקי. אפשר לבטל בכל רגע.</span>
+              <span>כן, שלחו לי עדכונים והכרזות במייל, כולל דברי פרסומת. <span class="nw">אפשר לבטל בכל רגע.</span></span>
             </label>
             <div class="hp" aria-hidden="true"><label for="n2-website">אתר</label><input id="n2-website" name="website" type="text" tabindex="-1" autocomplete="off"></div>
             <button class="btn btn-ghost" type="submit"><span class="btn-label">עדכנו אותי</span></button>
@@ -421,7 +446,7 @@
         <a href="#contact">כתבו לנו</a>
       </nav>
       <ul class="foot-social" data-socials hidden></ul>
-      <p class="foot-legal"><a href="privacy.html">מדיניות פרטיות</a><span class="sep" aria-hidden="true">·</span><span>© <span data-year>2026</span> <span data-brand>OUTFRAME</span>. כל הזכויות שמורות</span></p>
+      <p class="foot-legal"><a href="privacy.html">מדיניות פרטיות</a><span class="sep" aria-hidden="true">·</span><a href="accessibility.html">הצהרת נגישות</a><span class="sep" aria-hidden="true">·</span><span class="foot-copy">© <span data-year>2026</span> <span data-brand>OUTFRAME</span>. כל הזכויות שמורות</span></p>
     </div>
   </div>
 </footer>
@@ -436,6 +461,6 @@
   </div>
 </dialog>
 
-<noscript><style>.hero{height:auto}.hero-stage{position:relative;height:auto;min-height:100svh}.band{display:none}.hero-static{display:flex}.hero-media img{display:block}.xform{height:auto}.xform-pin{position:relative;height:auto}.reveal,.m-line,.step,.minds-copy{opacity:1!important;transform:none!important}</style></noscript>
 <script src="assets/config.js"></script>
-<script src="assets/site.js"></script>
+<script src="assets/preview-store.js"></script>
+<script src="assets/site.js" onerror="window.__ofFail && window.__ofFail()"></script>

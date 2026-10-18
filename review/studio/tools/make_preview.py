@@ -9,11 +9,11 @@ html = open(os.path.join(SITE, 'index.html'), encoding='utf-8').read()
 head = re.search(r'<head>(.*?)</head>', html, re.S).group(1)
 body = re.search(r'<body>(.*?)</body>', html, re.S).group(1)
 script = re.search(r'<script>\n/\* Decide the hero mode.*?</script>', head, re.S).group(0)
+body = body.replace('<script src="assets/site.js"', '<script src="assets/preview-store.js"></script>\n<script src="assets/site.js"')
 page = '\n'.join([
     '<title>OUTFRAME Studio Site</title>',
     '<meta name="claude:viewport-fit-sides" content="cover">',
     '<meta name="description" content="Preview of the OUTFRAME studio website: a cinematic, scroll-driven Hebrew site.">',
-    '<link rel="preload" href="assets/fonts/karantina-700-hebrew.woff2" as="font" type="font/woff2" crossorigin>',
     '<link rel="stylesheet" href="assets/site.css">',
     script,
     body.strip(),
@@ -25,5 +25,7 @@ for d, _, fs in os.walk(os.path.join(SITE, 'assets')):
         full = os.path.join(d, f)
         files[os.path.relpath(full, SITE)] = os.path.relpath(full, ROOT)
 files['privacy.html'] = 'studio-site/privacy.html'
+files['accessibility.html'] = 'studio-site/accessibility.html'
+files['assets/preview-store.js'] = 'review/studio/preview/preview-store.js'
 json.dump(files, open(os.path.join(OUT, 'files.json'), 'w'), indent=0)
 print(len(files), 'files', round(sum(os.path.getsize(os.path.join(ROOT, v)) for v in files.values()) / 1e6, 2), 'MB')

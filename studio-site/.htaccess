@@ -1,0 +1,10 @@
+# Send every plain-http request to https (privacy.html promises an encrypted connection).
+# Runs only where mod_rewrite exists (Hostinger: LiteSpeed and Apache both have it), so it can never break the site.
+# The X-Forwarded-Proto line avoids a redirect loop behind a proxy or CDN that already speaks https to the visitor.
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteCond %{HTTPS} !=on
+  RewriteCond %{HTTP:X-Forwarded-Proto} !=https
+  RewriteCond %{REQUEST_URI} !^/\.well-known/acme-challenge/
+  RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+</IfModule>

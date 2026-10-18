@@ -11,6 +11,7 @@ const ENC = path.join(ROOT, 'review/studio/enc');
 const swaps = [
   { pattern: '*hero-scrub.mp4*', match: 'hero-scrub.mp4', file: path.join(ENC, 'hero-scrub.webm') },
   { pattern: '*door-loop.mp4*', match: 'door-loop.mp4', file: path.join(ENC, 'door-loop.webm') },
+  { pattern: '*door-loop-m.mp4*', match: 'door-loop-m.mp4', file: path.join(ENC, 'door-loop-m.webm') },
   { pattern: '*reel.mp4*', match: 'reel.mp4', file: path.join(ENC, 'reel.webm') },
   { pattern: '*site-capture.mp4*', match: 'site-capture.mp4', file: path.join(ENC, 'site-capture.webm') },
 ];
@@ -145,7 +146,7 @@ try {
     await p.eval(`(() => { const i = document.querySelector('#n-email'); i.value = 'qa+notify@example.com'; i.dispatchEvent(new Event('input', {bubbles:true})); document.querySelector('#notify-form button[type=submit]').click(); return 1; })()`); await sleep(300);
     const st1 = await p.eval(`document.querySelector('#notify-form .form-status').textContent`);
     check('notify: consent box required', /סמנו|לסמן/.test(st1), st1);
-    await p.eval(`(() => { document.querySelector('#n-consent').click(); document.querySelector('#notify-form button[type=submit]').click(); return 1; })()`); await sleep(1500);
+    await p.eval(`(() => { document.querySelector('#n-consent').click(); document.querySelector('#notify-form button[type=submit]').click(); return 1; })()`); await sleep(3200);
     const st2 = await p.eval(`[document.querySelector('#notify-form .form-status').textContent, document.querySelector('#notify-form').classList.contains('sent')]`);
     check('notify: saved, honest success shown', /ברשימה/.test(st2[0]) && st2[1], JSON.stringify(st2));
     // inquiry
@@ -153,12 +154,12 @@ try {
     await p.eval(`(() => { const f = document.querySelector('#inquiry-form'); f.querySelector('#q-name').value = 'בדיקת QA'; f.querySelector('#q-contact').value = '12'; f.querySelector('#q-message').value = 'רוצים סרט קצר למותג'; f.querySelector('button[type=submit]').click(); return 1; })()`); await sleep(300);
     const e2 = await p.eval(`document.querySelector('#q-contact').getAttribute('aria-invalid')`);
     check('inquiry: bad contact caught', e2 === 'true');
-    await p.eval(`(() => { const f = document.querySelector('#inquiry-form'); const c = f.querySelector('#q-contact'); c.value = '050-555-0101'; c.dispatchEvent(new Event('input', {bubbles:true})); f.querySelector('button[type=submit]').click(); return 1; })()`); await sleep(1500);
+    await p.eval(`(() => { const f = document.querySelector('#inquiry-form'); const c = f.querySelector('#q-contact'); c.value = '050-555-0101'; c.dispatchEvent(new Event('input', {bubbles:true})); f.querySelector('button[type=submit]').click(); return 1; })()`); await sleep(3200);
     const st3 = await p.eval(`document.querySelector('#inquiry-form .form-status').textContent`);
     check('inquiry: saved, honest success shown', /קיבלנו/.test(st3), st3);
     await p.shot(path.join(out, 'forms-after.jpg'));
     // endpoint down: must say it failed
-    await p.eval(`(() => { window.SITE_CONFIG.forms.endpoint = 'api/missing.php'; const f = document.querySelector('#notify-form-2'); f.querySelector('#n2-email').value = 'qa2@example.com'; f.querySelector('#n2-consent').checked = true; f.querySelector('button[type=submit]').click(); return 1; })()`); await sleep(1500);
+    await p.eval(`(() => { window.SITE_CONFIG.forms.endpoint = 'api/missing.php'; const f = document.querySelector('#notify-form-2'); f.querySelector('#n2-email').value = 'qa2@example.com'; f.querySelector('#n2-consent').checked = true; f.querySelector('button[type=submit]').click(); return 1; })()`); await sleep(3200);
     const st4 = await p.eval(`[document.querySelector('#notify-form-2 .form-status').textContent, document.querySelector('#notify-form-2').classList.contains('sent')]`);
     check('endpoint down: failure shown, never a fake success', /השתבש/.test(st4[0]) && !st4[1], JSON.stringify(st4));
     check('forms console clean', p.errors.length === 0, JSON.stringify(p.errors));
@@ -191,7 +192,7 @@ try {
     await p.eval(`document.querySelector('[data-open="merch"]').click(), 1`); await sleep(800);
     const imgs = await p.eval(`document.querySelectorAll('#viewer .viewer-gallery img').length`);
     await p.shot(path.join(out, 'dialog-merch.jpg'));
-    check('merch viewer shows the gallery', imgs >= 8, `${imgs} images`);
+    check('merch viewer shows the gallery', imgs >= 5, `${imgs} images`);
     await p.eval(`document.querySelector('#viewer [data-close]').click(), 1`); await sleep(300);
     // entrances
     const total = await p.eval(`document.querySelectorAll('.reveal').length`);

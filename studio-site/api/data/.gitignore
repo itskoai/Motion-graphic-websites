@@ -1,2 +1,5 @@
-*.jsonl
-ratelimit.json
+# Submissions, the rate store and the install secret never go into git.
+*
+!.gitignore
+!.htaccess
+!index.html

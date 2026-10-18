@@ -17,7 +17,8 @@
   .legal h1 { margin: 0 0 12px; font-family: var(--f-display); font-weight: 700; font-size: clamp(60px, 9vw, 130px); line-height: .9; }
   .legal .updated { margin: 0 0 56px; color: var(--slate); font-size: 15px; }
   .legal h2 { margin: 48px 0 12px; font-family: var(--f-display); font-weight: 700; font-size: clamp(32px, 3.4vw, 46px); line-height: 1; }
-  .legal p, .legal li { color: var(--mist); max-width: 64ch; }
+  .legal p, .legal li { color: var(--mist); max-width: 64ch; text-wrap: pretty; }
+  .legal [dir="ltr"] { display: inline-block; max-width: 100%; overflow-wrap: anywhere; }
   .legal strong { color: var(--bone); font-weight: 500; }
   .legal ul { padding-inline-start: 1.2em; }
   .legal li + li { margin-top: 6px; }
@@ -32,9 +33,9 @@
 <a class="skip" href="#main">דילוג לתוכן</a>
 <header class="site-head">
   <div class="head-inner">
-    <a class="mark" href="index.html" aria-label="לעמוד הבית">
+    <a class="mark" href="index.html">
       <span class="mark-beam" aria-hidden="true"></span>
-      <span class="mark-name" data-brand>OUTFRAME</span>
+      <span class="mark-name" data-brand>OUTFRAME</span><span class="sr-only">, לעמוד הבית</span>
     </a>
     <a class="back" href="index.html" style="margin-inline-start:auto">חזרה לאתר</a>
   </div>
@@ -45,24 +46,24 @@
     <h1>הצהרת נגישות</h1>
     <p class="updated">עודכן לאחרונה: אוקטובר 2026</p>
 
-    <p>חשוב לנו שכל מי שמגיע לאתר יוכל לראות, לקרוא ולפנות אלינו, גם אם הוא משתמש בקורא מסך, בניווט במקלדת או בהגדלת טקסט. בנינו את האתר לפי ההנחיות של התקן הישראלי ת״י 5568, המבוסס על הנחיות WCAG ברמה AA, ובהתאם לתקנות שוויון זכויות לאנשים עם מוגבלות (התאמות נגישות לשירות), התשע״ג־2013.</p>
+    <p>חשוב לנו שכולם יוכלו להשתמש באתר, לקרוא אותו ולפנות אלינו, גם בעזרת קורא מסך, ניווט במקלדת או הגדלת טקסט. בנינו את האתר לפי ההנחיות של התקן הישראלי ת״י 5568, המבוסס על הנחיות WCAG 2.0 ברמה AA, ובהתאם לתקנות שוויון זכויות לאנשים עם מוגבלות (התאמות נגישות לשירות), התשע״ג־2013.</p>
 
     <h2>מה עשינו</h2>
     <ul>
       <li>כל הכותרות והטקסטים באתר הם טקסט אמיתי, ולא תמונות של טקסט.</li>
-      <li>אפשר לנווט בכל האתר במקלדת, עם סימון ברור של המקום שבו נמצאים, וקישור ״דילוג לתוכן״ בתחילת כל עמוד.</li>
+      <li>אפשר לנווט בכל האתר במקלדת, עם סימון ברור של המקום שבו נמצאים, וקישור "דילוג לתוכן" בתחילת כל עמוד.</li>
       <li>מבנה כותרות מסודר, אזורים מסומנים (ניווט, תוכן, כותרת תחתונה) ושפה וכיוון מוגדרים לעברית.</li>
       <li>ניגודיות צבעים שנבדקה במדידה, גם לטקסט שמופיע מעל וידאו.</li>
-      <li>מי שהגדיר במכשיר ״הפחתת תנועה״ מקבל את האתר בלי אנימציות גלילה, עם כל התוכן גלוי מההתחלה.</li>
-      <li>הסרטונים באתר הם קישוטיים ונטולי קול. התוכן שלהם מתואר גם בטקסט.</li>
+      <li>אם הגדרתם במכשיר "הפחתת תנועה", האתר יוצג בלי אנימציות גלילה, וכל התוכן יופיע מההתחלה.</li>
+      <li>סרטוני הרקע באתר קישוטיים ונטולי קול. סרטוני העבודות נפתחים רק בלחיצה, מתחילים בלי קול, ואפשר לעצור אותם.</li>
       <li>לכל שדה בטפסים יש תווית, והודעות שגיאה והצלחה מוקראות לקוראי מסך.</li>
       <li>האתר מותאם לטלפונים ולמסכים בגדלים שונים, ואפשר להגדיל את הטקסט בלי לאבד תוכן.</li>
     </ul>
 
     <h2>מה עוד לא מושלם</h2>
     <ul>
-      <li>האתר עדיין לא עבר בדיקת נגישות של מורשה נגישות. אנחנו מתכוונים לבצע אותה ולעדכן כאן.</li>
-      <li>חלק מהחוויה בעמוד הבית בנויה על תנועה בזמן גלילה. כל המידע שמופיע בה זמין גם כטקסט רגיל בעמוד.</li>
+      <li>האתר עדיין לא עבר בדיקת נגישות של מורשה נגישות. אנחנו מתכוונים לעשות אותה ולעדכן כאן.</li>
+      <li>חלק מהחוויה בעמוד הבית בנוי על תנועה בזמן גלילה. כל המידע שמופיע בחלק הזה זמין גם כטקסט רגיל בעמוד.</li>
     </ul>
 
     <h2>נתקלתם בבעיה?</h2>
@@ -97,7 +98,7 @@
     var coord = C.accessibility && (C.accessibility.coordinator || '').trim();
     if (coord) {
       var p = document.querySelector('[data-a11y-coordinator]');
-      p.textContent = 'רכז/ת הנגישות: ' + coord + '.';
+      p.textContent = 'לפניות בנושא נגישות: ' + coord + '.';
       p.hidden = false;
     }
   })();

@@ -1,6 +1,9 @@
+# DEPLOY STEP: the studio name is still a working name, so search engines are asked not to index the site yet.
+# Once the name is final (assets/config.js: brand.isWorkingName: false), replace the "Disallow: /" line below with:
+#   Allow: /
+#   Disallow: /api/
+#   Sitemap: https://YOUR-DOMAIN/sitemap.xml
+# (YOUR-DOMAIN = the live address), and switch the robots meta tag in index.html to "index,follow" at the same time.
+# review/studio/tools/predeploy.sh fails while this file blocks everything and the name is marked final.
 User-agent: *
-Allow: /
-Disallow: /api/
-
-# DEPLOY STEP: replace DEPLOY-DOMAIN with the live address
-Sitemap: https://DEPLOY-DOMAIN/sitemap.xml
+Disallow: /

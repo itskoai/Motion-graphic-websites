@@ -38,12 +38,10 @@ window.SITE_CONFIG = {
     { name: '', role: '', photo: '' }
   ],
 
-  // Where the two forms send. 'auto' picks the right path by itself:
-  //   - inside the claude.ai preview: the preview's own private storage
-  //   - on your own hosting: endpoint below (api/lead.php stores every submission on the server)
-  // Set endpoint to another URL (Formspree, a CRM webhook, etc.) to send there instead. It must answer JSON {"ok":true}.
+  // Where the two forms send. api/lead.php (on this site) saves every submission and only then answers {"ok":true}.
+  // To send somewhere else instead, put that address here; it must answer JSON {"ok":true} only after saving.
   forms: {
-    mode: 'auto',               // 'auto' | 'endpoint' | 'preview'
+    mode: 'endpoint',
     endpoint: 'api/lead.php'
   },
 
@@ -51,6 +49,14 @@ window.SITE_CONFIG = {
   projects: {
     series: { url: '' },        // TO CONFIRM: the social page where "דור העתיד" lives
     merch: { url: '' }          // TO CONFIRM: the live address of the merch website, once it is online
+  },
+
+  // TO CONFIRM: who legally owns the site and its data (shown on privacy.html). Fill before going live.
+  legal: {
+    owner: '',                  // the legal name of the business or of the person running it
+    businessId: '',             // ע.מ / ח.פ number, if there is one
+    email: '',                  // where privacy requests go (can be the same as contact.email)
+    address: ''                 // optional postal address
   },
 
   // TO CONFIRM: Israeli service-accessibility rules ask for a named contact for accessibility requests.
