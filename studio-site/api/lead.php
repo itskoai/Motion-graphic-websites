@@ -21,7 +21,7 @@
  * Config: api/config.php (copy api/config.sample.php), or the file named by the LEAD_CONFIG environment
  * variable (used by tests, so no test config ever sits in the upload folder).
  *
- * Cron (optional, keeps the retention promise even with no traffic):  php /path/to/api/lead.php purge
+ * Cron (required, HANDOVER step 7; keeps the retention promises in privacy.html):  php /path/to/api/lead.php purge
  */
 declare(strict_types=1);
 
@@ -197,17 +197,22 @@ function lead_append(array $B, string $path, string $line): string {
 }
 
 /** Tell the owner once (per month for a full file, per day for the site-wide limit) that the form is turning people away. */
-function lead_alert_full(array $B, string $what): void {
+function lead_alert_full(array $B, string $what, string $path = ''): void {
   $cfg = $B['cfg'];
   if ($cfg['NOTIFY_TO'] === '') { return; }
   $stamp = $B['dir'] . '/alert-' . $what . '-' . ($what === 'busy' ? gmdate('Y-m-d') : gmdate('Y-m'));
+  if ($B['guarded']) {   // inside the web root: an unguessable name, like every other data file
+    $stamp .= '-' . substr(hash_hmac('sha256', 'files', (string)lead_salt($B, false)), 0, 16) . '.php';
+  }
   $fh = @fopen($stamp, 'x');
   if ($fh === false) { return; }   // already sent
   fclose($fh);
+  $file = $what === 'notify' ? 'קובץ ההרשמות לרשימת העדכונים' : 'קובץ הפניות';
   $body = $what === 'busy'
-    ? "הטופס באתר הגיע למגבלת השליחות הכללית (SITE_MAX) ודחה פניות לכמה דקות.\n\nאם זה קורה הרבה, ייתכן שמישהו מציף את הטופס. אפשר להעלות את SITE_MAX ב־api/config.php."
-    : "קובץ הפניות של החודש הגיע לגודל המקסימלי (MAX_FILE_MB), והטופס עונה עכשיו שהוא עמוס.\n\nכדי לפתוח אותו שוב: להוריד את קובץ החודש מתיקיית הנתונים, ואז לשנות את שמו או למחוק אותו מהשרת. כדאי לבדוק אם הוא מלא בספאם.";
-  lead_mail($cfg, $cfg['NOTIFY_TO'], 'הטופס באתר דוחה פניות', $body);
+    ? "הטופס באתר הגיע למגבלה הכללית על מספר השליחות (SITE_MAX), ובמשך כמה דקות לא קיבל פניות והרשמות.\n\nאם זה קורה הרבה, ייתכן שמישהו מציף את הטופס. אפשר להעלות את SITE_MAX ב־api/config.php."
+    : $file . " של החודש (" . basename($path) . ") הגיע לגודל המקסימלי (MAX_FILE_MB), והטופס מציג עכשיו הודעה שהוא עמוס.\n\nכדי שהטופס יקבל שוב: להוריד את הקובץ מתיקיית הנתונים, ואז לשנות את שמו או למחוק אותו מהשרת. כדאי לבדוק אם הוא מלא בספאם.";
+  // if the mail could not go out, try again on the next refused post
+  if (!lead_mail($cfg, $cfg['NOTIFY_TO'], 'הטופס באתר דוחה פניות', $body)) { @unlink($stamp); }
 }
 
 /** Delete inquiry files once they are LEAD_KEEP_INQUIRY_MONTHS old. List files are never touched. */
@@ -221,7 +226,7 @@ function lead_purge(array $B): int {
   }
   // the empty "already told the owner" stamps of lead_alert_full
   foreach (glob($B['dir'] . '/alert-*') ?: [] as $f) {
-    if (preg_match('/^alert-[a-z]+-[0-9-]+$/', basename($f)) === 1 && (int)@filemtime($f) < time() - 86400 * 62) { @unlink($f); }
+    if (preg_match('/^alert-[a-z]+-[0-9-]+(-[a-f0-9]{16}\.php)?$/', basename($f)) === 1 && (int)@filemtime($f) < time() - 86400 * 62) { @unlink($f); }
   }
   return $gone;
 }
@@ -497,8 +502,11 @@ function reply(int $code, array $body, string $detail = ''): void {
   $notify = $KIND === 'notify';
   if (($body['ok'] ?? false) === true) {
     if ($notify) {
-      $p = ['נכתוב לכם כשהאור יידלק. אפשר לבטל בכל רגע.'];
-      if (!empty($body['confirm'])) { $p[] = 'שלחנו אליכם מייל קצר עם קישור לאישור ההרשמה.'; }
+      $conf = $body['confirm'] ?? '';
+      if ($conf === 'sent') {
+        lead_page(200, 'כמעט סיימנו.', ['שלחנו אליכם מייל קצר עם קישור לאישור ההרשמה. אחרי האישור נכתוב לכם כשהאור יידלק.'], ['href' => '../index.html', 'label' => 'חזרה לאתר']);
+      }
+      $p = $conf === 'failed' ? ['נרשמתם, אבל מייל האישור לא יצא. נסו להירשם שוב בעוד כמה דקות.'] : ['נכתוב לכם כשהאור יידלק. אפשר לבטל בכל רגע.'];
       lead_page(200, 'אתם ברשימה.', $p, ['href' => '../index.html', 'label' => 'חזרה לאתר']);
     }
     lead_page(200, 'קיבלנו.', ['נקרא, נדמיין קצת ונחזור אליכם.'], ['href' => '../index.html', 'label' => 'חזרה לאתר']);
@@ -559,12 +567,12 @@ $emailOk = static fn(string $e): bool => filter_var($e, FILTER_VALIDATE_EMAIL) !
 $page = $one($in['page'] ?? '', 120);
 
 if ($kind === 'notify') {
-  $email = mb_strtolower($one($in['email'] ?? '', 254));
+  $email = mb_strtolower($one($in['email'] ?? '', 400));
   $c = $in['consent'] ?? false;
   $ticked = $c === true || in_array($c, ['on', 'true', '1', 'yes'], true);
   $sent = trim(preg_replace('/[\s\x{00A0}\x{2007}\x{202F}\x{200E}\x{200F}]+/u', ' ', $str($in['consentText'] ?? '', 400)) ?? '');
   $version = array_search($sent, LEAD_CONSENT, true);
-  if (!$emailOk($email)) { reply(422, ['ok' => false, 'error' => 'email']); }
+  if (mb_strlen($email) > 254 || !$emailOk($email)) { reply(422, ['ok' => false, 'error' => 'email']); }
   if (!$ticked) { reply(422, ['ok' => false, 'error' => 'consent']); }
   if ($version === false) { reply(422, ['ok' => false, 'error' => 'consent'], 'text'); }
   $source = $one($in['source'] ?? '', 40);
@@ -619,7 +627,7 @@ $record['page'] = $page;
 $line = json_encode($record, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_INVALID_UTF8_SUBSTITUTE);
 if ($line === false) { reply(500, ['ok' => false, 'error' => 'save']); }
 $fail = lead_append($B, lead_path($B, $SALT, $kind), $line . "\n");
-if ($fail === 'full') { lead_alert_full($B, $kind); reply(503, ['ok' => false, 'error' => 'full']); }
+if ($fail === 'full') { lead_alert_full($B, $kind, lead_path($B, $SALT, $kind)); reply(503, ['ok' => false, 'error' => 'full']); }
 if ($fail !== '') { reply(500, ['ok' => false, 'error' => 'store']); }
 
 // Saved. Everything below is best effort and never changes the answer.
@@ -644,7 +652,7 @@ if ($kind === 'notify' && $CFG['CONFIRM_EMAILS'] && lead_addr_ok($CFG['MAIL_FROM
     . "כדי לאשר את ההרשמה, פתחו את הקישור ולחצו על \"אישור ההרשמה\":\n\n"
     . $link . "\n\n"
     . "אם לא אתם ביקשתם, אפשר פשוט להתעלם מהמייל הזה. בלי אישור לא נשלח אליכם עדכונים.\n";
-  if (lead_mail($CFG, $email, 'אישור הרשמה לעדכונים', $body)) { $out['confirm'] = 'sent'; }
+  $out['confirm'] = lead_mail($CFG, $email, 'אישור הרשמה לעדכונים', $body) ? 'sent' : 'failed';
 }
 
 reply(200, $out);

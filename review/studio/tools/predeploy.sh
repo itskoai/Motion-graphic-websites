@@ -139,8 +139,44 @@ if command -v php >/dev/null 2>&1; then
 fi
 
 echo
+echo "Consent wording"
+if command -v php >/dev/null 2>&1; then
+  while IFS= read -r line; do
+    case "$line" in
+      OK:*) pass "${line#OK:}" ;;
+      ERR:*) fail "${line#ERR:}" ;;
+    esac
+  done < <(php -- "$SITE" <<'PHP'
+<?php
+$site = $argv[1];
+$html = (string)@file_get_contents("$site/index.html");
+$src = (string)@file_get_contents("$site/api/lead.php");
+preg_match('/const LEAD_CONSENT = \[(.*?)\];/s', $src, $m);
+preg_match_all("/'v\d+' => '([^']*)'/u", $m[1] ?? '', $vv);
+$allowed = $vv[1] ?? [];
+if (!$allowed) { echo "ERR:could not read LEAD_CONSENT from api/lead.php\n"; exit; }
+$norm = static fn($t) => trim(preg_replace('/[\s\x{00A0}]+/u', ' ', html_entity_decode(strip_tags($t), ENT_QUOTES, 'UTF-8')));
+preg_match_all('#<form[^>]*data-kind="notify"[^>]*>(.*?)</form>#su', $html, $forms);
+if (!$forms[1]) { echo "ERR:no signup form found in index.html\n"; exit; }
+foreach ($forms[1] as $i => $f) {
+  $n = $i + 1;
+  preg_match('#name="consentText" value="([^"]*)"#u', $f, $hv);
+  preg_match('#<label class="consent"[^>]*>.*?<span>(.*?)</span>\s*</label>#su', $f, $lv);
+  $hidden = $norm($hv[1] ?? ''); $label = $norm($lv[1] ?? '');
+  if ($hidden === '' || $label === '') { echo "ERR:signup form $n: consent label or hidden consentText not found\n"; continue; }
+  if ($hidden !== $label) { echo "ERR:signup form $n: the checkbox label and the hidden consentText differ. Change both, and add the text to LEAD_CONSENT in api/lead.php as a new version\n"; continue; }
+  if (!in_array($hidden, $allowed, true)) { echo "ERR:signup form $n: the consent text is not in LEAD_CONSENT (api/lead.php). Add it there as a new version and keep the old ones\n"; continue; }
+  echo "OK:signup form $n: label, hidden text and server copy of the consent match\n";
+}
+PHP
+  )
+else
+  warn "php is not installed here, so the consent wording is not checked"
+fi
+
+echo
 echo "Browser support"
-if grep -q '(?<' "$SITE/assets/site.js"; then fail "assets/site.js uses a regex lookbehind; Safari before 16.4 cannot run the whole script"
+if grep -Eq '\(\?<[=!]' "$SITE/assets/site.js"; then fail "assets/site.js uses a regex lookbehind; Safari before 16.4 cannot run the whole script"
 else pass "assets/site.js has no regex lookbehind (older iPhones can run it)"; fi
 
 echo

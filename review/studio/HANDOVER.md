@@ -50,7 +50,7 @@ Tests (headless Chromium, from the repo root, with the PHP server above running 
 - Use a mailing tool that puts an unsubscribe link in every mailing. Ask a lawyer to confirm the rest of the format (the word "פרסומת" in the subject line, the sender's name and contact details).
 - Mail only rows marked `confirmed` in the export below, and upload only those to a mailing tool. The confirm mail that `lead.php` sends at signup is the "first mail with a confirm link" that `privacy.html` promises; without confirming, nothing more is sent.
 - **Suppress list.** Keep a file `suppress.jsonl` on your own computer, next to the downloaded leads (not on the server): one line per removal, e.g. `{"email":"name@example.com","at":"2026-11-02T10:00:00Z"}`. Add every unsubscribe from the mailing tool and every removal request, and never delete lines. It is subtracted on every export, so a removed address is never mailed again.
-- **Export.** In the folder with the downloaded `notify-*`, `confirm-*` and `suppress.jsonl` files, run `python3 export.py > list.csv` with this `export.py` (columns: email, token, confirmed; suppressed addresses are left out; works for both folder layouts):
+- **Export.** In the folder with the downloaded `notify-*`, `confirm-*` and `suppress.jsonl` files, run `python3 export.py > list.csv` with this `export.py`. `list.csv` holds one column, `email`, with only confirmed addresses that were not removed, so it can go to a mailing tool as it is (works for both folder layouts):
   ```python
   import csv, glob, json, sys
   def rows(pattern):
@@ -67,10 +67,10 @@ Tests (headless Chromium, from the repo root, with the PHP server above running 
       p = people.setdefault(r['email'].lower(), {'token': r['token'], 'confirmed': False})
       p['confirmed'] = p['confirmed'] or r['token'] in confirmed
   out = csv.writer(sys.stdout)
-  out.writerow(['email', 'token', 'confirmed'])
+  out.writerow(['email'])
   for email, p in people.items():
-      if email not in suppressed:
-          out.writerow([email, p['token'], 'yes' if p['confirmed'] else 'no'])
+      if p['confirmed'] and email not in suppressed:
+          out.writerow([email])
   ```
 
 ## What still needs real information (optional fields are hidden until filled; predeploy.sh insists on the required ones)
@@ -79,7 +79,7 @@ Tests (headless Chromium, from the repo root, with the PHP server above running 
 - **Legal owner (required: owner).** `config.js → legal`: `owner` (the legal name of the business or of the person running it), `businessId` (ע.מ. or ח.פ.), `email` for privacy requests (falls back to `contact.email`, then to the contact form), `address`. `privacy.html` then shows "בעל השליטה במידע: ...".
 - **Accessibility contact (required).** `config.js → accessibility.coordinator`, e.g. a name and a phone number, shown as "לפניות בנושא נגישות: ...". Plus a check by a certified accessibility tester when possible.
 - **Mailboxes.** A studio mailbox for `NOTIFY_TO` and a sender address on the domain for `MAIL_FROM`.
-- **Consent wording.** The checkbox label on the page must stay exactly "כן, שלחו לי עדכונים והכרזות במייל, כולל דברי פרסומת. אפשר לבטל בכל רגע." (`LEAD_CONSENT` `v1` in `api/lead.php`). If the label ever changes, add the new text there as `v2` and keep `v1`, or every signup is refused with a consent error.
+- **Consent wording.** The checkbox label is "כן, שלחו לי עדכונים והכרזות במייל, כולל דברי פרסומת. אפשר לבטל בכל רגע." (`LEAD_CONSENT` `v1` in `api/lead.php`). To change it, change all of these together: the two checkbox labels and the two hidden `consentText` inputs in `index.html`, and add the new text to `LEAD_CONSENT` as `v2` (keep `v1`, older signups point to it). The page sends the hidden text, so a label changed on its own would leave the wrong wording in the consent record; predeploy.sh fails until all of them match.
 - **Social links** (`config.js → socials`), the page where "דור העתיד" lives (`projects.series.url`), the merch site's live address once it is online (`projects.merch.url`).
 - **Founders:** names, roles, and real photos (`config.js → founders`). Until then the two panels show light, labelled צד א׳ / צד ב׳. No generated portrait is used.
 - **Privacy:** confirm what `privacy.html` now promises (inquiries kept up to two years, deleted automatically on the server and by you in the mailbox; list until removal, then only the address, the consent details and the removal date; first mail carries a confirm link) and have a lawyer read it once.

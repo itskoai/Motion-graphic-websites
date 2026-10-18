@@ -37,6 +37,11 @@
    "gloss": "Write to us"
   },
   {
+   "slot": "header.motion",
+   "he": "עצירת תנועה",
+   "gloss": "Stop motion (the round pause button in the header; screen-reader name and tooltip)"
+  },
+  {
    "slot": "a11y.skip",
    "he": "דילוג לתוכן",
    "gloss": "Skip to content"
@@ -192,6 +197,11 @@
    "gloss": "Ads that stop the scroll, and that you want to watch to the end."
   },
   {
+   "slot": "worlds.i2_cap",
+   "he": "בתמונה: יובל ואיתי, דמויות שיצרנו, לא ילדים אמיתיים.",
+   "gloss": "In the picture: Yuval and Itay, characters we made, not real children (shown under the picture on phones)"
+  },
+  {
    "slot": "worlds.i3_title",
    "he": "אתרים מונפשים",
    "gloss": "Animated websites"
@@ -210,6 +220,11 @@
    "slot": "worlds.i4_line",
    "he": "דמויות עם אופי וקול משלהן. כאלה שמתגעגעים אליהן.",
    "gloss": "Characters with their own personality and voice. The kind you miss."
+  },
+  {
+   "slot": "worlds.i4_cap",
+   "he": "בתמונה: איתי מכל הצדדים, דמות שיצרנו, לא ילד אמיתי.",
+   "gloss": "In the picture: Itay from every side, a character we made, not a real child (shown on phones)"
   },
   {
    "slot": "minds.kicker",
@@ -320,6 +335,31 @@
    "slot": "work.p2_line",
    "he": "כל גלילה מזיזה משהו, והמוצרים נראים כאילו יצאו ישר מהסדרה.",
    "gloss": "Every scroll moves something, and the products look like they came straight out of the series."
+  },
+  {
+   "slot": "work.p2_alt_1",
+   "he": "יובל ואיתי, דמויות AI שיצרנו, בחליפות המרצ׳ ברחוב בלילה",
+   "gloss": "Alt text: Yuval and Itay, AI characters we made, in the merch sets on a street at night"
+  },
+  {
+   "slot": "work.p2_alt_2",
+   "he": "יובל ואיתי בחליפות המרצ׳ ליד מפל",
+   "gloss": "Alt text: Yuval and Itay in the merch sets by a waterfall"
+  },
+  {
+   "slot": "work.p2_alt_3",
+   "he": "יובל ואיתי בחליפות המרצ׳ ליד מכונית",
+   "gloss": "Alt text: Yuval and Itay in the merch sets by a car"
+  },
+  {
+   "slot": "work.p2_alt_4",
+   "he": "איתי בכמה הבעות פנים",
+   "gloss": "Alt text: Itay in several facial expressions"
+  },
+  {
+   "slot": "work.p2_alt_5",
+   "he": "איתי בחליפת המרצ׳ מכל הצדדים",
+   "gloss": "Alt text: Itay in the merch set from every side"
   },
   {
    "slot": "work.p3_title",
@@ -442,6 +482,16 @@
    "gloss": "You're on the list. We'll write to you when the light comes on."
   },
   {
+   "slot": "mystery.confirm_sent",
+   "he": "כמעט סיימנו: שלחנו אליכם מייל קצר עם קישור לאישור ההרשמה. אחרי האישור נכתוב לכם כשהאור יידלק.",
+   "gloss": "Almost done: we sent you a short email with a link to confirm the signup. After you confirm, we will write when the light comes on (replaces the success line when a confirm mail went out)"
+  },
+  {
+   "slot": "mystery.confirm_failed",
+   "he": "נרשמתם, אבל מייל האישור לא יצא. נסו להירשם שוב בעוד כמה דקות.",
+   "gloss": "You signed up, but the confirmation email did not go out. Try signing up again in a few minutes"
+  },
+  {
    "slot": "mystery.error",
    "he": "משהו השתבש בדרך. נסו שוב בעוד רגע.",
    "gloss": "Something went wrong on the way. Try again in a moment."
@@ -530,6 +580,11 @@
    "slot": "final.notify_button",
    "he": "עדכנו אותי",
    "gloss": "Keep me posted"
+  },
+  {
+   "slot": "final.notify_privacy",
+   "he": "נשתמש במייל רק כדי לעדכן אתכם. הכול כתוב במדיניות הפרטיות.",
+   "gloss": "We will use the email only to update you. It is all in the privacy policy (same note as the SC 08 signup)"
   },
   {
    "slot": "footer.line",

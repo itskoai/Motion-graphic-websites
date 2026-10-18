@@ -705,7 +705,7 @@ window.__ofReady = 1;
     let active = -1, frameVisible = false;
     const playSite = () => {
       if (!siteVideo) return;
-      if (active === 2 && frameVisible && !reduced && !motionOff && MQ.wide.matches && !jumping() && !D.hidden && !(viewer && viewer.open)) {
+      if (active === 2 && frameVisible && !reduced && !motionOff && MQ.wide.matches && !jumping() && !D.hidden && !(viewer && viewer.hasAttribute('open'))) {
         if (!siteVideo.src) siteVideo.src = siteVideo.dataset.src;
         siteVideo.play().catch(() => {});
       } else siteVideo.pause();
@@ -713,6 +713,7 @@ window.__ofReady = 1;
     const activate = (i) => {
       if (i === active) return;
       layers.forEach((l) => l.classList.remove('was'));
+      void layers[i].offsetWidth;   // settle the hidden state first, so the new layer opens from the slit
       if (active >= 0) layers[active].classList.add('was');
       layers.forEach((l, j) => l.classList.toggle('on', j === i));
       items.forEach((it, j) => it.classList.toggle('on', j === i));
@@ -849,7 +850,7 @@ window.__ofReady = 1;
   const viewer = $('#viewer');
   const workVideos = $$('.proj-video');
   const wantPlay = new Set();
-  const playWork = (v) => { if (reduced || motionOff || D.hidden || jumping() || viewer.open) return; if (!v.src) v.src = v.dataset.src; v.play().catch(() => {}); };
+  const playWork = (v) => { if (reduced || motionOff || D.hidden || jumping() || viewer.hasAttribute('open')) return; if (!v.src) v.src = v.dataset.src; v.play().catch(() => {}); };
   const vio = new IntersectionObserver((es) => es.forEach((e) => {
     const v = e.target;
     if (e.isIntersecting) { wantPlay.add(v); playWork(v); if (jumping()) setTimeout(() => { if (wantPlay.has(v)) playWork(v); }, 1800); }
@@ -865,7 +866,7 @@ window.__ofReady = 1;
     if (ignorePop) { ignorePop = false; return; }
     if (!overlay) return;
     const n = overlay; overlay = null;
-    if (n === 'viewer' && viewer.open) viewer.close();
+    if (n === 'viewer' && viewer.hasAttribute('open')) closeViewer();
     if (n === 'menu' && !sheet.hidden) setMenu(false);
   });
 
@@ -893,7 +894,7 @@ window.__ofReady = 1;
     } else if (kind === 'merch') {
       vTitle.textContent = 'אתר המרצ׳ של דור העתיד';
       const g = D.createElement('div'); g.className = 'viewer-gallery';
-      GALLERY.forEach((n) => { const i = D.createElement('img'); i.src = MEDIA + 'merch/' + n + '-720.webp'; i.alt = GALLERY_ALT[n] || ''; i.loading = 'lazy'; i.decoding = 'async'; g.appendChild(i); });
+      GALLERY.forEach((n) => { const i = D.createElement('img'); i.src = MEDIA + 'merch/' + n + '-720.webp'; i.alt = GALLERY_ALT[n] || ''; if (n === 'faces-itay' || n === 'turn-itay') i.className = 'sheet'; i.loading = 'lazy'; i.decoding = 'async'; g.appendChild(i); });
       vBody.append(vid(MEDIA + 'site-capture.mp4', MEDIA + 'site-poster.jpg'),
         note('הקלטה של גלילה באתר, ותמונות המוצר שיצרנו בשבילו. יובל ואיתי הם דמויות שיצרנו, לא ילדים אמיתיים.'), g);
     } else {
@@ -909,7 +910,7 @@ window.__ofReady = 1;
     const v = $('video', vBody); if (v && !reduced && !motionOff) v.play().catch(() => {});
   }
   function closeViewer() {
-    if (!viewer.open) return;
+    if (!viewer.hasAttribute('open')) return;
     if (typeof viewer.close === 'function') viewer.close(); else { viewer.removeAttribute('open'); viewer.dispatchEvent(new Event('close')); }
   }
   // every way of closing (button, Esc, back, backdrop) runs the same clean-up
@@ -975,14 +976,15 @@ window.__ofReady = 1;
     rate: 'שלחתם כמה פעמים ברצף. נסו שוב בעוד כמה דקות.',
     sending: 'שולחים…',
     notifyOk: 'אתם ברשימה. נכתוב לכם כשהאור יידלק.',
-    confirmSent: 'שלחנו אליכם מייל קצר עם קישור לאישור ההרשמה.',
+    confirmSent: 'כמעט סיימנו: שלחנו אליכם מייל קצר עם קישור לאישור ההרשמה. אחרי האישור נכתוב לכם כשהאור יידלק.',
+    confirmFailed: 'נרשמתם, אבל מייל האישור לא יצא. נסו להירשם שוב בעוד כמה דקות.',
     notifyErr: 'משהו השתבש בדרך. נסו שוב בעוד רגע.',
     inquiryOk: 'קיבלנו. נקרא, נדמיין קצת ונחזור אליכם.',
     inquiryErr: 'ההודעה לא נשלחה. נסו שוב, או כתבו לנו ישירות במייל.',
     inquiryErrNoMail: 'ההודעה לא נשלחה. נסו שוב בעוד רגע.'
   };
   // the same rules the server applies (PHP FILTER_VALIDATE_EMAIL, ASCII domains)
-  const EMAIL_RE = /^[A-Za-z0-9!#$%&'*+/=?^_`{|}~-]+(\.[A-Za-z0-9!#$%&'*+/=?^_`{|}~-]+)*@[A-Za-z0-9]([A-Za-z0-9-]*[A-Za-z0-9])?(\.[A-Za-z0-9]([A-Za-z0-9-]*[A-Za-z0-9])?)+$/;
+  const EMAIL_RE = /^(?=.{3,254}$)[A-Za-z0-9!#$%&'*+/=?^_`{|}~-]+(\.[A-Za-z0-9!#$%&'*+/=?^_`{|}~-]+)*@[A-Za-z0-9]([A-Za-z0-9-]*[A-Za-z0-9])?(\.[A-Za-z0-9]([A-Za-z0-9-]*[A-Za-z0-9])?)+$/;
   const PHONE_RE = /^\+?[0-9][0-9\s\-().]{7,18}$/;
   const norm = (s) => s.replace(/\s+/g, ' ').trim();
 
@@ -1074,7 +1076,8 @@ window.__ofReady = 1;
         data.elapsed = Math.round(performance.now() - t0);
         const res = await submitLead(kind, data);
         status.className = 'form-status ok';
-        status.textContent = kind === 'notify' ? MSG.notifyOk + (res && res.confirm === 'sent' ? ' ' + MSG.confirmSent : '') : MSG.inquiryOk;
+        const conf = res && res.confirm;
+        status.textContent = kind !== 'notify' ? MSG.inquiryOk : conf === 'sent' ? MSG.confirmSent : conf === 'failed' ? MSG.confirmFailed : MSG.notifyOk;
         form.classList.add('sent');
         form.reset();
         status.tabIndex = -1; status.focus({ preventScroll: true });
