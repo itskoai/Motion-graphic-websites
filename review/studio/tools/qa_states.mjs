@@ -168,6 +168,42 @@ try {
     await p.close();
   }
 
+  // ---------- conversion additions: the phone bar, "want one like this?" links, topic chips ----------
+  {
+    const p = await Page.open(PORT, { swaps });
+    await p.viewport(390, 844, { mobile: true, touch: true, scale: 2 });
+    await p.go(BASE, 2500);
+    const top = (sel, off) => `window.scrollTo(0, document.querySelector('${sel}').getBoundingClientRect().top + scrollY + ${off}), 1`;
+    const barOn = () => p.eval(`document.querySelector('[data-subcta]').classList.contains('on')`);
+    const atHero = await barOn();
+    await p.eval(top('#worlds', 300)); await sleep(800); const atWorlds = await barOn();
+    await p.eval(top('#minds', 900)); await sleep(800); const atMinds = await barOn();
+    await p.eval(top('#work', 200)); await sleep(800); const atWork = await barOn();
+    await p.eval(top('#contact', 100)); await sleep(800); const atContact = await barOn();
+    check('phone bar: off in the hero, on between scenes, off over pinned scenes and at the contact scene', !atHero && atWorlds && !atMinds && atWork && !atContact, JSON.stringify({ atHero, atWorlds, atMinds, atWork, atContact }));
+    // no topic and no message: a clear prompt, nothing sent
+    await p.eval(`(() => { const f = document.querySelector('#inquiry-form'); f.querySelector('#q-name').value = 'בדיקת צ׳יפים'; f.querySelector('#q-contact').value = '050-555-0102'; f.querySelector('button[type=submit]').click(); return 1; })()`); await sleep(400);
+    const e0 = await p.eval(`[document.querySelector('#q-message').getAttribute('aria-invalid'), (document.querySelector('#q-message-err') || {}).textContent || '', document.querySelector('.needs').classList.contains('invalid')]`);
+    check('inquiry: no topic and no message asks for one of them', e0[0] === 'true' && /סמנו משהו/.test(e0[1]) && e0[2], JSON.stringify(e0));
+    // "רוצים דמות כזו?" marks its topic and jumps to the form
+    await p.eval(`document.querySelector('.proj-series').scrollIntoView({block:'center'}), 1`); await sleep(700);
+    await p.eval(`document.querySelector('.proj-series .proj-ask').click(), 1`); await sleep(2800);
+    const mk = await p.eval(`[document.querySelector('.chip[data-chip="character"]').getAttribute('aria-pressed'), Math.round(document.querySelector('#contact').getBoundingClientRect().top), document.querySelector('#q-message').required, document.querySelector('[data-msg-label]').textContent]`);
+    check('"רוצים דמות כזו?" marks the topic and jumps to the form', mk[0] === 'true' && Math.abs(mk[1]) < 220 && mk[2] === false && /לא חובה/.test(mk[3]), JSON.stringify(mk));
+    // the viewer's button closes the viewer and does the same
+    await p.eval(`document.querySelector('.proj-site').scrollIntoView({block:'center'}), 1`); await sleep(700);
+    await p.eval(`document.querySelector('[data-open="merch"]').click(), 1`); await sleep(700);
+    await p.eval(`document.querySelector('#viewer .viewer-foot a').click(), 1`); await sleep(2800);
+    const vk = await p.eval(`[document.querySelector('#viewer').open, document.documentElement.classList.contains('viewer-open'), document.querySelector('.chip[data-chip="site"]').getAttribute('aria-pressed'), Math.round(document.querySelector('#contact').getBoundingClientRect().top)]`);
+    check('viewer "רוצים אתר כזה?": closes the viewer, marks the topic, lands at the form', !vk[0] && !vk[1] && vk[2] === 'true' && Math.abs(vk[3]) < 220, JSON.stringify(vk));
+    // send with topics only
+    await p.eval(`document.querySelector('#inquiry-form button[type=submit]').click(), 1`); await sleep(3300);
+    const st = await p.eval(`[document.querySelector('#inquiry-form .form-status').textContent, document.querySelector('.chip[data-chip="character"]').getAttribute('aria-pressed')]`);
+    check('inquiry with topics and no message: saved, chips reset', /קיבלנו/.test(st[0]) && st[1] === 'false', JSON.stringify(st));
+    check('conversion additions: console clean', p.errors.length === 0, JSON.stringify(p.errors));
+    await p.close();
+  }
+
   // ---------- double opt-in on (the production default), on a throwaway server ----------
   for (const [label, mailOk] of [['confirm mail sent', true], ['confirm mail fails', false]]) {
     const { spawn } = await import('node:child_process');

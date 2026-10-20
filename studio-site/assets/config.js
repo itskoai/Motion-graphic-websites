@@ -19,7 +19,17 @@ window.SITE_CONFIG = {
   contact: {
     email: '',      // shown as "אפשר גם ישירות במייל" under the inquiry form, and on the privacy and accessibility pages
     phone: '',      // optional, e.g. '050-000-0000': shown as "אפשר גם בטלפון" under the inquiry form, and on the accessibility page
-    whatsapp: ''    // optional, a https://wa.me/... link: shown as "או בוואטסאפ" next to the phone (needs the phone too)
+    whatsapp: '',   // optional, a https://wa.me/... link: a WhatsApp button in the phone contact bar and under the inquiry form
+    // TO CONFIRM, optional: shown under the inquiry form's send button only when filled.
+    replyNote: '',  // e.g. 'בדרך כלל אנחנו עונים תוך יום עבודה.' (write only what you really keep to)
+    firstStep: ''   // e.g. 'בתשובה הראשונה נחזור עם כמה שאלות ורעיון ראשון.'
+  },
+
+  // TO CONFIRM, optional: answers for the "לפני שאתם שואלים" scene. Each question appears only once its answer is filled.
+  faq: {
+    price: '',      // "כמה זה עולה?"  e.g. 'תלוי בפרויקט. אחרי שיחה קצרה תקבלו הצעה מסודרת.'
+    turnaround: '', // "כמה זמן זה לוקח?"
+    ownership: ''   // "ושל מי הדמות בסוף?"
   },
 
   // TO CONFIRM: social profiles. Empty url = not shown.

@@ -3,13 +3,13 @@
  "lines": [
   {
    "slot": "meta.title",
-   "he": "OUTFRAME · סטודיו ליצירה קולנועית",
-   "gloss": "OUTFRAME · a studio for cinematic creation"
+   "he": "OUTFRAME · סטודיו לסרטוני AI בעברית",
+   "gloss": "OUTFRAME · a studio for AI videos in Hebrew"
   },
   {
    "slot": "meta.description",
-   "he": "סטודיו של שני יוצרים. סרטים ופרסומות ב־AI, אתרים מונפשים, דמויות ועולמות מקוריים. מהרעיון ועד הפריים האחרון.",
-   "gloss": "A studio of two creators. AI films and commercials, animated websites, original characters and worlds. From the idea to the last frame."
+   "he": "סטודיו של שני יוצרים שבנו את עצמם מאפס: סרטונים ופרסומות ב־AI ושיווק ברשתות, הכול בעברית. דמויות, קולות ואתרים מונפשים.",
+   "gloss": "A studio of two creators who built themselves from zero: AI videos and commercials and social marketing, all in Hebrew. Characters, voices and animated websites."
   },
   {
    "slot": "nav.worlds",
@@ -35,6 +35,11 @@
    "slot": "nav.contact",
    "he": "כתבו לנו",
    "gloss": "Write to us"
+  },
+  {
+   "slot": "header.logline",
+   "he": "סטודיו לסרטוני AI בעברית",
+   "gloss": "A studio for AI videos in Hebrew (under the logo)"
   },
   {
    "slot": "header.motion",
@@ -78,8 +83,8 @@
   },
   {
    "slot": "hero.settle_p",
-   "he": "אנחנו עושים סרטים ופרסומות ב־AI, אתרים מונפשים, דמויות ועולמות מקוריים. מהרעיון ועד הפריים האחרון.",
-   "gloss": "We make AI films and commercials, animated websites, original characters and worlds. From the idea to the last frame."
+   "he": "סרטונים ופרסומות ב־AI ושיווק ברשתות, הכול בעברית. דמויות, קולות ואתרים מונפשים, מהרעיון ועד הפריים האחרון.",
+   "gloss": "AI videos and commercials and social marketing, all in Hebrew. Characters, voices and animated websites, from the idea to the last frame."
   },
   {
    "slot": "hero.cta_primary",
@@ -103,8 +108,8 @@
   },
   {
    "slot": "static.p",
-   "he": "אנחנו שני יוצרים שעושים סרטים ופרסומות ב־AI, אתרים מונפשים, דמויות ועולמות מקוריים.",
-   "gloss": "We are two creators who make AI films and commercials, animated websites, original characters and worlds."
+   "he": "אנחנו שני יוצרים שעושים סרטונים ופרסומות ב־AI ושיווק ברשתות, הכול בעברית. דמויות, קולות ואתרים מונפשים, מהרעיון ועד הפריים האחרון.",
+   "gloss": "We are two creators who make AI videos and commercials and social marketing, all in Hebrew. Characters, voices and animated websites, from the idea to the last frame."
   },
   {
    "slot": "transform.kicker",
@@ -173,13 +178,13 @@
   },
   {
    "slot": "worlds.lede",
-   "he": "ליזמים, למותגים וליוצרים שרוצים להשאיר רושם.",
-   "gloss": "For entrepreneurs, brands and creators who want to leave an impression."
+   "he": "לבעלי עסקים, למותגים וליוצרים. בעברית, לקהל ישראלי.",
+   "gloss": "For business owners, brands and creators. In Hebrew, for an Israeli audience."
   },
   {
    "slot": "worlds.i1_title",
-   "he": "סרטים וסיפורים",
-   "gloss": "Films and stories"
+   "he": "סרטים ופרסומות",
+   "gloss": "Films and commercials"
   },
   {
    "slot": "worlds.i1_line",
@@ -188,13 +193,13 @@
   },
   {
    "slot": "worlds.i2_title",
-   "he": "פרסומות וקמפיינים",
-   "gloss": "Commercials and campaigns"
+   "he": "סרטונים ושיווק ברשתות",
+   "gloss": "Videos and social marketing"
   },
   {
    "slot": "worlds.i2_line",
-   "he": "פרסומות שעוצרות את הגלילה ושרוצים לראות עד הסוף.",
-   "gloss": "Ads that stop the scroll, and that you want to watch to the end."
+   "he": "לטיקטוק, לרילס ולשורטס. סרטונים קצרים בעברית, מהסוג ששולחים לחבר, ותוכנית שדואגת שיראו אותם.",
+   "gloss": "For TikTok, Reels and Shorts. Short Hebrew videos, the kind you send to a friend, and a plan that makes sure people see them."
   },
   {
    "slot": "worlds.i2_cap",
@@ -213,13 +218,13 @@
   },
   {
    "slot": "worlds.i4_title",
-   "he": "דמויות ועולמות מקוריים",
-   "gloss": "Original characters and worlds"
+   "he": "דמויות וקולות",
+   "gloss": "Characters and voices"
   },
   {
    "slot": "worlds.i4_line",
-   "he": "דמויות עם אופי וקול משלהן. כאלה שמתגעגעים אליהן.",
-   "gloss": "Characters with their own personality and voice. The kind you miss."
+   "he": "דמות למותג שלכם, מצוירת או ריאליסטית. עם קול משלה, ואותם פנים בכל סרטון.",
+   "gloss": "A character for your brand, cartoon or realistic. With its own voice, and the same face in every video."
   },
   {
    "slot": "worlds.i4_cap",
@@ -233,13 +238,13 @@
   },
   {
    "slot": "minds.h",
-   "he": "שני אנשים. אותה תמונה בראש.",
-   "gloss": "Two people. The same picture in mind."
+   "he": "שני יזמים. אותה תמונה בראש.",
+   "gloss": "Two entrepreneurs. The same picture in mind."
   },
   {
    "slot": "minds.p",
-   "he": "זה התחיל מסקרנות. המשכנו כשהבנו שהדמיון כבר לא חייב לעצור בגבול של מה שנראה אפשרי. מאז אנחנו הולכים דווקא על הרעיונות הקשים ומתעקשים על כל פרט בדרך, עד שהם מופיעים על המסך כמו שדמיינו.",
-   "gloss": "It started with curiosity. We kept going when we realized imagination no longer has to stop at the border of what seemed possible. Since then we go for the hard ideas on purpose and insist on every detail along the way, until they appear on screen the way we imagined."
+   "he": "בנינו את עצמנו מאפס, שנינו. כל יום אנחנו יוצרים לעמוד שלנו סרטונים קצרים ומצחיקים בעברית, לקהל ישראלי אמיתי שלא חייב לנו כלום. ככה אנחנו יודעים מה עוצר את האגודל ומה שולח אותו הלאה, ואת זה בדיוק אנחנו מביאים לעבודה שלכם.",
+   "gloss": "We built ourselves from zero, the two of us. Every day we make short, funny Hebrew videos for our own page, for a real Israeli audience that owes us nothing. That is how we know what stops the thumb and what sends it onward, and that is exactly what we bring to your work."
   },
   {
    "slot": "minds.left_label",
@@ -298,13 +303,43 @@
   },
   {
    "slot": "work.h",
-   "he": "מה שעשינו בשביל עצמנו.",
-   "gloss": "What we made for ourselves."
+   "he": "אף אחד לא הזמין את זה.",
+   "gloss": "Nobody ordered this."
   },
   {
    "slot": "work.lede",
-   "he": "שלוש עבודות מקוריות, בלי לקוח ובלי בריף. פשוט רצינו לראות אותן על המסך.",
-   "gloss": "Three original pieces, no client and no brief. We simply wanted to see them on screen."
+   "he": "שלוש עבודות שעשינו בשביל עצמנו, בלי לקוח ובלי בריף. עכשיו תדמיינו מה נעשה בשביל העסק שלכם.",
+   "gloss": "Three works we made for ourselves, no client and no brief. Now imagine what we will make for your business."
+  },
+  {
+   "slot": "work.p1_for",
+   "he": "ואצלכם: דמות משלכם, שמדברת בשם העסק בכל סרטון.",
+   "gloss": "And for you: a character of your own that speaks for the business in every video"
+  },
+  {
+   "slot": "work.p1_ask",
+   "he": "רוצים דמות כזו?",
+   "gloss": "Want a character like this?"
+  },
+  {
+   "slot": "work.p2_for",
+   "he": "ואצלכם: אתר שזז כשגוללים, ותמונות מוצר בלי יום צילום.",
+   "gloss": "And for you: a site that moves as you scroll, and product photos without a shoot day"
+  },
+  {
+   "slot": "work.p2_ask",
+   "he": "רוצים אתר כזה?",
+   "gloss": "Want a site like this?"
+  },
+  {
+   "slot": "work.p3_for",
+   "he": "ואצלכם: סרטון השקה, טיזר או פתיח שנראים כמו קולנוע.",
+   "gloss": "And for you: a launch video, teaser or opener that looks like cinema"
+  },
+  {
+   "slot": "work.p3_ask",
+   "he": "רוצים סרטון כזה?",
+   "gloss": "Want a video like this?"
   },
   {
    "slot": "work.p1_title",
@@ -432,6 +467,81 @@
    "gloss": "Work people talk about and come back to, and that brings people to you."
   },
   {
+   "slot": "takes.kicker",
+   "he": "לפני שאתם שואלים",
+   "gloss": "Before you ask"
+  },
+  {
+   "slot": "takes.h",
+   "he": "מה שבטח עובר לכם בראש.",
+   "gloss": "What is probably going through your mind."
+  },
+  {
+   "slot": "takes.q1",
+   "he": "צריך להופיע מול המצלמה?",
+   "gloss": "Do we have to appear on camera?"
+  },
+  {
+   "slot": "takes.a1",
+   "he": "לא חייבים. דמות יכולה לעשות את זה במקומכם.",
+   "gloss": "Not necessarily. A character can do it for you."
+  },
+  {
+   "slot": "takes.q2",
+   "he": "וזה יישמע ישראלי?",
+   "gloss": "And will it sound Israeli?"
+  },
+  {
+   "slot": "takes.a2",
+   "he": "ברור. אנחנו כותבים, מדבבים ומצחיקים בעברית, כל יום. לא בתרגום.",
+   "gloss": "Of course. We write, voice and make people laugh in Hebrew, every day. Not in translation."
+  },
+  {
+   "slot": "takes.q3",
+   "he": "והדמות תישאר אותה דמות?",
+   "gloss": "And will the character stay the same?"
+  },
+  {
+   "slot": "takes.a3",
+   "he": "כן. יובל ואיתי חוזרים בכל פרק, עם אותם פנים ואותו אופי. ככה גם הדמות שלכם.",
+   "gloss": "Yes. Yuval and Itay come back every episode with the same face and personality. So will yours."
+  },
+  {
+   "slot": "takes.fig",
+   "he": "בתמונה: איתי בשש הבעות. דמות שיצרנו, לא ילד אמיתי.",
+   "gloss": "In the picture: Itay in six expressions. A character we made, not a real child."
+  },
+  {
+   "slot": "takes.q_price",
+   "he": "כמה זה עולה?",
+   "gloss": "How much does it cost? (shown only when config faq.price is filled)"
+  },
+  {
+   "slot": "takes.q_time",
+   "he": "כמה זמן זה לוקח?",
+   "gloss": "How long does it take? (only with faq.turnaround)"
+  },
+  {
+   "slot": "takes.q_own",
+   "he": "ושל מי הדמות בסוף?",
+   "gloss": "And who owns the character in the end? (only with faq.ownership)"
+  },
+  {
+   "slot": "takes.q4",
+   "he": "זה לא ייראה מזויף?",
+   "gloss": "Won't it look fake?"
+  },
+  {
+   "slot": "takes.a4",
+   "he": "גללתם עד כאן. הפתיח, הדמויות, העולמות: הכול עשינו אנחנו. תגידו לנו אתם.",
+   "gloss": "You scrolled this far. The opening, the characters, the worlds: we made all of it. You tell us."
+  },
+  {
+   "slot": "takes.more",
+   "he": "עוד שאלה? כתבו לנו",
+   "gloss": "Another question? Write to us"
+  },
+  {
    "slot": "mystery.kicker",
    "he": "הפריים הבא",
    "gloss": "The next frame"
@@ -518,8 +628,68 @@
   },
   {
    "slot": "final.inq_line",
-   "he": "סרט, קמפיין, אתר או דמות. ספרו לנו מה אתם רואים ונחזור אליכם.",
-   "gloss": "A film, a campaign, a site or a character. Tell us what you see and we'll get back to you."
+   "he": "ואם אין, זה החלק שלנו. ספרו לנו מה אתם צריכים, ונחזור אליכם. בלי התחייבות.",
+   "gloss": "And if you don't have one, that's our part. Tell us what you need and we'll get back to you. No commitment."
+  },
+  {
+   "slot": "final.needs_legend",
+   "he": "על מה מדברים?",
+   "gloss": "What are we talking about?"
+  },
+  {
+   "slot": "final.needs_hint",
+   "he": "אפשר לסמן כמה.",
+   "gloss": "You can mark several."
+  },
+  {
+   "slot": "final.chips",
+   "he": "סרטונים לרשתות · פרסומת · דמות למותג · קריינות וקולות · אתר מונפש · שיווק ברשתות · סצנה קולנועית · עוד לא יודעים",
+   "gloss": "Social videos · an ad · a brand character · voiceover and voices · an animated site · social marketing · a cinematic scene · not sure yet"
+  },
+  {
+   "slot": "final.message_label_optional",
+   "he": "רוצים להוסיף משהו? לא חובה.",
+   "gloss": "Want to add anything? Optional. (once a topic is marked)"
+  },
+  {
+   "slot": "final.need_error",
+   "he": "סמנו משהו למעלה, או כתבו לנו כמה מילים.",
+   "gloss": "Mark something above, or write us a few words."
+  },
+  {
+   "slot": "final.reassure",
+   "he": "ההודעה מגיעה ישר אלינו. בלי מוקד ובלי בוט.",
+   "gloss": "The message comes straight to us. No call center and no bot."
+  },
+  {
+   "slot": "final.after_send",
+   "he": "בינתיים, אפשר לראות מה אנחנו יוצרים כל יום בעמוד שלנו. ואם בא לכם לדבר כבר עכשיו, כתבו לנו בוואטסאפ.",
+   "gloss": "Meanwhile, you can see what we make every day on our page. And if you want to talk right now, message us on WhatsApp. (each part only when its link is in config)"
+  },
+  {
+   "slot": "final.wa_only",
+   "he": "אפשר גם בוואטסאפ",
+   "gloss": "You can also use WhatsApp"
+  },
+  {
+   "slot": "subcta.q",
+   "he": "יש לכם רעיון?",
+   "gloss": "Got an idea? (phone contact bar)"
+  },
+  {
+   "slot": "subcta.btn",
+   "he": "ספרו לנו",
+   "gloss": "Tell us"
+  },
+  {
+   "slot": "subcta.wa",
+   "he": "וואטסאפ",
+   "gloss": "WhatsApp (only when contact.whatsapp is filled)"
+  },
+  {
+   "slot": "subcta.wa_text",
+   "he": "היי, הגענו מהאתר. אפשר לדבר על סרטון?",
+   "gloss": "Prefilled WhatsApp message: Hi, we came from the website. Can we talk about a video?"
   },
   {
    "slot": "final.name_label",
@@ -528,23 +698,23 @@
   },
   {
    "slot": "final.contact_label",
-   "he": "מייל או טלפון",
-   "gloss": "Email or phone"
+   "he": "טלפון או מייל",
+   "gloss": "Phone or email"
   },
   {
    "slot": "final.message_label",
-   "he": "מה אתם מדמיינים?",
-   "gloss": "What are you imagining?"
+   "he": "מה אתם צריכים?",
+   "gloss": "What do you need?"
   },
   {
    "slot": "final.message_placeholder",
-   "he": "אפשר בכמה מילים. אפשר גם רק תחושה.",
-   "gloss": "A few words are fine. Even just a feeling."
+   "he": "למשל: סרטונים קצרים לאינסטגרם, עם דמות שמדברת בשם העסק.",
+   "gloss": "For example: short Instagram videos, with a character that speaks for the business."
   },
   {
    "slot": "final.inq_button",
-   "he": "שליחה",
-   "gloss": "Send"
+   "he": "שלחו לנו",
+   "gloss": "Send it to us"
   },
   {
    "slot": "final.inq_privacy",
@@ -585,6 +755,31 @@
    "slot": "final.notify_privacy",
    "he": "נשתמש במייל רק כדי לעדכן אתכם. הכול כתוב במדיניות הפרטיות.",
    "gloss": "We will use the email only to update you. It is all in the privacy policy (same note as the SC 08 signup)"
+  },
+  {
+   "slot": "credits.rows",
+   "he": "רעיון ותסריט · סרטונים ופרסומות · סצנות קולנועיות · דמויות, מצוירות וריאליסטיות · קולות וקריינות · עריכה · אתרים מונפשים · שיווק ברשתות: שני יוצרים",
+   "gloss": "Idea and script · videos and commercials · cinematic scenes · characters, cartoon and realistic · voices and voiceover · editing · animated websites · social marketing: two creators (the founders' names once both are in config)"
+  },
+  {
+   "slot": "credits.cast",
+   "he": "בתפקידים הראשיים: יובל ואיתי. דמויות שיצרנו, לא ילדים אמיתיים.",
+   "gloss": "Starring: Yuval and Itay. Characters we made, not real children."
+  },
+  {
+   "slot": "credits.cameras",
+   "he": "מצלמות: לא היו",
+   "gloss": "Cameras: there weren't any"
+  },
+  {
+   "slot": "credits.next",
+   "he": "הסצנה הבאה: שלכם",
+   "gloss": "The next scene: yours (links to the contact form)"
+  },
+  {
+   "slot": "credits.end",
+   "he": "ותודה שנשארתם עד הקרדיטים.",
+   "gloss": "And thanks for staying for the credits."
   },
   {
    "slot": "footer.line",

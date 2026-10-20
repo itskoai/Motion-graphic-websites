@@ -43,6 +43,8 @@ window.__ofReady = 1;
   root.classList.toggle('still', motionOff);
 
   /* ------------------------------------------------------------------ config */
+  const WA_TEXT = 'היי, הגענו מהאתר. אפשר לדבר על סרטון?';
+  let waLink = '', pageLink = '';   // filled from config: the WhatsApp chat and the first social page
   function applyConfig() {
     const brand = (CFG.brand && CFG.brand.name) || 'OUTFRAME';
     $$('[data-brand]').forEach((el) => { el.textContent = brand; });
@@ -66,11 +68,36 @@ window.__ofReady = 1;
     }
     const wa = ((CFG.contact && CFG.contact.whatsapp) || '').trim();
     if (/^https:\/\/(wa\.me|api\.whatsapp\.com)\//.test(wa)) {
-      $$('[data-contact-wa]').forEach((a) => { a.href = wa; });
-      $$('[data-wa-wrap]').forEach((el) => { el.hidden = false; });
+      waLink = wa + (wa.includes('?') ? '&' : '?') + 'text=' + encodeURIComponent(WA_TEXT);
+      $$('[data-contact-wa], [data-subcta-wa]').forEach((a) => { a.href = waLink; });
+      $$('[data-subcta-wa]').forEach((a) => { a.hidden = false; });
+      // next to the phone when there is one, otherwise on its own line
+      $$(phone ? '[data-wa-wrap]' : '[data-wa-only]').forEach((el) => { el.hidden = false; });
+    }
+    [['replyNote', '[data-reply-note]'], ['firstStep', '[data-first-step]']].forEach(([k, sel]) => {
+      const v = ((CFG.contact && CFG.contact[k]) || '').trim();
+      if (v) $$(sel).forEach((el) => { el.textContent = v; el.hidden = false; });
+    });
+
+    // SC 09: answers only the owners can give (price, time, ownership) appear only once they are written in config
+    const takes = $('[data-takes]');
+    if (takes) {
+      const last = $('.take-last', takes);
+      [['price', 'כמה זה עולה?'], ['turnaround', 'כמה זמן זה לוקח?'], ['ownership', 'ושל מי הדמות בסוף?']].forEach(([k, q]) => {
+        const ans = ((CFG.faq && CFG.faq[k]) || '').trim();
+        if (!ans) return;
+        const li = D.createElement('li'); li.className = 'take reveal';
+        const sl = D.createElement('span'); sl.className = 'take-slate'; sl.dir = 'ltr'; sl.setAttribute('aria-hidden', 'true');
+        const h = D.createElement('h3'); h.className = 'take-q'; h.textContent = q;
+        const p = D.createElement('p'); p.className = 'take-a'; p.textContent = ans;
+        li.append(sl, h, p); takes.insertBefore(li, last);
+        if (typeof revealIO !== 'undefined') revealIO.observe(li);
+      });
+      $$('.take-slate', takes).forEach((sl, i) => { sl.textContent = 'TAKE ' + String(i + 1).padStart(2, '0'); });
     }
 
-    const socials = (CFG.socials || []).filter((s) => s && s.url);
+    const socials = (CFG.socials || []).filter((s) => s && /^https:\/\//.test((s.url || '').trim()));
+    if (socials.length) pageLink = socials[0].url.trim();
     const list = $('[data-socials]');
     if (list && socials.length) {
       socials.forEach((s) => {
@@ -79,6 +106,13 @@ window.__ofReady = 1;
         li.appendChild(a); list.appendChild(li);
       });
       list.hidden = false;
+    }
+
+    // end credits: once both founders are named, they replace "שני יוצרים"
+    const fnames = (CFG.founders || []).map((f) => ((f && f.name) || '').trim()).filter(Boolean);
+    if (fnames.length === 2) {
+      const joined = fnames[0] + (/^[\u0590-\u05FF]/.test(fnames[1]) ? ' ו' : ' ו־') + fnames[1];
+      $$('[data-credit-name]').forEach((el) => { el.textContent = joined; });
     }
 
     const srNames = [];
@@ -842,7 +876,7 @@ window.__ofReady = 1;
     if (!e.isIntersecting) return;
     navLinks.forEach((a) => a.setAttribute('aria-current', a.getAttribute('href') === '#' + e.target.id ? 'true' : 'false'));
   }), { rootMargin: '-45% 0px -50% 0px' });
-  ['worlds', 'work', 'minds', 'next', 'contact', 'idea', 'vision', 'process', 'top'].forEach((id) => { const el = D.getElementById(id); if (el) navIO.observe(el); });
+  ['worlds', 'work', 'minds', 'next', 'contact', 'idea', 'vision', 'process', 'takes', 'top'].forEach((id) => { const el = D.getElementById(id); if (el) navIO.observe(el); });
 
   /* ------------------------------------------------------------------ entrances */
   const revealIO = new IntersectionObserver((es) => es.forEach((e) => {
@@ -893,6 +927,7 @@ window.__ofReady = 1;
     'faces-itay': 'איתי בכמה הבעות פנים',
     'turn-itay': 'איתי בחליפת המרצ׳ מכל הצדדים'
   };
+  const VIEWER_ASK = { series: ['character', 'רוצים דמות כזו?'], merch: ['site', 'רוצים אתר כזה?'], film: ['scene', 'רוצים סרטון כזה?'] };
   function openViewer(kind, btn) {
     opener = btn;
     vBody.textContent = '';
@@ -913,6 +948,11 @@ window.__ofReady = 1;
       vBody.append(vid(heroBlobUrl || MEDIA + 'hero-scrub.mp4', MEDIA + 'hero-poster.jpg'),
         note('קו אור בחושך נפתח לדלת, והמצלמה עוברת דרכה אל ים של עננים. הסרט מהפתיח, מההתחלה ועד הסוף, בלי קול ובלי גלילה.'));
     }
+    const [need, ask] = VIEWER_ASK[kind] || VIEWER_ASK.film;
+    const foot = D.createElement('p'); foot.className = 'viewer-foot';
+    const go = D.createElement('a'); go.className = 'btn btn-key'; go.href = '#contact'; go.dataset.need = need;
+    const dot = D.createElement('span'); dot.className = 'dot'; dot.setAttribute('aria-hidden', 'true');
+    go.append(dot, ask); foot.append(go); vBody.append(foot);
     workVideos.forEach((v) => v.pause());
     if (worldsCtl) worldsCtl.pause();
     if (typeof viewer.showModal === 'function') viewer.showModal(); else { viewer.setAttribute('open', ''); viewer.classList.add('nodlg'); }
@@ -931,7 +971,7 @@ window.__ofReady = 1;
     popOverlay('viewer');
     wantPlay.forEach(playWork);
     if (worldsCtl) worldsCtl.playSite();
-    if (opener) opener.focus();
+    if (opener) opener.focus({ preventScroll: true });
   });
   viewer.addEventListener('click', (e) => { if (e.target === viewer || e.target.closest('[data-close]')) closeViewer(); });
   $$('[data-open]').forEach((b) => b.addEventListener('click', () => openViewer(b.dataset.open, b)));
@@ -991,6 +1031,7 @@ window.__ofReady = 1;
     confirmFailed: 'נרשמתם, אבל מייל האישור לא יצא. נסו להירשם שוב בעוד כמה דקות.',
     notifyErr: 'משהו השתבש בדרך. נסו שוב בעוד רגע.',
     inquiryOk: 'קיבלנו. נקרא, נדמיין קצת ונחזור אליכם.',
+    need: 'סמנו משהו למעלה, או כתבו לנו כמה מילים.',
     inquiryErr: 'ההודעה לא נשלחה. נסו שוב, או כתבו לנו ישירות במייל.',
     inquiryErrNoMail: 'ההודעה לא נשלחה. נסו שוב בעוד רגע.'
   };
@@ -1030,6 +1071,43 @@ window.__ofReady = 1;
       if (err) err.remove();
       input.removeAttribute('aria-describedby');
     }
+  }
+
+  // "על מה מדברים?": chips instead of a blank box. The message sent is built from the canonical labels.
+  const NEED_LABELS = { social: 'סרטונים לרשתות', ad: 'פרסומת', character: 'דמות למותג', voice: 'קריינות וקולות', site: 'אתר מונפש', marketing: 'שיווק ברשתות', scene: 'סצנה קולנועית', unsure: 'עוד לא יודעים' };
+  const inqForm = $('#inquiry-form');
+  const chips = inqForm ? $$('.chip', inqForm) : [];
+  const pickedNeeds = () => chips.filter((c) => c.getAttribute('aria-pressed') === 'true').map((c) => NEED_LABELS[c.dataset.chip] || c.textContent.trim());
+  function syncNeeds() {
+    if (!inqForm) return;
+    const any = pickedNeeds().length > 0;
+    const label = $('[data-msg-label]', inqForm), box = $('#q-message', inqForm);
+    if (label) label.textContent = any ? 'רוצים להוסיף משהו? לא חובה.' : 'מה אתם צריכים?';
+    if (box) { box.required = !any; if (any && box.getAttribute('aria-invalid')) fieldError(box, ''); }
+    if (any) { const n = $('.needs', inqForm); if (n) n.classList.remove('invalid'); }
+  }
+  const setChip = (c, on) => c.setAttribute('aria-pressed', String(on));
+  chips.forEach((c) => c.addEventListener('click', () => {
+    const on = c.getAttribute('aria-pressed') !== 'true';
+    if (on) chips.forEach((o) => { if ((c.dataset.chip === 'unsure') !== (o.dataset.chip === 'unsure')) setChip(o, false); });
+    setChip(c, on);
+    syncNeeds();
+  }));
+  function showAfterSend(form) {
+    const el = $('[data-after-send]', form);
+    if (!el || (!pageLink && !waLink)) return;
+    const link = (href, text) => { const a = D.createElement('a'); a.href = href; a.target = '_blank'; a.rel = 'noopener'; a.textContent = text; return a; };
+    el.textContent = '';
+    if (pageLink) el.append('בינתיים, אפשר לראות מה אנחנו יוצרים כל יום ', link(pageLink, 'בעמוד שלנו'), '.');
+    if (waLink) el.append(pageLink ? ' ' : '', 'ואם בא לכם לדבר כבר עכשיו, כתבו לנו ', link(waLink, 'בוואטסאפ'), '.');
+    el.hidden = false;
+  }
+  function markNeed(need) {
+    const c = chips.find((x) => x.dataset.chip === need);
+    if (!c) return;
+    chips.forEach((o) => { if (o.dataset.chip === 'unsure') setChip(o, false); });
+    setChip(c, true);
+    syncNeeds();
   }
 
   $$('form.lead').forEach((form) => {
@@ -1073,8 +1151,10 @@ window.__ofReady = 1;
         if (!nv) { fieldError(name, MSG.required); bad = bad || name; }
         if (!cv) { fieldError(contact, MSG.required); bad = bad || contact; }
         else if (!(EMAIL_RE.test(cv) || (PHONE_RE.test(cv) && cv.replace(/\D/g, '').length >= 9))) { fieldError(contact, MSG.contact); bad = bad || contact; }
-        if (!mv) { fieldError(msg, MSG.required); bad = bad || msg; }
-        data.name = nv; data.contact = cv; data.message = mv;
+        const picked = form === inqForm ? pickedNeeds() : [];
+        if (!mv && !picked.length) { fieldError(msg, chips.length ? MSG.need : MSG.required); const n = $('.needs', form); if (n) n.classList.add('invalid'); bad = bad || msg; }
+        data.name = nv; data.contact = cv;
+        data.message = (picked.length ? 'על מה מדברים: ' + picked.join(', ') : '') + (mv ? (picked.length ? '\n\n' : '') + mv : '');
       }
       if (bad) { bad.focus(); return; }
       data.website = hp ? hp.value : '';
@@ -1092,6 +1172,7 @@ window.__ofReady = 1;
         if (mailFailed) status.className = 'form-status err';
         status.textContent = kind !== 'notify' ? MSG.inquiryOk : conf === 'sent' ? MSG.confirmSent : mailFailed ? MSG.confirmFailed : MSG.notifyOk;
         if (!mailFailed) { form.classList.add('sent'); form.reset(); }
+        if (form === inqForm) { chips.forEach((c) => setChip(c, false)); syncNeeds(); showAfterSend(form); }
         status.tabIndex = -1; status.focus({ preventScroll: true });
       } catch (err) {
         const code = err && err.code;
@@ -1134,6 +1215,26 @@ window.__ofReady = 1;
   menuBtn.addEventListener('click', () => setMenu(menuBtn.getAttribute('aria-expanded') !== 'true'));
   onMQ(matchMedia('(max-width: 1000px)'), (e) => { if (!e.matches && !sheet.hidden) setMenu(false); });
 
+  // phones: the contact bar shows between scenes, never over a pinned scene, the menu, the viewer, an open keyboard or the contact scene itself
+  const subCta = $('[data-subcta]');
+  if (subCta) {
+    const st = { past: false, pinned: new Set(), contact: false, focus: false };
+    const compactMQ = matchMedia('(max-width: 1000px)');
+    const update = () => {
+      const on = compactMQ.matches && st.past && !st.pinned.size && !st.contact && !st.focus && !root.classList.contains('menu-open') && !root.classList.contains('viewer-open');
+      if (on !== subCta.classList.contains('on')) { subCta.classList.toggle('on', on); subCta.toggleAttribute('inert', !on); }
+    };
+    new IntersectionObserver(([e]) => { st.past = !e.isIntersecting && e.boundingClientRect.top < 0; update(); }).observe(hero);
+    const pinIO = new IntersectionObserver((es) => { es.forEach((e) => { if (e.isIntersecting) st.pinned.add(e.target); else st.pinned.delete(e.target); }); update(); });
+    ['idea', 'minds'].forEach((id) => { const el = D.getElementById(id); if (el) pinIO.observe(el); });
+    const contactEl = D.getElementById('contact');
+    if (contactEl) new IntersectionObserver(([e]) => { st.contact = e.isIntersecting || e.boundingClientRect.top < 0; update(); }).observe(contactEl);
+    D.addEventListener('focusin', (e) => { if (e.target.matches && e.target.matches('input, textarea, select')) { st.focus = true; update(); } });
+    D.addEventListener('focusout', () => { st.focus = false; setTimeout(update, 0); });
+    onMQ(compactMQ, update);
+    new MutationObserver(update).observe(root, { attributes: true, attributeFilter: ['class'] });
+  }
+
   const motionBtn = $('[data-motion]');
   function setStill(on) {
     motionOff = on;
@@ -1167,8 +1268,11 @@ window.__ofReady = 1;
     const target = id ? D.getElementById(id) : null;
     if (!target && id !== 'top') return;
     e.preventDefault();
-    const fromMenu = !sheet.hidden;
-    if (fromMenu) setMenu(false);
+    if (a.dataset.need) markNeed(a.dataset.need);
+    const inViewer = !!a.closest('#viewer');
+    if (inViewer) closeViewer();
+    const fromMenu = !sheet.hidden || inViewer;
+    if (!sheet.hidden) setMenu(false);
     const headH = head.offsetHeight;
     let y = id === 'top' || !target ? 0 : target.getBoundingClientRect().top + scrollY;
     if (target && target !== hero && !target.matches('.xform, .minds')) y -= headH * 0.6;

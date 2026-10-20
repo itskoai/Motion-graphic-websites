@@ -29,7 +29,8 @@ const TOUR = [
   ['19-vision', at('.vision', 200)], ['20-vision-2', at('.vline-last', -400)],
   ['21-work', at('.work', 0)], ['22-work-p1', at('.proj-series', -80)], ['23-work-p2', at('.proj-site', -80)], ['24-work-p3', at('.proj-film', -80)],
   ['25-process', at('.process', 100)], ['26-mystery', at('.mystery', 0)], ['27-mystery-form', at('#notify-form', -300)],
-  ['28-final', at('.final', 0)], ['29-final-forms', at('.paths', -120)], ['30-footer', 'document.documentElement.scrollHeight - innerHeight'],
+  ['27b-takes', at('.takes', 60)], ['27c-takes-fig', at('.take-fig', -260)], ['27d-takes-end', at('.take-last', -200)],
+  ['28-final', at('.final', 0)], ['29-final-forms', at('.paths', -120)], ['29b-credits', at('.credits', 0)], ['30-footer', 'document.documentElement.scrollHeight - innerHeight'],
 ];
 
 async function run(kind) {
