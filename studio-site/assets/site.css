@@ -494,7 +494,7 @@ html:not(.js) .proj-video { display: none; }
 .sub-cta.on { opacity: 1; transform: none; visibility: visible; transition: opacity .3s var(--ease-out), transform .3s var(--ease-out), visibility 0s; }
 .sub-cta-q { flex: 1 1 auto; min-width: 0; font-size: 15px; color: var(--bone); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .sub-cta .btn { flex: none; min-height: 44px; padding: 0 16px; font-size: 15px; }
-@media (max-width: 1000px) { .sub-cta { display: flex; } }
+@media (max-width: 1000px) { .sub-cta { display: flex; } html { scroll-padding-bottom: calc(86px + env(safe-area-inset-bottom, 0px)); } }
 @media (max-width: 359px) { .sub-cta-q { display: none; } .sub-cta { padding-inline-start: 8px; } .sub-cta .btn { flex: 1 1 auto; } }
 html.rm .sub-cta { transform: none; }
 html.rm .roll .roll-row { opacity: 1; transform: none; transition: none; }
@@ -586,6 +586,7 @@ h3.lead-title { font-family: var(--f-display); font-weight: 700; font-size: 34px
 .chip { min-height: 44px; padding: 0 16px; border: 1px solid var(--line-strong); border-radius: 999px; background: transparent; color: var(--bone); font: inherit; font-size: 15px; font-weight: 400; cursor: pointer; transition: background-color .25s, color .25s, border-color .25s; }
 .chip[aria-pressed="true"] { background: var(--beam); border-color: var(--beam); color: var(--canvas); font-weight: 500; }
 .chip:focus-visible { outline: 2px solid var(--signal); outline-offset: 2px; }
+@media (forced-colors: active) { .chip[aria-pressed="true"] { forced-color-adjust: none; background: Highlight; border-color: Highlight; color: HighlightText; } }
 .needs.invalid .chip:not([aria-pressed="true"]) { border-color: var(--signal); }
 html:not(.js) .needs { display: none; }
 .form-reassure { margin: 12px 0 0; font-size: 14px; color: var(--mist); }

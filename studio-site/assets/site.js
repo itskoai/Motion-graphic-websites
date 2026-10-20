@@ -43,7 +43,7 @@ window.__ofReady = 1;
   root.classList.toggle('still', motionOff);
 
   /* ------------------------------------------------------------------ config */
-  const WA_TEXT = 'היי, הגענו מהאתר. אפשר לדבר על סרטון?';
+  const WA_TEXT = 'היי, הגעתי מהאתר שלכם. אפשר לדבר על פרויקט?';
   let waLink = '', pageLink = '';   // filled from config: the WhatsApp chat and the first social page
   function applyConfig() {
     const brand = (CFG.brand && CFG.brand.name) || 'OUTFRAME';
@@ -1125,7 +1125,10 @@ window.__ofReady = 1;
       const n = f[f.indexOf(e.target) + 1];
       if (n) n.focus();
     });
-    form.addEventListener('input', (e) => { if (e.target.getAttribute('aria-invalid')) fieldError(e.target, ''); });
+    form.addEventListener('input', (e) => {
+      if (e.target.getAttribute('aria-invalid')) fieldError(e.target, '');
+      if (e.target.name === 'message') { const n = $('.needs', form); if (n) n.classList.remove('invalid'); }
+    });
     form.addEventListener('change', (e) => { if (e.target.type === 'checkbox') e.target.closest('.consent').classList.remove('invalid'); });
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
@@ -1174,6 +1177,8 @@ window.__ofReady = 1;
         if (!mailFailed) { form.classList.add('sent'); form.reset(); }
         if (form === inqForm) { chips.forEach((c) => setChip(c, false)); syncNeeds(); showAfterSend(form); }
         status.tabIndex = -1; status.focus({ preventScroll: true });
+        // the sent form collapses: bring the answer into view (after measureSoon's re-anchor)
+        setTimeout(() => { const r = status.getBoundingClientRect(); if (r.top < head.offsetHeight + 16 || r.bottom > innerHeight - 16) window.scrollTo({ top: Math.max(0, scrollY + r.top - innerHeight * 0.4), behavior: reduced ? 'auto' : 'smooth' }); }, 250);
       } catch (err) {
         const code = err && err.code;
         status.className = 'form-status err';
@@ -1221,7 +1226,8 @@ window.__ofReady = 1;
     const st = { past: false, pinned: new Set(), contact: false, focus: false };
     const compactMQ = matchMedia('(max-width: 1000px)');
     const update = () => {
-      const on = compactMQ.matches && st.past && !st.pinned.size && !st.contact && !st.focus && !root.classList.contains('menu-open') && !root.classList.contains('viewer-open');
+      let on = compactMQ.matches && !MQ.landscapePhone.matches && st.past && !st.pinned.size && !st.contact && !st.focus && !root.classList.contains('menu-open') && !root.classList.contains('viewer-open');
+      if (on && jumping()) { on = false; setTimeout(update, Math.max(60, jumpUntil - performance.now() + 60)); }   // no blink during a jump
       if (on !== subCta.classList.contains('on')) { subCta.classList.toggle('on', on); subCta.toggleAttribute('inert', !on); }
     };
     new IntersectionObserver(([e]) => { st.past = !e.isIntersecting && e.boundingClientRect.top < 0; update(); }).observe(hero);
@@ -1232,6 +1238,7 @@ window.__ofReady = 1;
     D.addEventListener('focusin', (e) => { if (e.target.matches && e.target.matches('input, textarea, select')) { st.focus = true; update(); } });
     D.addEventListener('focusout', () => { st.focus = false; setTimeout(update, 0); });
     onMQ(compactMQ, update);
+    onMQ(MQ.landscapePhone, update);
     new MutationObserver(update).observe(root, { attributes: true, attributeFilter: ['class'] });
   }
 
@@ -1277,6 +1284,8 @@ window.__ofReady = 1;
     let y = id === 'top' || !target ? 0 : target.getBoundingClientRect().top + scrollY;
     if (target && target !== hero && !target.matches('.xform, .minds')) y -= headH * 0.6;
     if (target && target.matches('.xform, .minds')) y += 2;
+    // a "want one like this?" jump lands where the topic it marked is visible
+    if (a.dataset.need && target) { const ch = $('.chips', target); if (ch && ch.offsetHeight) y = Math.max(y, ch.getBoundingClientRect().bottom + scrollY - innerHeight + 24); }
     y = Math.max(0, y);
     jumpUntil = performance.now() + Math.min(2500, 600 + Math.abs(y - scrollY) / 8);
     // after a menu close the history step back runs first, so the scroll is not undone by it

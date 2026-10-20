@@ -198,8 +198,8 @@
   },
   {
    "slot": "worlds.i2_line",
-   "he": "לטיקטוק, לרילס ולשורטס. סרטונים קצרים בעברית, מהסוג ששולחים לחבר, ותוכנית שדואגת שיראו אותם.",
-   "gloss": "For TikTok, Reels and Shorts. Short Hebrew videos, the kind you send to a friend, and a plan that makes sure people see them."
+   "he": "לטיקטוק, לרילס ולשורטס. סרטונים קצרים בעברית, מהסוג ששולחים לחבר, ותוכנית שיווק שבונים סביבם.",
+   "gloss": "For TikTok, Reels and Shorts. Short Hebrew videos, the kind you send to a friend, and a marketing plan built around them."
   },
   {
    "slot": "worlds.i2_cap",
@@ -238,13 +238,13 @@
   },
   {
    "slot": "minds.h",
-   "he": "שני יזמים. אותה תמונה בראש.",
-   "gloss": "Two entrepreneurs. The same picture in mind."
+   "he": "שני יוצרים. אותה תמונה בראש.",
+   "gloss": "Two creators. The same picture in mind."
   },
   {
    "slot": "minds.p",
-   "he": "בנינו את עצמנו מאפס, שנינו. כל יום אנחנו יוצרים לעמוד שלנו סרטונים קצרים ומצחיקים בעברית, לקהל ישראלי אמיתי שלא חייב לנו כלום. ככה אנחנו יודעים מה עוצר את האגודל ומה שולח אותו הלאה, ואת זה בדיוק אנחנו מביאים לעבודה שלכם.",
-   "gloss": "We built ourselves from zero, the two of us. Every day we make short, funny Hebrew videos for our own page, for a real Israeli audience that owes us nothing. That is how we know what stops the thumb and what sends it onward, and that is exactly what we bring to your work."
+   "he": "שנינו בנינו את עצמנו מאפס. כל יום אנחנו מעלים לעמוד שלנו סרטונים קצרים ומצחיקים בעברית, לקהל ישראלי אמיתי שלא חייב לנו כלום. ככה אנחנו יודעים מה עוצר את האגודל ומה שולח אותו הלאה, וזה בדיוק מה שאנחנו מביאים לעסק שלכם.",
+   "gloss": "The two of us built ourselves from zero. Every day we post short, funny Hebrew videos to our own page, for a real Israeli audience that owes us nothing. That is how we know what stops the thumb and what sends it onward, and that is exactly what we bring to your business."
   },
   {
    "slot": "minds.left_label",
@@ -323,8 +323,8 @@
   },
   {
    "slot": "work.p2_for",
-   "he": "ואצלכם: אתר שזז כשגוללים, ותמונות מוצר בלי יום צילום.",
-   "gloss": "And for you: a site that moves as you scroll, and product photos without a shoot day"
+   "he": "ואצלכם: אתר שזז כשגוללים, בעולם של המותג שלכם.",
+   "gloss": "And for you: a site that moves as you scroll, in your brand's own world"
   },
   {
    "slot": "work.p2_ask",
@@ -688,8 +688,8 @@
   },
   {
    "slot": "subcta.wa_text",
-   "he": "היי, הגענו מהאתר. אפשר לדבר על סרטון?",
-   "gloss": "Prefilled WhatsApp message: Hi, we came from the website. Can we talk about a video?"
+   "he": "היי, הגעתי מהאתר שלכם. אפשר לדבר על פרויקט?",
+   "gloss": "Prefilled WhatsApp message: Hi, I came from your website. Can we talk about a project?"
   },
   {
    "slot": "final.name_label",

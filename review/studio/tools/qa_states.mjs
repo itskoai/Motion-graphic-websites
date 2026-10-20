@@ -188,18 +188,19 @@ try {
     // "רוצים דמות כזו?" marks its topic and jumps to the form
     await p.eval(`document.querySelector('.proj-series').scrollIntoView({block:'center'}), 1`); await sleep(700);
     await p.eval(`document.querySelector('.proj-series .proj-ask').click(), 1`); await sleep(2800);
-    const mk = await p.eval(`[document.querySelector('.chip[data-chip="character"]').getAttribute('aria-pressed'), Math.round(document.querySelector('#contact').getBoundingClientRect().top), document.querySelector('#q-message').required, document.querySelector('[data-msg-label]').textContent]`);
-    check('"רוצים דמות כזו?" marks the topic and jumps to the form', mk[0] === 'true' && Math.abs(mk[1]) < 220 && mk[2] === false && /לא חובה/.test(mk[3]), JSON.stringify(mk));
+    const chipSeen = (k) => `(() => { const r = document.querySelector('.chip[data-chip="${k}"]').getBoundingClientRect(); return r.top >= 0 && r.bottom <= innerHeight; })()`;
+    const mk = await p.eval(`[document.querySelector('.chip[data-chip="character"]').getAttribute('aria-pressed'), ${chipSeen('character')}, document.querySelector('#q-message').required, document.querySelector('[data-msg-label]').textContent]`);
+    check('"רוצים דמות כזו?" marks the topic and lands with it on screen', mk[0] === 'true' && mk[1] && mk[2] === false && /לא חובה/.test(mk[3]), JSON.stringify(mk));
     // the viewer's button closes the viewer and does the same
     await p.eval(`document.querySelector('.proj-site').scrollIntoView({block:'center'}), 1`); await sleep(700);
     await p.eval(`document.querySelector('[data-open="merch"]').click(), 1`); await sleep(700);
     await p.eval(`document.querySelector('#viewer .viewer-foot a').click(), 1`); await sleep(2800);
-    const vk = await p.eval(`[document.querySelector('#viewer').open, document.documentElement.classList.contains('viewer-open'), document.querySelector('.chip[data-chip="site"]').getAttribute('aria-pressed'), Math.round(document.querySelector('#contact').getBoundingClientRect().top)]`);
-    check('viewer "רוצים אתר כזה?": closes the viewer, marks the topic, lands at the form', !vk[0] && !vk[1] && vk[2] === 'true' && Math.abs(vk[3]) < 220, JSON.stringify(vk));
+    const vk = await p.eval(`[document.querySelector('#viewer').open, document.documentElement.classList.contains('viewer-open'), document.querySelector('.chip[data-chip="site"]').getAttribute('aria-pressed'), ${chipSeen('site')}]`);
+    check('viewer "רוצים אתר כזה?": closes the viewer, marks the topic, lands with it on screen', !vk[0] && !vk[1] && vk[2] === 'true' && vk[3], JSON.stringify(vk));
     // send with topics only
     await p.eval(`document.querySelector('#inquiry-form button[type=submit]').click(), 1`); await sleep(3300);
-    const st = await p.eval(`[document.querySelector('#inquiry-form .form-status').textContent, document.querySelector('.chip[data-chip="character"]').getAttribute('aria-pressed')]`);
-    check('inquiry with topics and no message: saved, chips reset', /קיבלנו/.test(st[0]) && st[1] === 'false', JSON.stringify(st));
+    const st = await p.eval(`[document.querySelector('#inquiry-form .form-status').textContent, document.querySelector('.chip[data-chip="character"]').getAttribute('aria-pressed'), (() => { const r = document.querySelector('#inquiry-form .form-status').getBoundingClientRect(); return r.top >= 60 && r.bottom <= innerHeight; })()]`);
+    check('inquiry with topics and no message: saved, chips reset, answer on screen', /קיבלנו/.test(st[0]) && st[1] === 'false' && st[2], JSON.stringify(st));
     check('conversion additions: console clean', p.errors.length === 0, JSON.stringify(p.errors));
     await p.close();
   }
