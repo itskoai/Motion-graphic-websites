@@ -1,0 +1,35 @@
+# Runs on every push and pull request: the leak scanner over the whole repository, the dependency audit of the
+# website, and a PHP syntax check of the form backend. A red mark on GitHub means something must be fixed before deploy.
+name: security
+on:
+  push:
+  pull_request:
+  schedule:
+    - cron: '17 5 * * 1'   # every Monday: catches newly published vulnerabilities in dependencies
+permissions:
+  contents: read
+jobs:
+  guard:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: '3.12' }
+      - run: pip install pillow
+      - name: Leak and safety scan
+        run: python3 -I security/guard.py --all
+  dependencies:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: '22' }
+      - name: Audit website dependencies (high and critical fail the check)
+        working-directory: site
+        run: npm audit --omit=dev --audit-level=high
+  php:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: PHP syntax check of the form backend
+        run: for f in site/public/api/*.php studio-site/api/*.php; do php -l "$f"; done

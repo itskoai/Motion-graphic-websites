@@ -19,6 +19,10 @@ header('Referrer-Policy: no-referrer');
 header('Cache-Control: no-store');
 
 $B = lead_boot();
+if (!lead_php_patched($B['cfg'] ?? [])) {
+  lead_page(503, 'האתר בתחזוקה קצרה.', ['נסו שוב בעוד כמה שעות. ההרשמה שלכם שמורה.']);
+  exit;
+}
 $method = (string)($_SERVER['REQUEST_METHOD'] ?? '');
 $t = $method === 'POST' ? ($_POST['t'] ?? '') : ($_GET['t'] ?? '');
 $t = is_string($t) ? strtolower(trim($t)) : '';

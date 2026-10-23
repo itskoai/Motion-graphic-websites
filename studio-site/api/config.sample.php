@@ -50,4 +50,7 @@ return [
 
   // A monthly file stops taking new lines at this size (in MB). The form then says it is busy; nothing is lost silently.
   'MAX_FILE_MB' => 20,
+  // Security tripwire (see lead_php_patched in lead.php). Leave false. Set true ONLY if your host confirmed in
+  // writing that its PHP build includes the PHP2Shell fix although the version number is older.
+  'ALLOW_UNPATCHED_PHP' => false,
 ];

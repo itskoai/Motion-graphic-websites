@@ -1,0 +1,8 @@
+#!/bin/sh
+# Blocks a commit that would publish a secret, customer data, a GPS-tagged photo or dangerous code.
+# Installed once with:  git config core.hooksPath .githooks
+python3 -I "$(git rev-parse --show-toplevel)/security/guard.py" --staged || {
+  echo ""
+  echo "Commit stopped by the guard. Fix the lines above (or allowlist them after a real check), then commit again."
+  exit 1
+}

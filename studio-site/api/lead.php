@@ -29,6 +29,21 @@ umask(0027);
 @ini_set('display_errors', '0');
 
 /**
+ * PHP2Shell tripwire (CVE-2026-109618 / CVE-2026-109619, critical, fixed 21 Oct 2026 in PHP 8.5.12, 8.4.27, 8.3.36, 8.2.35).
+ * On an unpatched PHP the forms refuse to store customer data and answer {"error":"php"}, so the go-live check fails loudly.
+ * This does NOT fix the server: only the host upgrading PHP does. If your host backported the fix into an older build
+ * and confirmed it in writing, set 'ALLOW_UNPATCHED_PHP' => true in config.php.
+ */
+function lead_php_patched(array $cfg = []): bool {
+  if (!empty($cfg['ALLOW_UNPATCHED_PHP'])) { return true; }
+  $v = PHP_VERSION_ID;
+  $fixed = [80500 => 80512, 80400 => 80427, 80300 => 80336, 80200 => 80235];
+  $branch = intdiv($v, 100) * 100;
+  if (isset($fixed[$branch])) { return $v >= $fixed[$branch]; }
+  return $v >= 80600; // 8.6 and newer were released after the fix; 8.1 and older get no fixes at all
+}
+
+/**
  * The consent wording on the page, pinned here. A notify post must carry one of these texts exactly
  * (whitespace normalized), and the record stores the server's copy, never what the client sent.
  * If the label on the page changes, ADD a new version ('v2' => '...') and keep the old ones.
@@ -533,6 +548,7 @@ function reply(int $code, array $body, string $detail = ''): void {
 }
 
 if ($B['error'] !== null) { reply(500, ['ok' => false, 'error' => 'config']); }
+if (!lead_php_patched($B['cfg'] ?? [])) { reply(503, ['ok' => false, 'error' => 'php']); }
 if ($method === 'OPTIONS') { header('Allow: POST, OPTIONS'); http_response_code(204); exit; }
 if ($method !== 'POST') { header('Allow: POST'); reply(405, ['ok' => false, 'error' => 'method']); }
 

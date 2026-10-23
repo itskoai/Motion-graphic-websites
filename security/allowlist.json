@@ -1,0 +1,19 @@
+{
+  "_help": "Things the guard may let through because a person checked them. Keep this list short.",
+  "allowed_emails": [
+    "noreply@anthropic.com"
+  ],
+  "allowed_email_domains": [],
+  "allowed_phones": [],
+  "allowed_findings": [
+    "review/harness.mjs:js-eval",
+    "review/studio/tools/cdp.mjs:js-eval"
+  ],
+  "ignore_paths": [
+    "**/node_modules/**",
+    "**/.next/**",
+    "site/out/**",
+    "**/package-lock.json"
+  ],
+  "_reviewed": "2026-10-23: the two js-eval entries are local test tools that send code to a headless browser; they never ship."
+}
