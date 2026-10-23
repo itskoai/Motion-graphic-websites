@@ -1,0 +1,135 @@
+/* Scene 1 · Hero. Paper, ink, one ballpoint rule. Colours only via tokens. */
+
+.root {
+  position: relative;
+  min-height: 100vh;
+  min-height: 100svh;
+  box-sizing: border-box;
+  display: grid;
+  align-content: center;
+  padding-block: calc(var(--nav-h) + 3vh) 11vh;
+  --fade: 1;
+}
+.inner {
+  position: relative;
+  display: grid;
+  justify-items: start;
+  text-align: start;
+  gap: 0;
+}
+
+.kicker { margin: 0 0 clamp(14px, 2.2vh, 24px); }
+
+/* The headline: fixed-height lines (line-height 1, no wrapping), right-aligned, 11vw desktop */
+.h1 {
+  margin: 0;
+  width: 100%;
+  font-size: min(11vw, 10.5rem);
+  line-height: 0.98;
+  text-wrap: initial;
+}
+.line { display: block; white-space: nowrap; }
+.w { unicode-bidi: isolate; }
+.entering .w { will-change: font-variation-settings; }
+
+.sub {
+  margin: clamp(18px, 3.2vh, 32px) 0 0;
+  font-weight: 300;
+  font-size: clamp(1.05rem, 1.3vw, 1.2rem);
+  line-height: 1.6;
+  max-width: 40ch;
+  color: var(--fg);
+  text-wrap: pretty;
+}
+
+.ctas {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px clamp(20px, 2.6vw, 36px);
+  margin-top: clamp(14px, 2.6vh, 26px);
+}
+/* The reel button: text with a drawn triangle, 44px target */
+.reel {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55em;
+  min-height: 44px;
+  padding: 0 2px;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  font-family: var(--font-body);
+  font-weight: 400;
+  font-size: clamp(1rem, 1.2vw, 1.1rem);
+  color: var(--fg2);
+}
+.reel:hover { color: var(--fg); }
+.tri { width: 11px; height: 11px; flex: none; }
+/* The triangle points the reading direction: in RTL it faces the start edge */
+:global(html[dir="rtl"]) .tri { transform: scaleX(-1); }
+
+/* Type that steps aside while the letter grows (written by the scene as --fade, 1 → 0) */
+.fade { opacity: var(--fade, 1); }
+
+/* Scroll cue: the word and a 1px ink line, bottom start corner; gone once p > 0.05 */
+.cue {
+  position: absolute;
+  inset-inline-start: 0;
+  top: calc(100% + 5vh);
+  margin: 0;
+  display: grid;
+  justify-items: start;
+  gap: 10px;
+  font-weight: 400;
+  font-size: 0.8rem;
+  letter-spacing: 0.06em;
+  color: var(--fg2);
+  opacity: calc(1 - clamp(0, (var(--p, 0) - 0.02) / 0.03, 1));
+}
+.cue::after { content: ""; display: block; width: 1px; height: 40px; background: var(--line); margin-inline-start: 2px; }
+.still .cue { opacity: 1; }
+
+/* The play affordance on the full-bleed hold: bone type over footage, above the zoom canvas, bottom start corner */
+.play {
+  position: fixed;
+  inset-inline-start: var(--gutter);
+  bottom: 24px;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6em;
+  min-height: 44px;
+  min-width: 44px;
+  padding: 0 6px;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: 1rem;
+  color: var(--color-bone);
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 0.25s;
+}
+.play[data-on="1"] { visibility: visible; opacity: 1; }
+.playTri { width: 14px; height: 14px; flex: none; }
+:global(html[dir="rtl"]) .playTri { transform: scaleX(-1); }
+
+/* ---------- Phones ---------- */
+@media (max-width: 767px) {
+  .root { padding-block: calc(var(--nav-h) + 8px) 12vh; }
+  .h1 { font-size: 19vw; line-height: 1.02; }
+  .line { white-space: normal; }
+  .last { font-size: 26.5vw; line-height: 1; margin-top: 0.02em; }
+  .kicker { font-size: 0.85rem; margin-bottom: 14px; }
+  .sub { font-size: 1.0625rem; line-height: 1.55; margin-top: 18px; }
+  .ctas { gap: 4px 22px; margin-top: 12px; }
+  .cue { top: calc(100% + 3vh); }
+  .cue::after { height: 28px; }
+}
+/* Short viewports (landscape phones are 'still'): let the sheet grow instead of overlapping */
+@media (max-height: 560px) {
+  .root { min-height: auto; padding-bottom: 72px; }
+  .cue { display: none; }
+}

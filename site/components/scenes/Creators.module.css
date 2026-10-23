@@ -1,0 +1,63 @@
+/* Scene 5 · #creators · שניים. Paper, ink lines, two frames and two names. Not pinned. */
+.scene { padding-block: clamp(96px, 14vh, 168px) clamp(120px, 18vh, 208px); }
+
+/* ---- The sentence and the two paragraphs ---- */
+.head { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: clamp(16px, 2vw, 32px); row-gap: clamp(20px, 3vh, 36px); align-items: end; }
+.kicker { grid-column: 1 / -1; margin: 0; }
+.h2 { grid-column: 1 / 8; margin: 0; max-width: 16ch; }
+.text { grid-column: 9 / 13; display: grid; gap: 1em; align-self: end; padding-bottom: 0.25em; }
+.text p { margin: 0; font-weight: 400; font-size: clamp(1.05rem, 1.25vw, 1.2rem); line-height: 1.6; color: var(--fg); max-width: 44ch; text-wrap: pretty; }
+
+/* ---- The two frames and the fold between them ---- */
+.pair { margin-top: clamp(64px, 11vh, 128px); display: grid; grid-template-columns: minmax(0, 440px) 1px minmax(0, 440px); grid-template-rows: auto auto; justify-content: space-between; row-gap: clamp(20px, 2.6vw, 34px); align-items: start; }
+.figure { margin: 0; display: grid; grid-row: 1 / 3; grid-template-rows: subgrid; row-gap: inherit; }
+.fold { grid-row: 1; align-self: stretch; width: 1px; height: 100%; overflow: visible; color: var(--line); }
+.fold path { stroke: currentColor; stroke-width: 2; }  /* 2 user units across = 1px: the viewBox is 2 wide */
+
+/* Strokes are drawn in the sheet's own units (300 wide), so --k is "one screen pixel in sheet units" per frame size.
+   (vector-effect: non-scaling-stroke would keep them 1px, but Chrome then measures stroke-dasharray in pixels too
+   and the stroke-dashoffset draw breaks.) */
+.frame { position: relative; aspect-ratio: 3 / 4; width: 100%; isolation: isolate; color: var(--line); container-type: inline-size; --k: 0.62; }
+@container (max-width: 520px) { .frame { --k: 0.68; } }
+@container (max-width: 400px) { .frame { --k: 0.82; } }
+@container (max-width: 320px) { .frame { --k: 0.98; } }
+.study { position: absolute; inset: 0; width: 100%; height: 100%; overflow: hidden; }
+.study path { stroke: var(--line); stroke-width: calc(1.1 * var(--k)); }
+.study path.soft { stroke: var(--fg2); stroke-width: calc(0.9 * var(--k)); }
+.study path.faint { stroke: color-mix(in srgb, var(--fg2) 50%, transparent); stroke-width: calc(0.8 * var(--k)); }
+.photo { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.edgeLine { position: absolute; inset: 0.5px; width: calc(100% - 1px); height: calc(100% - 1px); overflow: visible; pointer-events: none; }
+.edgeLine path { stroke: currentColor; stroke-width: var(--k); stroke-linecap: butt; }
+.code { position: absolute; top: 12px; inset-inline-start: 12px; z-index: 1; }
+.note { position: absolute; bottom: 10px; inset-inline-start: 12px; z-index: 1; font-family: var(--font-body); font-weight: 400; font-size: 13px; line-height: 1.4; color: var(--fg2); }
+
+/* ---- Names and roles beneath ---- */
+.caption { display: grid; gap: 0.45em; align-content: start; }
+.name { font-size: clamp(2.6rem, 6vw, 6.25rem); margin: 0; line-height: 0.98; overflow-wrap: anywhere; }
+.soon { color: var(--color-mark); }
+.role { margin: 0; font-weight: 300; font-size: clamp(1rem, 1.2vw, 1.15rem); color: var(--fg2); line-height: 1.5; }
+.lines { display: grid; gap: 0.35em; margin-top: 0.4em; }
+.lines p { margin: 0; font-weight: 300; font-size: 1rem; line-height: 1.55; color: var(--fg); max-width: 34ch; text-wrap: pretty; }
+
+/* ---- The four values on one baseline rail ---- */
+.values { margin-top: clamp(88px, 15vh, 176px); }
+.row { list-style: none; margin: 0; padding: 0 0.15em; display: flex; justify-content: space-between; align-items: baseline; gap: 1em; }
+.val { font-family: var(--font-display); font-weight: 500; font-stretch: 100%; font-variation-settings: "wght" 500, "wdth" 100; font-size: clamp(1.55rem, 3.4vw, 3rem); line-height: 1; color: var(--fg); white-space: nowrap; transition: color .5s var(--ease-in-out-cine), font-variation-settings .5s var(--ease-in-out-cine); }
+.val.ash { color: var(--ghost); font-variation-settings: "wght" 200, "wdth" 100; }
+.rail { margin-top: 0.35em; color: var(--accent); transform: scaleX(-1); }
+.rule { display: block; width: 100%; height: 8px; overflow: visible; }
+
+/* ---- Phones: stacked frames, each the full wrap width (≥ 70vw), a short fold between the two ---- */
+@media (max-width: 767px) {
+  .scene { padding-block: 80px 104px; }
+  .head { row-gap: 20px; }
+  .h2 { grid-column: 1 / -1; max-width: none; }
+  .text { grid-column: 1 / -1; padding-bottom: 0; }
+  .pair { margin-top: 56px; grid-template-columns: minmax(0, 1fr); grid-template-rows: none; justify-content: stretch; row-gap: 18px; }
+  .figure { grid-row: auto; grid-template-rows: auto auto; }
+  .fold { grid-row: auto; height: 72px; justify-self: start; margin-block: 28px 20px; }
+  .name { font-size: clamp(2.6rem, 11.5vw, 3.4rem); }
+  .values { margin-top: 88px; }
+  .row { gap: 0.6em; padding: 0; }
+  .val { font-size: clamp(1.45rem, 6.2vw, 1.8rem); }
+}
