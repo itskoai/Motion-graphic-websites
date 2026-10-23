@@ -1,0 +1,9 @@
+.doc { padding: calc(var(--nav-h) + 48px) 0 96px; }
+.doc h1 { margin: 0 0 8px; }
+.updated { color: var(--fg2); font-size: .95rem; margin: 0 0 40px; }
+.body { max-width: 68ch; display: grid; gap: 14px; }
+.body h2 { font-family: var(--font-display); font-weight: 900; font-stretch: 62.5%; font-size: 1.6rem; margin: 28px 0 4px; }
+.body p, .body li { font-weight: 400; color: var(--fg); margin: 0; }
+.body ul { margin: 0; padding-inline-start: 1.2em; display: grid; gap: 8px; }
+.body a { color: var(--accent); text-decoration: underline; text-underline-offset: .25em; }
+.back { margin-top: 48px; }

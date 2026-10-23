@@ -1,0 +1,44 @@
+.skip:focus { position: fixed; inset-inline-start: 16px; top: 12px; width: auto; height: auto; padding: 10px 16px; background: var(--fg); color: var(--canvas); border-radius: 999px; z-index: 100; clip: auto; margin: 0; }
+.head { position: fixed; inset-inline: 0; top: 0; z-index: 50; height: var(--nav-h); display: flex; align-items: center; transition: background-color .4s, backdrop-filter .4s; }
+.head::after { content: ""; position: absolute; inset-inline: 0; bottom: 0; height: 1px; background: color-mix(in srgb, var(--fg) 14%, transparent); opacity: 0; transition: opacity .4s; }
+.scrolled { background: color-mix(in srgb, var(--canvas) 86%, transparent); }
+.scrolled::after { opacity: 1; }
+.inner { display: flex; align-items: center; justify-content: space-between; gap: 24px; }
+.mark { display: inline-flex; align-items: center; gap: 10px; text-decoration: none; color: var(--fg); min-height: 44px; }
+.markFrame { position: relative; width: 22px; height: 16px; display: block; }
+.markFrame i { position: absolute; width: 6px; height: 6px; border: 1.5px solid var(--fg); }
+.markFrame i:nth-child(1) { top: 0; left: 0; border-right: 0; border-bottom: 0; }
+.markFrame i:nth-child(2) { top: 0; right: 0; border-left: 0; border-bottom: 0; }
+.markFrame i:nth-child(3) { bottom: 0; left: 0; border-right: 0; border-top: 0; }
+.markFrame i:nth-child(4) { bottom: 0; right: 0; border-left: 0; border-top: 0; }
+.markName { font-family: var(--font-body); font-weight: 500; font-size: 15px; letter-spacing: .04em; }
+.nav ul { display: flex; gap: clamp(14px, 2vw, 28px); list-style: none; margin: 0; padding: 0; }
+.nav a { color: var(--fg2); text-decoration: none; font-size: .95rem; padding: 10px 2px; display: inline-block; position: relative; }
+.nav a::after { content: ""; position: absolute; inset-inline: 2px; bottom: 6px; height: 1px; background: var(--accent); transform: scaleX(0); transform-origin: right; transition: transform .35s var(--ease-out-expo); }
+.nav a:hover { color: var(--fg); }
+.nav a:hover::after { transform: scaleX(1); }
+.actions { display: flex; align-items: center; gap: 10px; }
+.motion { width: 40px; height: 40px; border-radius: 50%; border: 1px solid color-mix(in srgb, var(--fg) 25%, transparent); background: transparent; display: grid; place-items: center; cursor: pointer; }
+.motion:hover { border-color: var(--fg); }
+.motionIco { width: 10px; height: 10px; border-radius: 50%; background: var(--accent); animation: pulse 1.6s ease-in-out infinite; }
+.motion[aria-pressed="true"] .motionIco { animation: none; border-radius: 2px; background: var(--fg2); }
+@keyframes pulse { 0%, 100% { opacity: .5; } 50% { opacity: 1; } }
+.cta { min-height: 40px; padding-block: .5em; }
+.menuBtn { display: none; align-items: center; gap: 10px; background: none; border: 0; color: var(--fg); min-height: 44px; padding: 0 4px; cursor: pointer; font-size: .95rem; }
+.menuLines { width: 20px; height: 10px; border-top: 1.5px solid currentColor; border-bottom: 1.5px solid currentColor; display: block; }
+.sheet { position: fixed; inset: 0; z-index: 49; background: var(--canvas); display: grid; place-items: center; }
+.sheet[hidden] { display: none; }
+.sheet ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; text-align: center; }
+.sheet li { opacity: 0; transform: translateY(14px); animation: rise .5s var(--ease-out-expo) forwards; animation-delay: calc(var(--i) * 60ms + 80ms); }
+.sheet a { font-family: var(--font-display); font-weight: 900; font-stretch: 62.5%; font-size: clamp(2.2rem, 10vw, 3.4rem); color: var(--fg); text-decoration: none; line-height: 1.2; display: inline-block; padding: 4px 12px; }
+.sheetCta { color: var(--accent) !important; }
+@keyframes rise { to { opacity: 1; transform: none; } }
+@media (max-width: 1023px) { .nav { display: none; } .cta { display: none; } .menuBtn { display: inline-flex; } }
+
+/* Over full-bleed footage: transparent bar, light type */
+:global(html[data-media="1"]) .head { background: transparent; }
+:global(html[data-media="1"]) .head::after { opacity: 0; }
+:global(html[data-media="1"]) .mark, :global(html[data-media="1"]) .nav a, :global(html[data-media="1"]) .menuBtn, :global(html[data-media="1"]) .cta { color: var(--color-bone); }
+:global(html[data-media="1"]) .markFrame i { border-color: var(--color-bone); }
+:global(html[data-media="1"]) .cta { border-color: color-mix(in srgb, var(--color-bone) 40%, transparent); }
+:global(html[data-media="1"]) .motion { border-color: color-mix(in srgb, var(--color-bone) 40%, transparent); }

@@ -1,0 +1,146 @@
+@import "tailwindcss";
+
+/* ---------- Fonts (self-hosted, subset per script) ---------- */
+@font-face { font-family: "Noto Serif Hebrew"; font-weight: 100 900; font-stretch: 62.5% 100%; font-display: block; src: url("/fonts/noto-serif-hebrew-var-hebrew.woff2") format("woff2"); unicode-range: U+0307-0308, U+0590-05FF, U+200C-2010, U+20AA, U+25CC, U+FB1D-FB4F; }
+@font-face { font-family: "Noto Serif Hebrew"; font-weight: 100 900; font-stretch: 62.5% 100%; font-display: block; src: url("/fonts/noto-serif-hebrew-var-latin.woff2") format("woff2"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+@font-face { font-family: "IBM Plex Sans Hebrew"; font-weight: 300; font-display: swap; src: url("/fonts/plex-hebrew-300.woff2") format("woff2"); }
+@font-face { font-family: "IBM Plex Sans Hebrew"; font-weight: 400; font-display: swap; src: url("/fonts/plex-hebrew-400.woff2") format("woff2"); }
+@font-face { font-family: "IBM Plex Sans Hebrew"; font-weight: 500; font-display: swap; src: url("/fonts/plex-hebrew-500.woff2") format("woff2"); }
+@font-face { font-family: "IBM Plex Mono"; font-weight: 400; font-display: swap; src: url("/fonts/plex-mono-400.woff2") format("woff2"); }
+
+/* ---------- Design tokens (see DIRECTION.md) ---------- */
+@theme {
+  /* The sheet (see DIRECTION.md §2) */
+  --color-paper: #F1EADC;
+  --color-ink: #16140F;
+  --color-graphite: #5B574E;
+  --color-ash: #CFC8B8;
+  --color-window: #0A0A0A;
+  --color-bone: #ECE6DA;
+  /* The one accent: notebook ballpoint */
+  --color-mark: #1F4FD1;
+  --color-mark-on-ink: #7D97FF;
+
+  --font-display: "Noto Serif Hebrew", "Frank Ruhl Libre", "David Libre", Georgia, serif;
+  --font-body: "IBM Plex Sans Hebrew", "Heebo", system-ui, -apple-system, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out-cine: cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+/* ---------- Base ---------- */
+:root {
+  color-scheme: light;
+  --wrap: 1280px;
+  --gutter: clamp(16px, 4vw, 48px);
+  --nav-h: 64px;
+}
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+html[data-motion="off"] { scroll-behavior: auto; }
+html, body { overflow-x: clip; }
+/* The page is paper; scene 7 inverts it to ink (html[data-material], set by useSceneProgress). */
+html { --canvas: var(--color-paper); --fg: var(--color-ink); --fg2: var(--color-graphite); --line: var(--color-ink); --accent: var(--color-mark); --ghost: var(--color-ash); background: var(--canvas); }
+html[data-material="ink"] { --canvas: var(--color-ink); --fg: var(--color-bone); --fg2: color-mix(in srgb, var(--color-bone) 62%, var(--color-ink)); --line: var(--color-bone); --accent: var(--color-mark-on-ink); --ghost: color-mix(in srgb, var(--color-bone) 22%, var(--color-ink)); }
+html { transition: background-color .45s var(--ease-in-out-cine); }
+body {
+  background: transparent;
+  color: var(--fg);
+  font-family: var(--font-body);
+  font-weight: 300;
+  line-height: 1.6;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+::selection { background: var(--color-mark); color: var(--color-paper); }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 2px; }
+img, video, canvas, svg { display: block; max-width: 100%; }
+button { font: inherit; color: inherit; }
+[dir="ltr"] { unicode-bidi: isolate; }
+
+/* ---------- Shared utilities ---------- */
+.wrap { width: min(var(--wrap), 100% - 2 * var(--gutter)); margin-inline: auto; }
+/* Kickers are Hebrew (body face); the mono part is only the Latin edge code */
+.kicker { font-family: var(--font-body); font-weight: 400; font-size: 0.95rem; color: var(--fg2); display: inline-flex; align-items: center; gap: 0.9em; }
+.kicker .code { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.12em; color: var(--fg2); }
+.code { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.12em; color: var(--fg2); text-transform: uppercase; }
+/* Display type develops: --w is the weight (300 graphite → 800 ink). Default is developed. */
+.hl { font-family: var(--font-display); --w: 900; --wd: 62.5; font-weight: 900; font-stretch: 62.5%; font-variation-settings: "wght" var(--w), "wdth" var(--wd); line-height: 1.0; letter-spacing: 0; text-wrap: balance; color: var(--fg); font-kerning: normal; }
+.hl .win { color: transparent; position: relative; display: inline-block; unicode-bidi: isolate; }
+/* A retired word: decorative, aria-hidden */
+.ghost { --w: 200; --wd: 100; color: var(--ghost); }
+.hl-xl { font-size: clamp(2.75rem, 8.5vw, 7.5rem); }
+.hl-l  { font-size: clamp(2.25rem, 5.5vw, 4.75rem); }
+.hl-m  { font-size: clamp(1.75rem, 3.6vw, 3rem); }
+.lede { font-size: clamp(1.05rem, 1.4vw, 1.3rem); font-weight: 400; color: var(--fg2); max-width: 38ch; text-wrap: pretty; }
+.mono { font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
+.nw { white-space: nowrap; }
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 0.6em; min-height: 48px; padding: 0.7em 1.4em; border-radius: 999px; font-weight: 500; font-size: 1rem; line-height: 1; text-decoration: none; border: 1px solid transparent; transition: background-color .25s, color .25s, border-color .25s, transform .25s var(--ease-out-expo); cursor: pointer; }
+.btn:active { transform: scale(0.98); }
+.btn-key { background: var(--fg); color: var(--canvas); }
+.btn-key:hover { background: color-mix(in srgb, var(--fg) 88%, var(--canvas)); }
+.btn-key .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); }
+.btn-ghost { border-color: color-mix(in srgb, var(--fg) 32%, transparent); color: var(--fg); background: transparent; }
+.btn-ghost:hover { border-color: var(--fg); }
+.btn-text { padding-inline: 0.2em; color: var(--fg2); background: none; border: 0; min-height: 44px; text-decoration: underline; text-underline-offset: .3em; text-decoration-color: color-mix(in srgb, var(--fg2) 50%, transparent); }
+.btn-text:hover { color: var(--fg); text-decoration-color: var(--accent); }
+
+/* The CTA as text with a ballpoint rule beneath it (the rule is an SVG line that draws itself: see components/ui/Rule.tsx) */
+.cta { position: relative; display: inline-block; font-family: var(--font-body); font-weight: 500; font-size: clamp(1.05rem, 1.5vw, 1.35rem); color: var(--fg); text-decoration: none; padding: 10px 2px 14px; min-height: 44px; }
+.cta .rule { position: absolute; inset-inline: 0; bottom: 4px; height: 6px; width: 100%; overflow: visible; color: var(--accent); }
+.cta:hover .rule { color: var(--fg); }
+
+/* Placeholders: every missing real asset is a deliberate, labelled surface, never a grey box */
+/* An undeveloped frame: a sheet of paper on the canvas with a hairline edge and an honest pencil note */
+.ph { position: relative; overflow: hidden; background: transparent; color: var(--fg2); isolation: isolate; outline: 1px solid var(--line); outline-offset: -1px; }
+.ph-label { position: absolute; inset-inline-start: 12px; bottom: 10px; font-family: var(--font-body); font-weight: 400; font-size: 13px; color: var(--fg2); z-index: 1; }
+.ph-code { position: absolute; inset-inline-end: 12px; top: 10px; font-family: var(--font-mono); font-size: 11px; letter-spacing: .12em; color: var(--fg2); z-index: 1; }
+.ph-corner { position: absolute; width: 14px; height: 14px; border: 1px solid var(--line); }
+.ph-corner.c1 { top: 10px; inset-inline-start: 10px; border-inline-end: 0; border-bottom: 0; }
+.ph-corner.c2 { top: 10px; inset-inline-end: 10px; border-inline-start: 0; border-bottom: 0; }
+.ph-corner.c3 { bottom: 10px; inset-inline-start: 10px; border-inline-end: 0; border-top: 0; }
+.ph-corner.c4 { bottom: 10px; inset-inline-end: 10px; border-inline-start: 0; border-top: 0; }
+
+/* Reduced motion: every drive stops, every element lands in its final state */
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; } }
+html[data-motion="off"] *, html[data-motion="off"] *::before, html[data-motion="off"] *::after { animation-duration: 0.001ms !important; transition-duration: 0.001ms !important; }
+
+/* ---------- Material: a scene that crosses the inversion blends paper <-> ink with its own --p (0..1) ---------- */
+.material { --mix: calc((1 - var(--p, 0)) * 100%);
+  --canvas: color-mix(in oklab, var(--from-canvas) var(--mix), var(--to-canvas));
+  --fg:     color-mix(in oklab, var(--from-fg) var(--mix), var(--to-fg));
+  --fg2:    color-mix(in oklab, var(--from-fg2) var(--mix), var(--to-fg2));
+  --line:   color-mix(in oklab, var(--from-line) var(--mix), var(--to-line));
+  --accent: color-mix(in oklab, var(--from-accent) var(--mix), var(--to-accent));
+  background: var(--canvas); color: var(--fg); }
+.m-paper-ink { --from-canvas: var(--color-paper); --from-fg: var(--color-ink); --from-fg2: var(--color-graphite); --from-line: var(--color-ink); --from-accent: var(--color-mark); --to-canvas: var(--color-ink); --to-fg: var(--color-bone); --to-fg2: #a9a397; --to-line: var(--color-bone); --to-accent: var(--color-mark-on-ink); }
+.m-ink-paper { --to-canvas: var(--color-paper); --to-fg: var(--color-ink); --to-fg2: var(--color-graphite); --to-line: var(--color-ink); --to-accent: var(--color-mark); --from-canvas: var(--color-ink); --from-fg: var(--color-bone); --from-fg2: #a9a397; --from-line: var(--color-bone); --from-accent: var(--color-mark-on-ink); }
+
+/* Mono edge code on a window or a row: Latin only */
+.edge { font-family: var(--font-mono); font-size: 10px; letter-spacing: .14em; color: var(--fg2); text-transform: uppercase; }
+
+/* ---------- Viewer dialog ---------- */
+.viewer { border: 0; padding: 0; background: transparent; max-width: none; max-height: none; width: 100vw; height: 100dvh; inset: 0; margin: 0; color: var(--color-bone); }
+.viewer::backdrop { background: rgba(22, 20, 15, .94); }
+.viewer-inner { position: absolute; inset: 0; margin: auto; width: min(94vw, 1200px); display: grid; grid-template-rows: auto 1fr auto; gap: 12px; align-content: center; height: 100dvh; padding-block: 20px; box-sizing: border-box; }
+.viewer-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.viewer-title { font-family: var(--font-display); font-weight: 700; font-size: clamp(1.25rem, 2.2vw, 1.75rem); margin: 0; }
+.viewer-body { display: grid; place-items: center; min-height: 0; }
+.viewer-body video { max-height: calc(100dvh - 140px); max-width: 100%; background: var(--color-window); }
+.aspect-portrait .viewer-body video { aspect-ratio: 9 / 16; height: calc(100dvh - 140px); width: auto; }
+.aspect-wide .viewer-body video { aspect-ratio: 16 / 9; width: 100%; }
+.aspect-cinema .viewer-body video { aspect-ratio: 2.39 / 1; width: 100%; }
+.viewer-note { color: #a9a397; font-size: .9rem; margin: 0; }
+.viewer-fail { color: #a9a397; }
+
+/* ---------- Letter windows ---------- */
+.hl .win { color: transparent; position: relative; display: inline-block; unicode-bidi: isolate; vertical-align: baseline; }
+.win-baseline { display: inline-block; width: 0; height: 0; vertical-align: baseline; }
+.win-canvas { position: absolute; pointer-events: none; }
+.win-zoom { position: fixed; inset: 0; pointer-events: none; }
+/* A closed window (retired/ghost word, entrance tween, reduced motion): the letter is plain text, the canvas hidden */
+.win-off .win, .ghost .win { color: inherit; }
+.win-off .win-canvas, .ghost .win-canvas { visibility: hidden; }
