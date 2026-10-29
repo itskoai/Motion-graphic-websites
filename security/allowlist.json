@@ -1,7 +1,8 @@
 {
   "_help": "Things the guard may let through because a person checked them. Keep this list short.",
   "allowed_emails": [
-    "noreply@anthropic.com"
+    "noreply@anthropic.com",
+    "yokoono.israel@gmail.com"
   ],
   "allowed_email_domains": [],
   "allowed_phones": [],
@@ -15,5 +16,5 @@
     "site/out/**",
     "**/package-lock.json"
   ],
-  "_reviewed": "2026-10-23: the two js-eval entries are local test tools that send code to a headless browser; they never ship."
+  "_reviewed": "2026-10-23: the two js-eval entries are local test tools that send code to a headless browser; they never ship. 2026-10-29: yokoono.israel@gmail.com is the Yoko Ono restaurant's public business email (shown on its Facebook page, supplied by the owner for the site)."
 }

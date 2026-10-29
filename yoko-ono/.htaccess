@@ -1,0 +1,32 @@
+# ---- Security hardening (generated from security/htaccess-hardening.conf; keep both copies in sync) ----
+# Headers: the browser refuses to be framed, sniff types, leak referrers, or load anything from other sites.
+<IfModule mod_headers.c>
+  Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains"
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set X-Frame-Options "DENY"
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+  Header always set Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=(), usb=(), interest-cohort=()"
+  Header always set Cross-Origin-Opener-Policy "same-origin"
+  # Everything loads from this site only. If you ever add an outside service (a form service, analytics, a video host),
+  # add its address to the matching line here, or the browser will block it.
+  Header always set Content-Security-Policy "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data: blob:; media-src 'self' blob:; font-src 'self'; connect-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; object-src 'none'; upgrade-insecure-requests"
+  Header always unset X-Powered-By
+  Header unset X-Powered-By
+</IfModule>
+# Never serve hidden files, backups, dumps, logs or source maps, even if one is uploaded by mistake.
+<FilesMatch "(^\.|\.(bak|old|orig|swp|sql|sqlite|db|log|env|ini|map|jsonl|pem|key)$|~$)">
+  <IfModule mod_authz_core.c>
+    Require all denied
+  </IfModule>
+  <IfModule !mod_authz_core.c>
+    Order allow,deny
+    Deny from all
+  </IfModule>
+</FilesMatch>
+# Let certificate renewal through.
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteRule ^\.well-known/acme-challenge/ - [L]
+</IfModule>
+ServerSignature Off
+# ---- end security hardening ----
