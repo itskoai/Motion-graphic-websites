@@ -33,14 +33,14 @@ The footer states that the opening video is an AI-made atmosphere piece inspired
 - Hero loops: Kling 3.0 pro, no sound, start and end frame identical for a seamless loop; 10 s for 16:9, 8 s for 9:16; two takes each, calmer take chosen; half-second crossfade at the loop point in ffmpeg; H.264 at crf 18/19 plus VP9 copies.
 - Upscales: 16 photos and the logo crop to 2k (2 credits each). One failed and was re-run.
 - Abstract lantern-bokeh plate for the delivery section: GPT Image 2.5.
-- Total spend about 130 credits (balance before: 683.59).
+- Total spend 108.75 credits (balance 683.59 before, 574.84 after).
 
 ## Test receipts
 
 - Local (stand-in media, Chromium): parallax transforms on hero and section images, reveals, kicker lines, the lantern hold (builds, eases back on early release, lights at 1.4 s), strip slide at 1280/1440/1920, sticky bar on phones (hidden over the footer), phone menu open/close with focus return, hours row for today, zero console errors, no horizontal overflow at 1440/1280/390.
 - Real media (Chromium inside Higgsfield's sandbox, local server): 16:9 loop plays and wraps (jump to the end lands at 0.8 s and keeps playing), 9:16 on phones likewise, reduced motion requests no video, page 33 KB, CSS 31 KB, JS 13 KB, fonts 136 KB, posters 229/237 KB, loops 2.5 MB / 2.0 MB (WebM 0.5 / 0.65 MB).
 - Copy gate: zero em dashes, zero stock words.
-- Live receipts: see the final message of the build session (TTFB, total, sizes, security headers).
+- Live (https://yoko-ono-raanana.higgsfield.app, measured from Higgsfield's sandbox on 29 Oct 2026): HTTP 200; curl TTFB 0.26 s, full HTML 0.27 s (51 KB raw, 14 KB compressed); CSS 8 KB and JS 4.5 KB compressed; fonts 136 KB; desktop loop 2.5 MB, phone loop 2.0 MB. Headless Chromium: loop playing within 3.5 s on desktop and phone, wraps at the end and keeps playing, page load event 1.5 s on the phone profile; zero errors from the site's own code (the host injects one inline auth snippet that its own CSP blocks, harmless). Headers at the edge: HSTS, strict CSP (script-src and style-src self), nosniff, referrer-policy, permissions-policy, frame-ancestors limited to Higgsfield and Claude hosts. The host rewrites the CSP, so the page carries no inline style attributes at all.
 
 ## Network notes for future builds here
 
