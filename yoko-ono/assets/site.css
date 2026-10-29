@@ -361,6 +361,7 @@ body.paused *,body.paused *::before,body.paused *::after{animation-play-state:pa
   .footer{padding-bottom:calc(92px + env(safe-area-inset-bottom))}
 }
 @media (max-width:420px){
+  .kicker{letter-spacing:.2em;font-size:11px}
   .wordmark{font-size:clamp(38px,13vw,60px)}
   .hero-chips .chip{font-size:13px;min-height:32px;padding:0 11px}
 }
