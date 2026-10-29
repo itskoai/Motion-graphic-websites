@@ -48,11 +48,14 @@
   var video = d.getElementById('heroVideo');
   var poster = d.getElementById('heroPoster');
   var heroText = hero ? hero.querySelector('.hero-text') : null;
+  /* H.264 MP4 for every mainstream browser; a VP9 WebM copy for browsers built without the H.264 decoder. */
+  var ext = 'mp4';
+  try { if (video && video.canPlayType && video.canPlayType('video/mp4; codecs="avc1.640028"') === '' && video.canPlayType('video/webm; codecs="vp9"') !== '') ext = 'webm'; } catch (e) {}
   function heroSource() {
     var portrait = portraitQ.matches && narrowQ.matches;
     return portrait
-      ? { v: 'assets/media/hero-9x16.mp4', p: 'assets/media/hero-9x16-poster.jpg', w: 1080, h: 1920 }
-      : { v: 'assets/media/hero-16x9.mp4', p: 'assets/media/hero-16x9-poster.jpg', w: 1920, h: 1080 };
+      ? { v: 'assets/media/hero-9x16.' + ext, p: 'assets/media/hero-9x16-poster.jpg', w: 1080, h: 1920 }
+      : { v: 'assets/media/hero-16x9.' + ext, p: 'assets/media/hero-16x9-poster.jpg', w: 1920, h: 1080 };
   }
   var currentSrc = '';
   function applyHero() {
