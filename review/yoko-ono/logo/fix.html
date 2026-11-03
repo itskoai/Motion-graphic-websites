@@ -1,0 +1,14 @@
+<!doctype html><html><head><meta charset="utf-8"><style>
+@font-face{font-family:Jost;font-weight:500;src:url(../../../yoko-ono-site/assets/fonts/jost-500-latin.woff2) format('woff2')}
+html,body{margin:0;background:#130f0e}
+.f{position:relative;width:1938px;height:1850px}
+.f img{position:absolute;left:0;top:0;width:1938px;height:1850px}
+.cover{position:absolute;left:540px;top:1060px;width:770px;height:88px;background:#130f0e}
+.t{position:absolute;left:0;width:1938px;top:1062px;text-align:center;font:500 80px/1 Jost;color:#cdbc9b;white-space:nowrap}
+.t span{display:inline-block}
+</style></head><body><div class="f"><img src="yoko-ono-logo.svg"><div class="cover"></div><div class="t"><span id="t">ASIAN KITCHEN</span></div></div>
+<script>
+const t=document.getElementById('t'); const target=741; const n='ASIAN KITCHEN'.length-1;
+const w0=t.getBoundingClientRect().width; /* span, not the full-width box */ const sp=(target-w0)/n; t.style.letterSpacing=sp+'px'; t.style.paddingLeft=sp+'px';
+document.title='w0='+w0.toFixed(1)+' sp='+sp.toFixed(2);
+</script></body></html>
