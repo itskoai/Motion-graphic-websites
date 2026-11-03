@@ -1,0 +1,9 @@
+
+# Yoko Ono build: raw phone footage (carries GPS metadata), masters, frame dumps and source photos never enter git.
+review/yoko-ono/raw/
+review/yoko-ono/masters/
+review/yoko-ono/frames/
+review/yoko-ono/photos-raw/
+review/yoko-ono/photos/
+review/yoko-ono/enc/
+review/yoko-ono/qa/
