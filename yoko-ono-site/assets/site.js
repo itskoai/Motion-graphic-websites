@@ -65,14 +65,20 @@
   }
 
   /* ---------- the film: streamed Blob, gated seeks, eased time ---------- */
-  var seekBusy = false, pendingTime = null, videoReady = false;
+  var seekBusy = false, pendingTime = null, videoReady = false, seekWatch = null;
   function requestSeek(t) {
     if (!videoReady || !video.duration) return;
     if (seekBusy) { pendingTime = t; return; }
     seekBusy = true; video.currentTime = t;
+    clearTimeout(seekWatch);
+    seekWatch = setTimeout(function () {       /* a browser that never fires seeked (same time, odd decoder) must not freeze the walk */
+      if (!seekBusy) return;
+      seekBusy = false;
+      if (pendingTime !== null) { var p = pendingTime; pendingTime = null; requestSeek(p); }
+    }, 1200);
   }
   video.addEventListener('seeked', function () {
-    seekBusy = false;
+    seekBusy = false; clearTimeout(seekWatch);
     if (mode.stage === 'door') drawBackdrop(video);
     if (pendingTime !== null) { var t = pendingTime; pendingTime = null; requestSeek(t); }
   });

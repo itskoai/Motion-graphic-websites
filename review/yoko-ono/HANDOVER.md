@@ -45,5 +45,13 @@ Double-clicking `index.html` shows the still gate photo instead of the walk (bro
 ## Weights
 Page 37 KB, styles 33 KB, scripts 15 KB, fonts 260 KB (Hebrew and Latin subsets), hero film 3.8 MB desktop and 2.2 MB phone (streamed behind the poster and the umbrella ring), room loop 0.5 MB, photos 45 to 460 KB each by screen size.
 
+## Live receipts (measured from a cloud sandbox against https://yoko-ono-raanana.higgsfield.app/, 3 November 2026)
+- Page: HTTP 200, first byte 0.2 to 0.6 s, fully loaded in 1.0 to 1.6 s in a real Chromium (desktop and phone profiles), the walk playing (video decoded, scrub reaches the last frame at the settle).
+- Transfer sizes with the host's compression: styles 7 KB, script 6 KB, fonts 7 to 29 KB each, poster 98 KB, hero film 3.7 MB (streamed behind the poster and the ring; the host has no partial-download support, which is why the film is fetched whole as a Blob).
+- Every asset answers 200 with a one-year immutable cache header; the HTML is revalidated on every visit.
+- Security headers come from the host (HSTS, nosniff, referrer policy, a strict Content-Security-Policy with script-src 'self' and style-src 'self').
+- One console message on the live page is the host's own injected viewer script being blocked by the host's own policy. It is not from the site and does not exist on an Apache host.
+- `/robots.txt` on this host is Cloudflare's managed file (search allowed, AI-training crawlers blocked); the site's own `robots.txt` applies on an Apache host. `privacy.html` and `accessibility.html` redirect to `/privacy` and `/accessibility` on this host; both serve.
+
 ## Hosting
 The live preview runs on the Higgsfield host (a Cloudflare worker serving the static folder; security headers come from `_headers`). The same folder deploys to any Apache host such as Hostinger: upload the CONTENTS of `yoko-ono-site/` including the hidden `.htaccess`, then replace the four absolute URLs marked `DEPLOY STEP` in `index.html`, plus `robots.txt` and `sitemap.xml`, with the real domain. Before any upload: `python3 -I security/guard.py --deploy yoko-ono-site` must say OK.
