@@ -22,6 +22,9 @@ Reduced motion, Save-Data, 2G, no canvas or no JavaScript: poster only, 100vh, h
 - **Privacy and accessibility pages** are honest drafts (no cookies, no analytics, no forms, nothing collected). Owner to confirm the wording before launch. They carry `noindex`.
 - **Private events** are not mentioned anywhere.
 
+## Photos carry no captions (owner's decision, 4 November 2026)
+No visible caption and no hairline on any photo. Alt texts are general descriptions without dish names ("מנה במסעדת יוקו אונו", "קוקטייל בבר של יוקו אונו"). Nothing was put in place of the captions. The photos themselves are unchanged.
+
 ## Checks run before this handover
 - `python3 -I security/guard.py --deploy yoko-ono-v4` → OK, 0 high, 0 medium.
 - Playwright, iPhone 14 viewport: hero at 0, 35, 60, 85 and 100 percent of the scroll; sections; reduced motion; JavaScript off. No console errors, no failed requests.
