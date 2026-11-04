@@ -1,7 +1,8 @@
 /* Runs before first paint. Decides how the hero behaves and marks that scripts work.
    The same decision runs again in site.js whenever a screen rotates, a window resizes or a
    motion preference flips, so CSS never has to guess: it reads the data attributes set here.
-   Without JavaScript the page stays in its default state: the still gate photo with the words on it. */
+   Without JavaScript the page stays in its default state: the still gate photo with the words on it,
+   and the room in its arch below. */
 (function () {
   var d = document.documentElement;
   d.className += ' js';
@@ -17,7 +18,7 @@
     if (d.getAttribute('data-hero') !== hero) d.setAttribute('data-hero', hero);
     if (d.getAttribute('data-stage') !== stage) d.setAttribute('data-stage', stage);
     d.setAttribute('data-reduce', reduce ? '1' : '0');
-    return { hero: hero, stage: stage, reduce: reduce };
+    return { hero: hero, stage: stage, reduce: reduce, phone: phone };
   }
   window.yokoDecide = decide;
   decide();

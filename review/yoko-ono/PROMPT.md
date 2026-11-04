@@ -1,49 +1,52 @@
-# YOKO ONO · master website prompt, version 2 (3 November 2026)
+# YOKO ONO · master website prompt, version 3 (3 November 2026)
 
-This is the merged brief. The long master prompt from the previous build is the base (it holds the verified business facts and the section inventory). The short "build and deploy a one-page site" prompt contributed its hard requirements (tap-to-call, Google Maps directions, verbatim reviews only, OG image, transform-based parallax with reduced motion, deploy and verify). On top of both sit the three things the owner said in person, which outrank everything else.
+This is the owner's brief as delivered for the third build, condensed to what governs the work. Version 2 (the merged brief of the second build) is superseded. The verified business facts carry over. Where this version and the previous one disagree, this version wins.
 
-## Which prompt was better, and why this one replaces both
+## Role and mission
 
-- The long prompt wins as the base: it is grounded (phone, address, links, kosher status, what not to invent) and it already structures the page. Its weakness: it asks for a generic "cinematic hero of plated sushi", which is what every restaurant site does.
-- The short prompt is a generic template. Two of its demands are wrong for this project: an AI-generated hero video (the owner has a real restaurant, and we have real footage of it), and "2 to 3 verbatim reviews" (no verbatim review text could be verified from public sources, so none is shown).
-- The owner's three points are the spine of this version. Everything below is the long prompt rewritten around them.
+Creative director, motion designer, UX/UI designer, conversion strategist and developer in one. Build a complete, premium, mobile-first website for YOKO ONO, an Asian fusion restaurant in Ra'anana. The owner's vision, from a two-hour meeting, outranks every habit of "what restaurant websites look like". Build the actual website, not a concept.
 
-## The owner's three points (from the 2-hour meeting)
+The owner wants three things:
+1. An immersive entrance: visitors begin outside the real restaurant, scrolling walks them through the entrance and into the interior, and the walk turns into the website.
+2. Extreme simplicity: minimal, elegant, concentrated, all essential information present, nothing crowded.
+3. Beautiful motion graphics that enhance without distracting.
 
-1. The first screen is a walk into the restaurant. Scrolling down moves the visitor from the street, through the red gate, under the paper-umbrella ceiling, past the set tables and into the lounge. When the walk ends, the page continues into the website.
-2. Not bloated. Minimal and focused, with all the information that really matters and nothing missing: reserve, menu, delivery, kosher, hours, address, phone.
-3. Motion graphics, done with restraint: the walk itself, text that arrives with the footage, the umbrella ceiling as a drawn motion layer, parallax on the photos.
+Commercial objective: curiosity into visits and reservations.
 
-## Business facts (verified or stated by the business)
+## Creative direction
 
-- Name: YOKO ONO · יוקו אונו · Asian fusion restaurant (Japanese, Chinese and Thai influences, sushi bar and cocktail bar).
-- Address: אחוזה 124, רעננה. Phone: 077-938-6192. Email: yokoono.israel@gmail.com.
-- Reservations: https://ontopo.com/he/il/page/14510630
-- Menu and delivery: https://wolt.com/he/isr/hasharon/restaurant/yoko-ono (the old menu domain yoko-ono-menu.com lapsed; Wolt carries the full menu with prices).
-- Instagram: https://www.instagram.com/yoko_ono_fusion/ · Facebook: https://www.facebook.com/share/1cHAUizDXE/
-- Kosher: the restaurant presents itself as כשר למהדרין; listings name בד״ץ בית יוסף. The certificate must be confirmed with the owner before the line goes beyond "כשר למהדרין".
-- Hours (reservation system; confirm with the owner): Sunday to Thursday 12:00 to 23:00, Friday 11:30 to 14:30, Saturday night 20:30 to 23:00.
-- Reviews: no verbatim review text was obtainable (Rest, Google, Tripadvisor could not be read from this environment). Nothing is quoted. The Facebook "70% recommend" figure is never used.
+Concept: STEP INSIDE YOKO ONO. Luxury hospitality quality with the clarity of an excellent Israeli restaurant site.
+Identity: deep charcoal #101010, warm ivory #F4EFE7, champagne gold #C7A46B, restrained burgundy; elegant English typography for YOKO ONO, refined Hebrew with flawless RTL; generous negative space; authentic photography. Use the real logo. No generic templates, repetitive cards, gradients, sushi illustrations, decoration or AI-looking imagery.
 
-## Assets (all real, supplied by the owner's team)
+## The signature scroll walkthrough (the most important part)
 
-- Three phone clips, portrait 1080x1920, HLG HDR: the walk from the gate to the lounge (15 s), a second pass through the umbrella room to the lounge (6 s), the second dining room (3 s).
-- Twelve photos: sushi on a banana leaf, the umbrella ceiling, dumplings in a steamer, a waiter, salmon nigiri with a soy drizzle, a bartender pouring, the logo, cucumber-wrapped rolls, a salmon bowl, tuna tataki, a smoked cocktail, a salmon roll with roe.
-- The logo (low resolution; enhanced for the site, never redrawn).
+Analyze the real footage first and build around what exists. Scene A, outside: the exterior, recognizable, with "YOKO ONO", the line "פיוז׳ן אסייתי בלב רעננה", the cue "גללו כדי להיכנס" and a visible "הזמינו שולחן". Scene B, entering: the camera progresses to the entrance, tied to scroll, no autoplay, no jarring cuts, no artificial zooms or AI architecture. Scene C, inside: the real interior, with subtle timed typography, suggested "נכנסים בשביל האווירה. נשארים בשביל הטעמים.", the architecture stays the focus. Scene D: a seamless transition into the content (mask reveal, dissolve or match cut), one continuous page.
 
-## What the site must do
+Technical: real footage as the primary source; frame-sequence scrubbing or controlled video seeking, scroll-linked; connect real shots elegantly if a continuous path is impossible, never fabricate the restaurant; smooth on desktop and mobile Safari and Chrome; no stutter, blank frames or scroll trapping; efficient loading, a light poster, a working skip, a static reduced-motion alternative, normal scrolling preserved; the walk must not stand between the visitor and the booking button.
 
-1. Hero: the real walkthrough, scrubbed by scroll, forward and backward, from the first frame outside to the lounge at rest. On phones the portrait footage fills the screen. On desktop it opens as a doorway in the centre of the screen with the words in the calm space beside it, and the whole screen glows with the footage behind it. Reduced motion and slow connections get a composed still of the gate with the same words.
-2. After the settle, one focused page: who we are (three lines), the food (real photos, hover motion), menu and delivery (Wolt), reservation (Ontopo), the place (bar, the second room as a quiet loop), kosher, hours, address with tap-to-call and Google Maps directions, events by phone or email, footer with privacy and accessibility pages.
-3. One call to action everywhere: הזמינו שולחן. Menu and delivery second.
-4. Hebrew first, RTL correct, English only for the brand and short labels.
-5. Plain HTML, CSS and JavaScript, one folder, no build step. Fonts self-hosted. No trackers, no third-party scripts, strict Content-Security-Policy, security headers.
-6. Fast: page under 100 KB before media; the hero video streams behind a poster and an honest progress ring; photos sized per screen.
-7. Motion only on transform and opacity, every effect reversible by scroll, reduced motion honoured in both directions, nothing snaps.
-8. Never invent dishes, prices, awards, history, chef names or reviews. Copy may describe only what the photos and footage show.
+## The website after the walkthrough (one page, only these areas)
 
-## Deliverables
+A. The experience: headline "מסע של טעמים. חוויה שלמה.", copy "פיוז׳ן אסייתי, סושי, מנות חמות ואווירה מיוחדת. יוקו אונו מחכה לכם בלב רעננה.", imagery with subtle editorial motion, primary action "הזמינו שולחן".
+B. Food and menu: a compact showcase of the strongest real photos, categories only where real assets support them (sushi, Asian fusion, hot dishes, cocktails), tasteful reveals and parallax, the CTA "התפריט שלנו" linking to the existing menu; no rebuilt menu, no unverified dishes or prices.
+C. The photo collection: every supplied photograph in an elegant accessible gallery that does not bloat the page: a discreet expandable rail along the side on desktop with miniature previews, a refined full-screen lightbox with the original image, navigation and a clear close; a compact horizontal strip or an expandable button on phones; never over the booking CTA; respect aspect ratios.
+D. Reserve, visit, order: reserve through Ontopo, open the full menu, order delivery through Wolt, call, navigate with Google Maps; address and verified hours; Instagram subtly; private events only if the owner confirms.
 
-- The deploy folder `yoko-ono-site/` (index.html, assets/, privacy.html, accessibility.html, robots.txt, sitemap.xml, .htaccess for an Apache host, _headers for Cloudflare).
-- The live preview on the Higgsfield host, verified with real requests, with speed numbers.
-- `review/yoko-ono/DESIGN.md` (the design package) and `review/yoko-ono/HANDOVER.md` (what the owner must confirm and how to change things).
+## Motion and Higgsfield
+
+A distinctive, restrained motion system: kinetic typography, layered parallax where it fits, image-mask transitions, refined hover states, timed scroll reveals. Do not animate everything. Higgsfield only when it meaningfully improves the supplied assets, after inspecting them, preserving the real architecture, lighting and dishes; report model, cost and intent and wait for explicit approval before any credit is spent; never generate speculative variations. If Higgsfield is not connected, write the exact instructions and continue with the authentic assets.
+
+## Verified business information
+
+YOKO ONO / יוקו אונו, Asian fusion restaurant. אחוזה 124, רעננה. Phone 077-938-6192. Email yokoono.israel@gmail.com. Reservations https://ontopo.com/he/il/page/14510630. Menu https://www.yoko-ono-menu.com/ (see the handover: not reachable from the build environment). Delivery https://wolt.com/he/isr/hasharon/restaurant/yoko-ono. Instagram https://www.instagram.com/yoko_ono_fusion/. Facebook https://www.facebook.com/share/1cHAUizDXE/. A working Google Maps directions link. Kosher mehadrin as the restaurant presents itself; confirm the certificate before detailed claims. Hours differ between listings; the owner confirms before any schedule is authoritative. No invented reviews, ratings, dishes, awards, history or popularity claims; review highlights only if verifiable.
+
+## Build, conversion and quality
+
+Production quality in the existing project environment; React, Tailwind, Motion or GSAP where appropriate, chosen for practical experience, not count. Mobile first: exceptional on iPhone and Android, perfect RTL, comfortable touch targets, responsive imagery, a subtle sticky booking control, the walk never dominating the phone. Conversion path: visual interest, desire, trust, reservation; menu, delivery and contact immediately understandable; a lightweight privacy-conscious measurement of booking, menu, delivery and phone clicks; no fake scarcity or activity. Technical: fast loading, optimized media, semantic accessible HTML, title, metadata and Open Graph image, Restaurant structured data from confirmed information, logical headings and navigation, keyboard-accessible gallery, reduced motion, working click-to-call and links, mobile and desktop fallbacks. No invented privacy, legal or accessibility declarations: missing approved legal content is a publication requirement.
+
+## Execution order
+
+Inspect, direct, build, refine, test, deliver. A private or clearly nonofficial preview URL; never the official site, never an overwrite of production, never an unapproved paid call. Never claim a test or deploy that did not happen.
+
+## Final standard
+
+The visitor discovers YOKO ONO rather than browsing a template. The restaurant is the hero, the food creates desire, motion makes it memorable, the interface makes reserving effortless. Walk into the restaurant. Keep everything minimal. Make the motion beautiful. Do not overdesign, overcomplicate, or trade usability for effects.

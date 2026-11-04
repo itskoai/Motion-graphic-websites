@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>יוקו אונו · מסעדת פיוז׳ן אסייתית ברעננה · YOKO ONO</title>
 <meta name="description" content="יוקו אונו, מסעדת פיוז׳ן אסייתית כשרה למהדרין באחוזה 124, רעננה. סושי ורולים, מנות חמות וקוקטיילים. הזמנת שולחן, תפריט ומשלוחים.">
-<meta name="theme-color" content="#130f0e">
+<meta name="theme-color" content="#101010">
 <meta name="color-scheme" content="dark">
 <meta name="robots" content="index,follow">
 <meta name="referrer" content="strict-origin-when-cross-origin">
@@ -28,337 +28,241 @@
 <link rel="icon" href="assets/media/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="assets/media/favicon-32.png" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="assets/media/touch-icon-180.png">
-<link rel="preload" href="assets/fonts/noto-serif-hebrew-300-hebrew.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="assets/fonts/assistant-400-hebrew.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/frank-ruhl-300-hebrew.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/heebo-400-hebrew.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/cormorant-600-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="assets/site.css">
 <script src="assets/head.js"></script>
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "Restaurant",
-  "name": "YOKO ONO",
-  "alternateName": "יוקו אונו",
-  "description": "מסעדת פיוז׳ן אסייתית כשרה למהדרין ברעננה: סושי ורולים, מנות חמות וקוקטיילים.",
+  "name": "יוקו אונו",
+  "alternateName": "YOKO ONO · Asian Kitchen",
   "url": "https://yoko-ono-raanana.higgsfield.app/",
   "image": "https://yoko-ono-raanana.higgsfield.app/assets/media/og.jpg",
-  "telephone": "+972779386192",
+  "telephone": "+972-77-938-6192",
   "email": "yokoono.israel@gmail.com",
-  "servesCuisine": ["Asian fusion", "Japanese"],
-  "address": {"@type": "PostalAddress", "streetAddress": "אחוזה 124", "addressLocality": "רעננה", "addressCountry": "IL"},
+  "servesCuisine": ["Asian fusion", "Japanese", "Sushi"],
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "אחוזה 124",
+    "addressLocality": "רעננה",
+    "addressCountry": "IL"
+  },
   "acceptsReservations": "https://ontopo.com/he/il/page/14510630",
-  "hasMenu": "https://wolt.com/he/isr/hasharon/restaurant/yoko-ono",
-  "openingHoursSpecification": [
-    {"@type": "OpeningHoursSpecification", "dayOfWeek": ["Sunday","Monday","Tuesday","Wednesday","Thursday"], "opens": "12:00", "closes": "23:00"},
-    {"@type": "OpeningHoursSpecification", "dayOfWeek": "Friday", "opens": "11:30", "closes": "14:30"},
-    {"@type": "OpeningHoursSpecification", "dayOfWeek": "Saturday", "opens": "20:30", "closes": "23:00"}
+  "menu": "https://wolt.com/he/isr/hasharon/restaurant/yoko-ono",
+  "sameAs": [
+    "https://www.instagram.com/yoko_ono_fusion/",
+    "https://www.facebook.com/share/1cHAUizDXE/",
+    "https://wolt.com/he/isr/hasharon/restaurant/yoko-ono",
+    "https://ontopo.com/he/il/page/14510630"
   ],
-  "sameAs": ["https://www.instagram.com/yoko_ono_fusion/", "https://www.facebook.com/share/1cHAUizDXE/"]
+  "openingHoursSpecification": [
+    { "@type": "OpeningHoursSpecification", "dayOfWeek": ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday"], "opens": "12:00", "closes": "23:00" },
+    { "@type": "OpeningHoursSpecification", "dayOfWeek": "Friday", "opens": "11:30", "closes": "14:30" },
+    { "@type": "OpeningHoursSpecification", "dayOfWeek": "Saturday", "opens": "20:30", "closes": "23:00" }
+  ]
 }
 </script>
 </head>
 <body>
 <a class="skip" href="#main">דילוג לתוכן</a>
 
-<svg class="defs" aria-hidden="true" focusable="false">
-  <defs>
-    <radialGradient id="g-glow" cx="50%" cy="50%" r="50%">
-      <stop offset="0" stop-color="#ffd58a" stop-opacity=".95"/>
-      <stop offset=".55" stop-color="#f0a84c" stop-opacity=".55"/>
-      <stop offset="1" stop-color="#c8302a" stop-opacity="0"/>
-    </radialGradient>
-    <symbol id="umb" viewBox="0 0 100 100">
-      <circle cx="50" cy="50" r="47" fill="currentColor"/>
-      <circle cx="50" cy="50" r="47" fill="none" stroke="rgba(19,15,14,.4)" stroke-width="1.5"/>
-      <path d="M50 3V97M3 50H97M16.8 16.8L83.2 83.2M83.2 16.8L16.8 83.2M32 6.6L68 93.4M68 6.6L32 93.4M6.6 32L93.4 68M93.4 32L6.6 68" fill="none" stroke="rgba(255,246,232,.36)" stroke-width="1.1"/>
-      <circle cx="50" cy="50" r="28" fill="none" stroke="rgba(255,246,232,.16)" stroke-width="1"/>
-      <circle cx="50" cy="50" r="4.5" fill="rgba(19,15,14,.75)"/>
-    </symbol>
-    <symbol id="i-phone" viewBox="0 0 24 24"><path d="M6.6 3h3l1.6 4.2-2 1.4a12 12 0 0 0 6.2 6.2l1.4-2L21 14.4v3A2.6 2.6 0 0 1 18.3 20 15.6 15.6 0 0 1 4 5.7 2.6 2.6 0 0 1 6.6 3z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></symbol>
-    <symbol id="i-pin" viewBox="0 0 24 24"><path d="M12 21s6.5-6.3 6.5-11.3A6.5 6.5 0 0 0 5.5 9.7C5.5 14.7 12 21 12 21z" fill="none" stroke="currentColor" stroke-width="1.7"/><circle cx="12" cy="9.7" r="2.4" fill="none" stroke="currentColor" stroke-width="1.7"/></symbol>
-    <symbol id="i-mail" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2.5" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M4 7.5l8 6 8-6" fill="none" stroke="currentColor" stroke-width="1.7"/></symbol>
-    <symbol id="i-ext" viewBox="0 0 24 24"><path d="M14 5h5v5M19 5l-8 8M10 6H6.5A1.5 1.5 0 0 0 5 7.5v10A1.5 1.5 0 0 0 6.5 19h10a1.5 1.5 0 0 0 1.5-1.5V14" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></symbol>
-    <symbol id="i-ig" viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="17" height="17" rx="5" fill="none" stroke="currentColor" stroke-width="1.7"/><circle cx="12" cy="12" r="3.8" fill="none" stroke="currentColor" stroke-width="1.7"/><circle cx="17.2" cy="6.8" r="1.1" fill="currentColor"/></symbol>
-    <symbol id="i-fb" viewBox="0 0 24 24"><path d="M14 8.5V6.8c0-.8.5-1.3 1.3-1.3H17V3h-2.6C12 3 10.8 4.6 10.8 7v1.5H8.5V11h2.3v10H14V11h2.5l.5-2.5z" fill="currentColor"/></symbol>
-    <symbol id="i-chev" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
-  </defs>
-</svg>
-
-<div class="env" aria-hidden="true">
-  <span class="env-glow"></span>
-  <svg class="env-umb u1"><use href="#umb"/></svg>
-  <svg class="env-umb u2"><use href="#umb"/></svg>
-  <svg class="env-umb u3"><use href="#umb"/></svg>
-  <svg class="env-umb u4"><use href="#umb"/></svg>
-  <svg class="env-umb u5"><use href="#umb"/></svg>
-  <svg class="env-umb u6"><use href="#umb"/></svg>
-</div>
-
-<header class="nav" id="nav">
+<nav class="nav" id="nav" aria-label="ניווט ראשי">
   <div class="nav-in">
-    <a class="brand" href="#top" aria-label="יוקו אונו, לראש העמוד"><img class="brand-logo" src="assets/media/logo.svg" alt="" width="120" height="92"><span class="brand-word" dir="ltr">YOKO ONO</span></a>
-    <nav class="nav-links" aria-label="ניווט בעמוד">
-      <a href="#food">התפריט</a>
-      <a href="#place">המקום</a>
-      <a href="#find">הגעה</a>
-    </nav>
+    <a class="brand" href="#top" aria-label="יוקו אונו, לראש העמוד"><img class="brand-logo" src="assets/media/logo.svg" alt="" width="48" height="46"></a>
+    <ul class="nav-links">
+      <li><a href="#food">התפריט</a></li>
+      <li><a href="#gallery">גלריה</a></li>
+      <li><a href="#visit">הגעה והזמנה</a></li>
+    </ul>
     <div class="nav-acts">
-      <a class="nav-phone" href="tel:+972779386192" aria-label="התקשרו, 077-938-6192"><svg class="i"><use href="#i-phone"/></svg><span class="num" dir="ltr">077-938-6192</span></a>
-      <a class="btn btn-primary btn-sm" href="https://ontopo.com/he/il/page/14510630" target="_blank" rel="noopener noreferrer">הזמינו שולחן</a>
+      <a class="nav-tel" href="tel:+972779386192" data-ev="call" aria-label="התקשרו, 077-938-6192"><svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25c1.1.37 2.3.57 3.6.57a1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1L6.6 10.8z"/></svg></a>
+      <a class="btn btn-gold btn-sm" href="https://ontopo.com/he/il/page/14510630" data-ev="reserve" rel="noopener">הזמינו שולחן</a>
     </div>
+  </div>
+</nav>
+
+<header class="hero" id="top" aria-label="הכניסה ליוקו אונו">
+  <div class="stage" id="stage">
+    <canvas class="backdrop" id="backdrop" width="90" height="160" aria-hidden="true"></canvas>
+    <div class="poster" id="poster" aria-hidden="true"></div>
+    <div class="door" id="door">
+      <div class="door-poster" id="doorPoster" aria-hidden="true"></div>
+      <video class="film" id="film" muted playsinline preload="none" tabindex="-1" aria-label="הליכה מהרחוב אל תוך המסעדה: השער האדום, הדלתות, החדר עם המטריות והחדר השני" data-src-720="assets/media/walk-720.mp4" data-src-540="assets/media/walk-540.mp4" data-bytes-720="4516661" data-bytes-540="2390292"></video>
+      <svg class="ring" id="ring" viewBox="0 0 40 72" width="40" height="72" aria-hidden="true"><rect class="ring-track" x="2" y="2" width="36" height="68" rx="18"/><rect class="ring-fill" x="2" y="2" width="36" height="68" rx="18" pathLength="100"/></svg>
+      <div class="door-scrim" aria-hidden="true"></div>
+    </div>
+
+    <div class="topbar" id="topbar">
+      <a class="mark" href="#top" aria-label="יוקו אונו"><img class="mark-logo" src="assets/media/logo.svg" alt="" width="56" height="54"></a>
+      <a class="btn btn-gold btn-sm topbar-cta" href="https://ontopo.com/he/il/page/14510630" data-ev="reserve" rel="noopener">הזמינו שולחן</a>
+    </div>
+
+    <div class="band band-a" data-range="0,0.2" data-spread="0.3">
+      <h1 class="title"><span class="title-latin" lang="en" dir="ltr">YOKO ONO</span><span class="sr">יוקו אונו, מסעדת פיוז׳ן אסייתית ברעננה</span></h1>
+      <p class="sub">פיוז׳ן אסייתי בלב רעננה</p>
+    </div>
+
+    <div class="band band-c" data-range="0.40,0.68" data-spread="0.55" data-ramp="0.09">
+      <p class="line split">נכנסים בשביל האווירה.</p>
+      <p class="line split">נשארים בשביל הטעמים.</p>
+    </div>
+
+    <section class="band settle" id="experience" data-range="0.84,1" data-ramp="0.16" data-spread="0.45" aria-labelledby="experience-h">
+      <p class="kicker"><span class="kicker-latin" lang="en" dir="ltr">The Experience</span></p>
+      <h2 class="h-settle split" id="experience-h">מסע של טעמים. חוויה שלמה.</h2>
+      <p class="lede settle-lede">פיוז׳ן אסייתי, סושי, מנות חמות ואווירה מיוחדת. יוקו אונו מחכה לכם בלב רעננה.</p>
+      <div class="cta-row settle-cta">
+        <a class="btn btn-gold" href="https://ontopo.com/he/il/page/14510630" data-ev="reserve" rel="noopener">הזמינו שולחן</a>
+        <!-- MENU LINK: the menu points to the Wolt page (full menu with prices). If yoko-ono-menu.com is live again, replace the three Wolt menu links with it. -->
+        <a class="btn btn-ghost" href="https://wolt.com/he/isr/hasharon/restaurant/yoko-ono" data-ev="menu" rel="noopener">התפריט שלנו</a>
+      </div>
+    </section>
+
+    <div class="cue" id="cue" aria-hidden="true"><span class="cue-line"></span><span class="cue-text">גללו כדי להיכנס</span></div>
+    <button class="skip-intro" id="skipIntro" type="button" data-ev="skip">דלגו על הכניסה</button>
   </div>
 </header>
 
 <main id="main" tabindex="-1">
-
-<section class="hero" id="top" aria-label="כניסה ליוקו אונו">
-  <div class="stage" id="stage">
-    <canvas class="backdrop" id="backdrop" width="108" height="192" aria-hidden="true"></canvas>
-    <div class="poster" id="poster" aria-hidden="true"></div>
-    <div class="door" id="door" aria-hidden="true">
-      <div class="door-in">
-        <div class="door-poster" id="doorPoster"></div>
-        <video class="film" id="film" preload="none" muted playsinline tabindex="-1" data-src-720="assets/media/hero-film-720.mp4" data-src-540="assets/media/hero-film-540.mp4" data-bytes-720="3780207" data-bytes-540="2245765"></video>
+  <section class="food" id="food" aria-labelledby="food-h">
+    <div class="wrap food-wrap">
+      <header class="sec-head reveal">
+        <p class="kicker"><span class="kicker-latin" lang="en" dir="ltr">The Food</span></p>
+        <h2 class="h2 split" id="food-h" tabindex="-1">האוכל מדבר בעד עצמו.</h2>
+        <span class="rule" aria-hidden="true"></span>
+        <p class="lede">סושי ורולים, מנות חמות, דים סאם וקוקטיילים. התפריט המלא, עם המחירים, במרחק לחיצה.</p>
+      </header>
+      <div class="food-grid">
+        <figure class="fg fg-1 reveal">
+          <div class="img-frame"><img src="assets/media/p-sushi-leaf-1000.jpg" srcset="assets/media/p-sushi-leaf-640.jpg 640w, assets/media/p-sushi-leaf-1000.jpg 1000w, assets/media/p-sushi-leaf-1600.jpg 1600w" sizes="(max-width: 820px) 100vw, 62vw" width="1600" height="906" alt="רולים מעוטרים בסלמון וסקליון על עלה בננה" data-depth="0.08" loading="lazy" decoding="async"></div>
+          <figcaption><span class="cat">סושי</span><span class="what">רולים על עלה בננה</span></figcaption>
+        </figure>
+        <figure class="fg fg-2 reveal">
+          <div class="img-frame"><img src="assets/media/p-tuna-tataki-1000.jpg" srcset="assets/media/p-tuna-tataki-640.jpg 640w, assets/media/p-tuna-tataki-1000.jpg 1000w, assets/media/p-tuna-tataki-1600.jpg 1600w" sizes="(max-width: 820px) 100vw, 34vw" width="1600" height="1067" alt="פרוסות טאטאקי טונה צרובות עם שומשום ורטבים" data-depth="0.12" loading="lazy" decoding="async"></div>
+          <figcaption><span class="cat">פיוז׳ן אסייתי</span><span class="what">טאטאקי טונה</span></figcaption>
+        </figure>
+        <figure class="fg fg-3 reveal">
+          <div class="img-frame"><img src="assets/media/p-dumplings-1000.jpg" srcset="assets/media/p-dumplings-640.jpg 640w, assets/media/p-dumplings-1000.jpg 1000w, assets/media/p-dumplings-1600.jpg 1600w" sizes="(max-width: 820px) 60vw, 30vw" width="1000" height="1250" alt="דים סאם בסלסלת אידוי מבמבוק, עם רוטב סויה ושומשום" data-depth="0.1" loading="lazy" decoding="async"></div>
+          <figcaption><span class="cat">מנות חמות</span><span class="what">דים סאם באידוי</span></figcaption>
+        </figure>
+        <figure class="fg fg-4 reveal">
+          <div class="img-frame"><img src="assets/media/p-smoke-cocktail-1000.jpg" srcset="assets/media/p-smoke-cocktail-640.jpg 640w, assets/media/p-smoke-cocktail-1000.jpg 1000w, assets/media/p-smoke-cocktail-1600.jpg 1600w" sizes="(max-width: 820px) 40vw, 22vw" width="1000" height="1656" alt="קוקטייל בכוס קופה עם פלח ליים, עטוף בעשן" data-depth="0.14" loading="lazy" decoding="async"></div>
+          <figcaption><span class="cat">קוקטיילים</span><span class="what">קוקטייל מעושן</span></figcaption>
+        </figure>
       </div>
-      <svg class="ring" id="ring" viewBox="0 0 48 48"><circle class="ring-rim" cx="24" cy="24" r="20"/><path class="ring-ribs" d="M24 4v40M4 24h40M9.9 9.9l28.2 28.2M38.1 9.9L9.9 38.1"/><circle class="ring-hub" cx="24" cy="24" r="1.8"/></svg>
-    </div>
-    <div class="scrim" aria-hidden="true"></div>
-    <p class="kicker-hero" dir="ltr">YOKO ONO <span class="dot">·</span> ASIAN KITCHEN <span class="dot">·</span> RA'ANANA</p>
-
-    <div class="bands">
-      <div class="band b1" data-range="0,0.17" data-lane="r">
-        <h2 class="bl split" data-fx="depth">בואו ניכנס.</h2>
-        <p class="bs">אחוזה 124, רעננה.</p>
-      </div>
-      <div class="band b2" data-range="0.30,0.48" data-lane="l">
-        <h2 class="bl split" data-fx="drift">מטריות נייר מעל הראש.</h2>
-        <p class="bs">שולחנות ערוכים, אור של פנסים.</p>
-      </div>
-      <div class="band b3" data-range="0.56,0.74" data-lane="r" data-ramp="0.05">
-        <h2 class="bl split" data-fx="punch">סושי. מנות חמות. קוקטיילים.</h2>
-        <p class="bs">כשר למהדרין.</p>
-      </div>
-      <div class="band settle" data-range="0.82,1" data-lane="r">
-        <h1 class="bl split" data-fx="rise">מסע של טעמים. חוויה שלמה.</h1>
-        <p class="bs">פיוז׳ן אסייתי בלב רעננה. מחכים לכם.</p>
-        <div class="cta-row">
-          <a class="btn btn-primary" href="https://ontopo.com/he/il/page/14510630" target="_blank" rel="noopener noreferrer">הזמינו שולחן</a>
-          <a class="btn btn-ghost" href="https://wolt.com/he/isr/hasharon/restaurant/yoko-ono" target="_blank" rel="noopener noreferrer">לתפריט</a>
-        </div>
-      </div>
-      <div class="band static-copy" data-lane="r">
-        <p class="kicker" dir="ltr">YOKO ONO · ASIAN KITCHEN</p>
-        <h1 class="bl">מסע של טעמים. חוויה שלמה.</h1>
-        <p class="bs">פיוז׳ן אסייתי, כשר למהדרין, בלב רעננה. מחכים לכם באחוזה 124.</p>
-        <div class="cta-row">
-          <a class="btn btn-primary" href="https://ontopo.com/he/il/page/14510630" target="_blank" rel="noopener noreferrer">הזמינו שולחן</a>
-          <a class="btn btn-ghost" href="https://wolt.com/he/isr/hasharon/restaurant/yoko-ono" target="_blank" rel="noopener noreferrer">לתפריט</a>
-        </div>
+      <div class="cta-row food-cta reveal">
+        <a class="btn btn-gold" href="https://wolt.com/he/isr/hasharon/restaurant/yoko-ono" data-ev="menu" rel="noopener">התפריט שלנו</a>
+        <a class="btn btn-ghost" href="https://ontopo.com/he/il/page/14510630" data-ev="reserve" rel="noopener">הזמינו שולחן</a>
       </div>
     </div>
 
-    <div class="logo-settle" id="logoSettle" aria-hidden="true"><img src="assets/media/logo.svg" alt="" width="360" height="276"></div>
-    <div class="cue" id="cue" aria-hidden="true"><span class="cue-txt">גללו כדי להיכנס</span><svg class="i"><use href="#i-chev"/></svg></div>
-  </div>
-  <div class="hero-end" id="heroEnd" aria-hidden="true"></div>
-</section>
-
-<div class="ceiling" aria-hidden="true">
-  <svg class="ceiling-svg" viewBox="0 0 1200 150" preserveAspectRatio="xMidYMin slice">
-    <g class="hang"><line x1="40" y1="0" x2="40" y2="34"/><use href="#umb" x="4" y="34" width="72" height="72" class="c-red"/></g>
-    <g class="hang"><line x1="150" y1="0" x2="150" y2="18"/><use href="#umb" x="102" y="18" width="96" height="96" class="c-slate"/></g>
-    <g class="hang"><line x1="262" y1="0" x2="262" y2="44"/><use href="#umb" x="232" y="44" width="60" height="60" class="c-mustard"/></g>
-    <g class="hang"><line x1="372" y1="0" x2="372" y2="26"/><use href="#umb" x="330" y="26" width="84" height="84" class="c-cream"/></g>
-    <g class="hang"><line x1="486" y1="0" x2="486" y2="40"/><use href="#umb" x="452" y="40" width="68" height="68" class="c-terra"/></g>
-    <g class="hang"><line x1="600" y1="0" x2="600" y2="14"/><use href="#umb" x="548" y="14" width="104" height="104" class="c-sage"/></g>
-    <g class="hang"><line x1="714" y1="0" x2="714" y2="42"/><use href="#umb" x="682" y="42" width="64" height="64" class="c-mustard"/></g>
-    <g class="hang"><line x1="828" y1="0" x2="828" y2="24"/><use href="#umb" x="784" y="24" width="88" height="88" class="c-red"/></g>
-    <g class="hang"><line x1="940" y1="0" x2="940" y2="46"/><use href="#umb" x="910" y="46" width="60" height="60" class="c-slate"/></g>
-    <g class="hang"><line x1="1050" y1="0" x2="1050" y2="20"/><use href="#umb" x="1004" y="20" width="92" height="92" class="c-cream"/></g>
-    <g class="hang"><line x1="1160" y1="0" x2="1160" y2="38"/><use href="#umb" x="1126" y="38" width="68" height="68" class="c-terra"/></g>
-  </svg>
-</div>
-
-<section class="sec sec-exp" id="experience">
-  <div class="wrap grid-exp">
-    <div class="exp-copy reveal">
-      <p class="kicker part"><svg class="k-umb"><use href="#umb"/></svg><span dir="ltr">THE EXPERIENCE</span></p>
-      <h2 class="h2 part">יותר מארוחה. חוויה אסייתית.</h2>
-      <p class="lede part">ביוקו אונו נפגשים המטבח היפני והאסייתי: סושי ורולים מוקפדים, מנות חמות, קוקטיילים ואווירה שעושה חשק להישאר. כשר למהדרין, בלב אחוזה.</p>
-      <ul class="chips part" aria-label="מה מחכה לכם">
-        <li>סושי ורולים</li><li>מנות חמות</li><li>קוקטיילים</li><li class="chip-kosher">כשר למהדרין</li>
+    <aside class="rail" id="gallery" aria-labelledby="gallery-h">
+      <div class="rail-head">
+        <p class="kicker"><span class="kicker-latin" lang="en" dir="ltr">The Gallery</span></p>
+        <h2 class="rail-title" id="gallery-h">הגלריה</h2>
+        <button class="rail-close" id="railClose" type="button" aria-label="סגירת הגלריה"><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5l14 14M19 5L5 19" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button>
+      </div>
+      <ul class="rail-list" id="railList">
+        <li><button class="thumb" type="button" data-full="assets/media/p-umbrellas-full.jpg" data-w="1600" data-h="1151"><img src="assets/media/p-umbrellas-640.jpg" width="640" height="460" alt="תקרת המטריות הצבעוניות בכניסה למסעדה" loading="lazy" decoding="async"><span class="thumb-cap">תקרת המטריות</span></button></li>
+        <li><button class="thumb" type="button" data-full="assets/media/p-nigiri-full.jpg" data-w="1208" data-h="2000"><img src="assets/media/p-nigiri-640.jpg" width="386" height="640" alt="ניגירי סלמון עם טפטוף רוטב ושומשום שחור" loading="lazy" decoding="async"><span class="thumb-cap">ניגירי סלמון</span></button></li>
+        <li><button class="thumb" type="button" data-full="assets/media/p-salmon-roll-full.jpg" data-w="1705" data-h="2000"><img src="assets/media/p-salmon-roll-640.jpg" width="546" height="640" alt="רול סלמון עם איקורה, אספרגוס ובצל ירוק" loading="lazy" decoding="async"><span class="thumb-cap">רול סלמון ואיקורה</span></button></li>
+        <li><button class="thumb" type="button" data-full="assets/media/p-bartender-full.jpg" data-w="1208" data-h="2000"><img src="assets/media/p-bartender-640.jpg" width="386" height="640" alt="הברמן מוזג קוקטייל דרך מסננת לכוס קופה" loading="lazy" decoding="async"><span class="thumb-cap">הברמן מוזג</span></button></li>
+        <li><button class="thumb" type="button" data-full="assets/media/p-waiter-full.jpg" data-w="1600" data-h="2000"><img src="assets/media/p-waiter-640.jpg" width="512" height="640" alt="מלצר מגיש מגשי סושי ליד השער האדום של המסעדה" loading="lazy" decoding="async"><span class="thumb-cap">המלצר בכניסה</span></button></li>
+        <li><button class="thumb" type="button" data-full="assets/media/p-cucumber-rolls-full.jpg" data-w="1886" data-h="2000"><img src="assets/media/p-cucumber-rolls-640.jpg" width="604" height="640" alt="רולים בעטיפת מלפפון עם פירורי טמפורה ורוטב" loading="lazy" decoding="async"><span class="thumb-cap">רולים בעטיפת מלפפון</span></button></li>
+        <li><button class="thumb" type="button" data-full="assets/media/p-salmon-bowl-full.jpg" data-w="1704" data-h="2000"><img src="assets/media/p-salmon-bowl-640.jpg" width="546" height="640" alt="קערת סלמון עם אבוקדו, מלפפון, גזר, אדממה ושומשום" loading="lazy" decoding="async"><span class="thumb-cap">קערת סלמון</span></button></li>
+        <li><button class="thumb" type="button" data-full="assets/media/p-sushi-leaf-full.jpg" data-w="2000" data-h="1133"><img src="assets/media/p-sushi-leaf-640.jpg" width="640" height="363" alt="רולים מעוטרים בסלמון וסקליון על עלה בננה" loading="lazy" decoding="async"><span class="thumb-cap">רולים על עלה בננה</span></button></li>
+        <li><button class="thumb" type="button" data-full="assets/media/p-dumplings-full.jpg" data-w="1600" data-h="2000"><img src="assets/media/p-dumplings-640.jpg" width="512" height="640" alt="דים סאם בסלסלת אידוי מבמבוק, עם רוטב סויה ושומשום" loading="lazy" decoding="async"><span class="thumb-cap">דים סאם באידוי</span></button></li>
+        <li><button class="thumb" type="button" data-full="assets/media/p-tuna-tataki-full.jpg" data-w="2000" data-h="1333"><img src="assets/media/p-tuna-tataki-640.jpg" width="640" height="427" alt="פרוסות טאטאקי טונה צרובות עם שומשום ורטבים" loading="lazy" decoding="async"><span class="thumb-cap">טאטאקי טונה</span></button></li>
+        <li><button class="thumb" type="button" data-full="assets/media/p-smoke-cocktail-full.jpg" data-w="1208" data-h="2000"><img src="assets/media/p-smoke-cocktail-640.jpg" width="386" height="640" alt="קוקטייל בכוס קופה עם פלח ליים, עטוף בעשן" loading="lazy" decoding="async"><span class="thumb-cap">קוקטייל מעושן</span></button></li>
       </ul>
-    </div>
-    <figure class="exp-fig reveal">
-      <div class="img-frame"><img data-depth="0.18" src="assets/media/p-umbrellas-1000.jpg" srcset="assets/media/p-umbrellas-640.jpg 640w, assets/media/p-umbrellas-1000.jpg 1000w, assets/media/p-umbrellas-1600.jpg 1600w" sizes="(max-width: 820px) 100vw, 56vw" width="1600" height="1151" alt="תקרת מטריות הנייר הצבעוניות ביוקו אונו, והשער המואר של המסעדה" loading="lazy" decoding="async"></div>
-      <figcaption class="fig-cap">תקרת המטריות</figcaption>
-    </figure>
-  </div>
-</section>
+      <button class="rail-more" id="railMore" type="button" aria-expanded="false" aria-controls="railList" data-ev="gallery"><span class="rail-more-text">כל התמונות</span><span class="rail-more-count" aria-hidden="true">11</span></button>
+    </aside>
+  </section>
 
-<section class="sec sec-food" id="food">
-  <div class="wrap">
-    <div class="sec-head reveal">
-      <p class="kicker part"><svg class="k-umb"><use href="#umb"/></svg><span dir="ltr">THE FOOD</span></p>
-      <h2 class="h2 part">הטעמים שמחכים לכם.</h2>
-      <p class="lede part">סושי ורולים, ניגירי, דים סאם ומנות חמות. התפריט המלא, עם המחירים, מחכה ב־Wolt.</p>
-    </div>
-    <div class="gallery reveal">
-      <figure class="g g-wide part"><div class="img-frame"><img data-depth="0.12" src="assets/media/p-sushi-leaf-1000.jpg" srcset="assets/media/p-sushi-leaf-640.jpg 640w, assets/media/p-sushi-leaf-1000.jpg 1000w, assets/media/p-sushi-leaf-1600.jpg 1600w" sizes="(max-width: 820px) 100vw, 64vw" width="1600" height="906" alt="רולים של סלמון על עלה בננה, עם בצל ירוק ורוטב כהה" loading="lazy" decoding="async"></div><figcaption>רולים על עלה בננה</figcaption></figure>
-      <figure class="g g-tall part"><div class="img-frame"><img data-depth="0.1" src="assets/media/p-nigiri-1000.jpg" srcset="assets/media/p-nigiri-640.jpg 640w, assets/media/p-nigiri-1000.jpg 1000w, assets/media/p-nigiri-1600.jpg 1600w" sizes="(max-width: 820px) 50vw, 32vw" width="1600" height="2650" alt="ניגירי סלמון עם שומשום שחור ורוטב שנמזג מלמעלה" loading="lazy" decoding="async"></div><figcaption>ניגירי סלמון</figcaption></figure>
-      <figure class="g part"><div class="img-frame"><img data-depth="0.08" src="assets/media/p-tuna-tataki-1000.jpg" srcset="assets/media/p-tuna-tataki-640.jpg 640w, assets/media/p-tuna-tataki-1000.jpg 1000w, assets/media/p-tuna-tataki-1600.jpg 1600w" sizes="(max-width: 820px) 50vw, 32vw" width="1600" height="1067" alt="טאטאקי טונה פרוס על צלחת שחורה עם מלפפון ושני רטבים" loading="lazy" decoding="async"></div><figcaption>טאטאקי טונה</figcaption></figure>
-      <figure class="g part"><div class="img-frame"><img data-depth="0.1" src="assets/media/p-dumplings-1000.jpg" srcset="assets/media/p-dumplings-640.jpg 640w, assets/media/p-dumplings-1000.jpg 1000w, assets/media/p-dumplings-1600.jpg 1600w" sizes="(max-width: 820px) 50vw, 32vw" width="1600" height="2000" alt="כיסוני דים סאם בסלסלת אידוי מבמבוק עם רוטב סויה" loading="lazy" decoding="async"></div><figcaption>דים סאם באידוי</figcaption></figure>
-      <figure class="g part"><div class="img-frame"><img data-depth="0.08" src="assets/media/p-cucumber-rolls-1000.jpg" srcset="assets/media/p-cucumber-rolls-640.jpg 640w, assets/media/p-cucumber-rolls-1000.jpg 1000w, assets/media/p-cucumber-rolls-1600.jpg 1600w" sizes="(max-width: 820px) 50vw, 32vw" width="1600" height="1696" alt="רולים עטופים במלפפון עם סלמון קצוץ ובצל ירוק" loading="lazy" decoding="async"></div><figcaption>רולים בעטיפת מלפפון</figcaption></figure>
-      <figure class="g g-half part"><div class="img-frame"><img data-depth="0.12" src="assets/media/p-salmon-roll-1000.jpg" srcset="assets/media/p-salmon-roll-640.jpg 640w, assets/media/p-salmon-roll-1000.jpg 1000w, assets/media/p-salmon-roll-1600.jpg 1600w" sizes="(max-width: 820px) 100vw, 48vw" width="1600" height="1893" alt="רול סלמון עם איקורה, אספרגוס ובצל ירוק על צלחת אבן" loading="lazy" decoding="async"></div><figcaption>רול סלמון ואיקורה</figcaption></figure>
-      <figure class="g g-half part"><div class="img-frame"><img data-depth="0.12" src="assets/media/p-salmon-bowl-1000.jpg" srcset="assets/media/p-salmon-bowl-640.jpg 640w, assets/media/p-salmon-bowl-1000.jpg 1000w, assets/media/p-salmon-bowl-1600.jpg 1600w" sizes="(max-width: 820px) 100vw, 48vw" width="1600" height="1904" alt="קערת סלמון עם מלפפון, גזר, אדממה ושומשום" loading="lazy" decoding="async"></div><figcaption>קערת סלמון</figcaption></figure>
-    </div>
-    <div class="cta-row center reveal">
-      <a class="btn btn-ghost part" href="https://wolt.com/he/isr/hasharon/restaurant/yoko-ono" target="_blank" rel="noopener noreferrer">לתפריט המלא ב־Wolt<svg class="i"><use href="#i-ext"/></svg></a>
-      <a class="btn btn-primary part" href="https://ontopo.com/he/il/page/14510630" target="_blank" rel="noopener noreferrer">הזמינו שולחן</a>
-    </div>
-  </div>
-</section>
-
-<section class="sec sec-place" id="place">
-  <div class="wrap">
-    <div class="sec-head reveal">
-      <p class="kicker part"><svg class="k-umb"><use href="#umb"/></svg><span dir="ltr">THE PLACE</span></p>
-      <h2 class="h2 part">המקום. הבר. הערב.</h2>
-      <p class="lede part">חדר אחד מתחת למטריות, חדר שני שקט יותר, ובר שמכין קוקטיילים עם עשן. באים לארוחה, נשארים לכוס.</p>
-    </div>
-    <div class="place-grid reveal">
-      <figure class="pm pm-loop part">
-        <div class="img-frame"><video class="loop" muted playsinline loop preload="none" poster="assets/media/room-poster.jpg" data-src="assets/media/room-loop.mp4" aria-label="החדר השני של יוקו אונו: תקרת במבוק, שולחנות לבנים וקיר מצויר"></video></div>
-        <figcaption>החדר השני</figcaption>
-      </figure>
-      <figure class="pm part"><div class="img-frame"><img data-depth="0.1" src="assets/media/p-bartender-1000.jpg" srcset="assets/media/p-bartender-640.jpg 640w, assets/media/p-bartender-1000.jpg 1000w" sizes="(max-width: 820px) 50vw, 22vw" width="1600" height="2650" alt="ברמן מוזג קוקטייל דרך מסננת לכוס קופה" loading="lazy" decoding="async"></div><figcaption>הבר</figcaption></figure>
-      <figure class="pm part"><div class="img-frame"><img data-depth="0.1" src="assets/media/p-smoke-cocktail-1000.jpg" srcset="assets/media/p-smoke-cocktail-640.jpg 640w, assets/media/p-smoke-cocktail-1000.jpg 1000w" sizes="(max-width: 820px) 50vw, 22vw" width="1600" height="2650" alt="קוקטייל בכוס קופה עם פרוסת ליים, עטוף בעשן" loading="lazy" decoding="async"></div><figcaption>קוקטייל עם עשן</figcaption></figure>
-      <figure class="pm part"><div class="img-frame"><img data-depth="0.1" src="assets/media/p-waiter-1000.jpg" srcset="assets/media/p-waiter-640.jpg 640w, assets/media/p-waiter-1000.jpg 1000w" sizes="(max-width: 820px) 50vw, 22vw" width="1600" height="2000" alt="מלצר מגיש מגשי סושי ליד השער האדום והפנס" loading="lazy" decoding="async"></div><figcaption>הערב</figcaption></figure>
-    </div>
-  </div>
-</section>
-
-<section class="sec sec-deliv" id="delivery">
-  <div class="bg-fig" aria-hidden="true"><img data-depth="0.16" src="assets/media/p-salmon-roll-1000.jpg" srcset="assets/media/p-salmon-roll-640.jpg 640w, assets/media/p-salmon-roll-1000.jpg 1000w, assets/media/p-salmon-roll-1600.jpg 1600w" sizes="100vw" width="1600" height="1893" alt="" loading="lazy" decoding="async"></div>
-  <div class="wrap reveal">
-    <div class="card part">
-      <h2 class="h2">יוקו אונו, גם אצלכם בבית.</h2>
-      <p class="lede">בא לכם ליהנות מהטעמים שלנו בבית? ההזמנה למשלוח דרך Wolt, ולאיסוף עצמי מתקשרים.</p>
-      <div class="cta-row">
-        <a class="btn btn-primary" href="https://wolt.com/he/isr/hasharon/restaurant/yoko-ono" target="_blank" rel="noopener noreferrer">להזמנת משלוח<svg class="i"><use href="#i-ext"/></svg></a>
-        <a class="btn btn-ghost" href="tel:+972779386192"><svg class="i"><use href="#i-phone"/></svg><span class="num" dir="ltr">077-938-6192</span></a>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="sec sec-events" id="events">
-  <div class="bg-fig" aria-hidden="true"><img data-depth="0.16" src="assets/media/hero-ending-720.jpg" width="720" height="1280" alt="" loading="lazy" decoding="async"></div>
-  <div class="wrap reveal">
-    <div class="card part">
-      <h2 class="h2">רגעים מיוחדים, באווירה אחרת.</h2>
-      <p class="lede">חוגגים משהו? ספרו לנו מה אתם מתכננים ונחזור אליכם.</p>
-      <div class="cta-row">
-        <a class="btn btn-primary" href="mailto:yokoono.israel@gmail.com?subject=%D7%A4%D7%A0%D7%99%D7%99%D7%94%20%D7%91%D7%A0%D7%95%D7%A9%D7%90%20%D7%90%D7%99%D7%A8%D7%95%D7%A2%20%D7%91%D7%99%D7%95%D7%A7%D7%95%20%D7%90%D7%95%D7%A0%D7%95">לפרטים על אירועים<svg class="i"><use href="#i-mail"/></svg></a>
-        <a class="link-more" href="tel:+972779386192">או התקשרו: <span class="num" dir="ltr">077-938-6192</span></a>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="sec sec-find" id="find">
-  <div class="wrap grid-find">
-    <div class="find-info reveal">
-      <p class="kicker part"><svg class="k-umb"><use href="#umb"/></svg><span dir="ltr">FIND US</span></p>
-      <h2 class="h2 part">נתראה ביוקו אונו.</h2>
-      <address class="addr part">
-        <a class="addr-line" href="https://www.google.com/maps/dir/?api=1&amp;destination=%D7%90%D7%97%D7%95%D7%96%D7%94%20124%2C%20%D7%A8%D7%A2%D7%A0%D7%A0%D7%94" target="_blank" rel="noopener noreferrer"><svg class="i"><use href="#i-pin"/></svg><span>אחוזה 124, רעננה</span></a>
-        <a class="addr-line" href="tel:+972779386192"><svg class="i"><use href="#i-phone"/></svg><span class="num" dir="ltr">077-938-6192</span></a>
-      </address>
-      <div class="cta-row part">
-        <a class="btn btn-ghost btn-sm" href="https://www.google.com/maps/dir/?api=1&amp;destination=%D7%90%D7%97%D7%95%D7%96%D7%94%20124%2C%20%D7%A8%D7%A2%D7%A0%D7%A0%D7%94" target="_blank" rel="noopener noreferrer">ניווט ב־Google Maps</a>
-        <a class="btn btn-ghost btn-sm" href="https://waze.com/ul?q=%D7%90%D7%97%D7%95%D7%96%D7%94%20124%20%D7%A8%D7%A2%D7%A0%D7%A0%D7%94&amp;navigate=yes" target="_blank" rel="noopener noreferrer">ניווט ב־Waze</a>
-      </div>
-
-      <div class="hours part" id="hours">
-        <div class="lanterns" id="lanterns">
-          <svg class="lantern l1" viewBox="-20 -14 100 120" aria-hidden="true">
-            <ellipse class="ln-glow" cx="30" cy="42" rx="46" ry="52" fill="url(#g-glow)"/>
-            <path d="M25 2h10l3 7H22z" fill="#8e1e1e"/>
-            <path d="M13 9h34l4 9H9z" fill="#b3271f"/>
-            <rect class="ln-glass" x="12" y="18" width="36" height="44" fill="#2a1612"/>
-            <rect class="ln-core" x="12" y="18" width="36" height="44" fill="url(#g-glow)"/>
-            <path d="M12 18v44M48 18v44M30 18v44M12 40h36" fill="none" stroke="#8e1e1e" stroke-width="2"/>
-            <path d="M9 62h42l-4 9H13z" fill="#b3271f"/>
-            <path d="M22 71h16v9H22z" fill="#8e1e1e"/>
-            <path d="M16 80h28v10H16z" fill="#6b1515"/>
-          </svg>
-          <svg class="lantern l2" viewBox="-20 -14 100 120" aria-hidden="true">
-            <ellipse class="ln-glow" cx="30" cy="42" rx="46" ry="52" fill="url(#g-glow)"/>
-            <path d="M25 2h10l3 7H22z" fill="#8e1e1e"/>
-            <path d="M13 9h34l4 9H9z" fill="#b3271f"/>
-            <rect class="ln-glass" x="12" y="18" width="36" height="44" fill="#2a1612"/>
-            <rect class="ln-core" x="12" y="18" width="36" height="44" fill="url(#g-glow)"/>
-            <path d="M12 18v44M48 18v44M30 18v44M12 40h36" fill="none" stroke="#8e1e1e" stroke-width="2"/>
-            <path d="M9 62h42l-4 9H13z" fill="#b3271f"/>
-            <path d="M22 71h16v9H22z" fill="#8e1e1e"/>
-            <path d="M16 80h28v10H16z" fill="#6b1515"/>
-          </svg>
+  <section class="visit" id="visit" aria-labelledby="visit-h">
+    <div class="wrap visit-wrap">
+      <div class="visit-text">
+        <header class="sec-head reveal">
+          <p class="kicker"><span class="kicker-latin" lang="en" dir="ltr">Find Us</span></p>
+          <h2 class="h2 split" id="visit-h">נתראה ביוקו אונו.</h2>
+          <span class="rule" aria-hidden="true"></span>
+          <p class="lede">שולחן, תפריט, משלוח או טלפון. הכול כאן.</p>
+        </header>
+        <ul class="actions reveal">
+          <li><a class="action" href="https://ontopo.com/he/il/page/14510630" data-ev="reserve" rel="noopener"><span class="action-name">הזמינו שולחן</span><span class="action-meta" lang="en" dir="ltr">Ontopo</span><span class="action-arrow" aria-hidden="true">←</span></a></li>
+          <li><a class="action" href="https://wolt.com/he/isr/hasharon/restaurant/yoko-ono" data-ev="menu" rel="noopener"><span class="action-name">התפריט שלנו</span><span class="action-meta">התפריט המלא עם המחירים</span><span class="action-arrow" aria-hidden="true">←</span></a></li>
+          <li><a class="action" href="https://wolt.com/he/isr/hasharon/restaurant/yoko-ono" data-ev="delivery" rel="noopener"><span class="action-name">משלוח עד הבית</span><span class="action-meta" lang="en" dir="ltr">Wolt</span><span class="action-arrow" aria-hidden="true">←</span></a></li>
+          <li><a class="action" href="tel:+972779386192" data-ev="call"><span class="action-name">התקשרו</span><span class="action-meta num" dir="ltr">077-938-6192</span><span class="action-arrow" aria-hidden="true">←</span></a></li>
+          <li><a class="action" href="https://www.google.com/maps/dir/?api=1&amp;destination=%D7%90%D7%97%D7%95%D7%96%D7%94%20124%2C%20%D7%A8%D7%A2%D7%A0%D7%A0%D7%94" data-ev="directions" rel="noopener"><span class="action-name">ניווט למסעדה</span><span class="action-meta" lang="en" dir="ltr">Google Maps</span><span class="action-arrow" aria-hidden="true">←</span></a></li>
+        </ul>
+        <div class="details reveal">
+          <div class="detail">
+            <h3 class="detail-h">כתובת</h3>
+            <p><a href="https://www.google.com/maps/dir/?api=1&amp;destination=%D7%90%D7%97%D7%95%D7%96%D7%94%20124%2C%20%D7%A8%D7%A2%D7%A0%D7%A0%D7%94" data-ev="directions" rel="noopener">אחוזה 124, רעננה</a></p>
+            <p class="detail-line">כשר למהדרין</p>
+          </div>
+          <div class="detail">
+            <h3 class="detail-h">שעות פעילות</h3>
+            <dl class="hours">
+              <div><dt>א׳–ה׳</dt><dd><span class="num" dir="ltr">12:00–23:00</span></dd></div>
+              <div><dt>ו׳</dt><dd><span class="num" dir="ltr">11:30–14:30</span></dd></div>
+              <div><dt>מוצ״ש</dt><dd><span class="num" dir="ltr">20:30–23:00</span></dd></div>
+            </dl>
+            <p class="small">לפי מערכת ההזמנות. בחגים ובמועדים כדאי לוודא בטלפון.</p>
+          </div>
+          <div class="detail">
+            <h3 class="detail-h">דברו איתנו</h3>
+            <p><a href="tel:+972779386192" data-ev="call"><span class="num" dir="ltr">077-938-6192</span></a></p>
+            <p><a href="mailto:yokoono.israel@gmail.com"><span dir="ltr">yokoono.israel@gmail.com</span></a></p>
+            <p class="social"><a href="https://www.instagram.com/yoko_ono_fusion/" data-ev="instagram" rel="noopener" lang="en" dir="ltr">Instagram</a><span class="dot" aria-hidden="true">·</span><a href="https://www.facebook.com/share/1cHAUizDXE/" data-ev="facebook" rel="noopener" lang="en" dir="ltr">Facebook</a></p>
+          </div>
         </div>
-        <button class="hold" id="hold" type="button" aria-describedby="holdHint"><span class="hold-fill" aria-hidden="true"></span><span class="hold-txt">לחצו והחזיקו כדי להדליק את הפנסים</span></button>
-        <p class="hold-hint" id="holdHint">אפשר גם עם מקש הרווח. בלי זה, השעות כאן בכל מקרה.</p>
-        <p class="lit-line" aria-live="polite">הפנסים דולקים. מחכים לכם.</p>
-        <p class="hours-title">שעות פעילות</p>
-        <dl class="hours-list">
-          <div class="hrow"><dt>א׳–ה׳</dt><dd class="num" dir="ltr">12:00–23:00</dd></div>
-          <div class="hrow"><dt>ו׳</dt><dd class="num" dir="ltr">11:30–14:30</dd></div>
-          <div class="hrow"><dt>מוצ״ש</dt><dd class="num" dir="ltr">20:30–23:00</dd></div>
-        </dl>
-        <p class="small">לפי מערכת ההזמנות. בחגים ובמועדים כדאי לוודא בטלפון.</p>
-        <a class="btn btn-primary hours-cta" href="https://ontopo.com/he/il/page/14510630" target="_blank" rel="noopener noreferrer">הזמינו שולחן</a>
       </div>
+      <figure class="visit-fig reveal">
+        <div class="img-frame"><img src="assets/media/p-waiter-1000.jpg" srcset="assets/media/p-waiter-640.jpg 640w, assets/media/p-waiter-1000.jpg 1000w, assets/media/p-waiter-1600.jpg 1600w" sizes="(max-width: 820px) 100vw, 36vw" width="1000" height="1250" alt="מלצר מגיש מגשי סושי ליד השער האדום של המסעדה" data-depth="0.1" loading="lazy" decoding="async"></div>
+      </figure>
     </div>
-    <figure class="find-fig reveal">
-      <div class="img-frame"><img data-depth="0.14" src="assets/media/hero-poster-720.jpg" srcset="assets/media/hero-poster-720.jpg 720w, assets/media/hero-poster-1080.jpg 1080w" sizes="(max-width: 820px) 100vw, 38vw" width="720" height="1280" alt="השער האדום של יוקו אונו באחוזה 124, רעננה, בלילה, עם שני פנסים דולקים" loading="lazy" decoding="async"></div>
-      <figcaption class="fig-cap">השער האדום, אחוזה 124</figcaption>
-    </figure>
-  </div>
-</section>
-
+  </section>
 </main>
 
 <footer class="footer" id="footer">
-  <div class="wrap">
-    <div class="foot-grid">
-      <div class="foot-brand">
-        <img src="assets/media/logo.svg" alt="הלוגו של יוקו אונו" width="150" height="115" loading="lazy" decoding="async">
-        <p class="foot-word" dir="ltr">YOKO ONO<span class="foot-sub">ASIAN KITCHEN</span></p>
-      </div>
-      <div class="foot-col">
-        <p class="foot-h">נתראה</p>
-        <a class="foot-line" href="https://www.google.com/maps/dir/?api=1&amp;destination=%D7%90%D7%97%D7%95%D7%96%D7%94%20124%2C%20%D7%A8%D7%A2%D7%A0%D7%A0%D7%94" target="_blank" rel="noopener noreferrer">אחוזה 124, רעננה</a>
-        <a class="foot-line" href="tel:+972779386192"><span class="num" dir="ltr">077-938-6192</span></a>
-        <a class="foot-line" href="mailto:yokoono.israel@gmail.com"><span dir="ltr">yokoono.israel@gmail.com</span></a>
-      </div>
-      <div class="foot-col">
-        <p class="foot-h">קישורים</p>
-        <a class="foot-line" href="https://ontopo.com/he/il/page/14510630" target="_blank" rel="noopener noreferrer">הזמנת שולחן</a>
-        <a class="foot-line" href="https://wolt.com/he/isr/hasharon/restaurant/yoko-ono" target="_blank" rel="noopener noreferrer">תפריט ומשלוחים</a>
-        <a class="foot-line" href="privacy.html">פרטיות</a>
-        <a class="foot-line" href="accessibility.html">נגישות</a>
-      </div>
-      <div class="foot-col">
-        <p class="foot-h">עקבו אחרינו</p>
-        <a class="foot-line soc" href="https://www.instagram.com/yoko_ono_fusion/" target="_blank" rel="noopener noreferrer"><svg class="i"><use href="#i-ig"/></svg>אינסטגרם</a>
-        <a class="foot-line soc" href="https://www.facebook.com/share/1cHAUizDXE/" target="_blank" rel="noopener noreferrer"><svg class="i"><use href="#i-fb"/></svg>פייסבוק</a>
-      </div>
+  <div class="wrap foot-in">
+    <div class="foot-brand">
+      <img class="foot-logo" src="assets/media/logo.svg" alt="" width="120" height="115">
+      <p class="foot-word" lang="en" dir="ltr">YOKO ONO · ASIAN KITCHEN</p>
     </div>
-    <p class="foot-legal">© <span dir="ltr">YOKO ONO</span> · הצילומים והסרטון באתר הם של המסעדה.</p>
+    <div class="foot-cols">
+      <p class="foot-line">אחוזה 124, רעננה <span class="dot" aria-hidden="true">·</span> <a href="tel:+972779386192" data-ev="call"><span class="num" dir="ltr">077-938-6192</span></a> <span class="dot" aria-hidden="true">·</span> <a href="mailto:yokoono.israel@gmail.com"><span dir="ltr">yokoono.israel@gmail.com</span></a></p>
+      <ul class="foot-links">
+        <li><a href="https://ontopo.com/he/il/page/14510630" data-ev="reserve" rel="noopener">הזמנת שולחן</a></li>
+        <li><a href="https://wolt.com/he/isr/hasharon/restaurant/yoko-ono" data-ev="menu" rel="noopener">תפריט</a></li>
+        <li><a href="https://wolt.com/he/isr/hasharon/restaurant/yoko-ono" data-ev="delivery" rel="noopener">משלוחים</a></li>
+        <li><a href="https://www.instagram.com/yoko_ono_fusion/" data-ev="instagram" rel="noopener">אינסטגרם</a></li>
+        <li><a href="https://www.facebook.com/share/1cHAUizDXE/" data-ev="facebook" rel="noopener">פייסבוק</a></li>
+        <li><a href="privacy.html">פרטיות</a></li>
+        <li><a href="accessibility.html">נגישות</a></li>
+      </ul>
+      <p class="foot-legal">© <span lang="en" dir="ltr">YOKO ONO</span>. הצילומים והסרטון הם של המסעדה.</p>
+    </div>
   </div>
 </footer>
 
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="תצוגת תמונה" hidden>
+  <button class="lb-btn lb-close" id="lbClose" type="button" aria-label="סגירה"><svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5l14 14M19 5L5 19" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button>
+  <button class="lb-btn lb-prev" id="lbPrev" type="button" aria-label="התמונה הקודמת"><svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+  <button class="lb-btn lb-next" id="lbNext" type="button" aria-label="התמונה הבאה"><svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+  <figure class="lb-fig" id="lbFig">
+    <img class="lb-img" id="lbImg" src="" alt="" draggable="false">
+    <figcaption class="lb-cap"><span id="lbCap"></span><span class="lb-count" id="lbCount" dir="ltr"></span></figcaption>
+  </figure>
+</div>
+
 <div class="sticky-cta" id="stickyCta">
-  <a class="sc-phone" href="tel:+972779386192" aria-label="התקשרו, 077-938-6192"><svg class="i"><use href="#i-phone"/></svg></a>
-  <a class="btn btn-primary sc-btn" href="https://ontopo.com/he/il/page/14510630" target="_blank" rel="noopener noreferrer">הזמינו שולחן</a>
+  <a class="btn btn-gold" href="https://ontopo.com/he/il/page/14510630" data-ev="reserve" rel="noopener">הזמינו שולחן</a>
+  <a class="btn btn-ghost btn-icon" href="tel:+972779386192" data-ev="call" aria-label="התקשרו, 077-938-6192"><svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25c1.1.37 2.3.57 3.6.57a1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1L6.6 10.8z"/></svg></a>
 </div>
 
 <script src="assets/site.js" defer></script>
