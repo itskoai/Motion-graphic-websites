@@ -201,6 +201,28 @@
     if (reduce.matches) stopEngine(); else { html.classList.remove('is-static'); startEngine(); }
   });
 
+
+  /* ---------- The palm sign: choose your way ---------- */
+  var sign = $('sign');
+  if (sign) {
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(function (entries, obs) {
+        if (entries[0].isIntersecting) { sign.classList.add('lit'); obs.disconnect(); }
+      }, { threshold: 0.6 }).observe(sign);
+    } else {
+      sign.classList.add('lit');
+    }
+    Array.prototype.forEach.call(sign.querySelectorAll('.leaf'), function (a) {
+      a.addEventListener('click', function (ev) {
+        if (reduce.matches || ev.metaKey || ev.ctrlKey || ev.shiftKey) return;
+        ev.preventDefault();
+        sign.classList.add(a.dataset.press);
+        setTimeout(function () { window.location.href = a.href; }, 420);
+      });
+    });
+    window.addEventListener('pageshow', function () { sign.classList.remove('press-rest', 'press-street'); });
+  }
+
   window.addEventListener('scroll', schedule, { passive: true });
   window.addEventListener('resize', schedule);
   startEngine();

@@ -138,7 +138,7 @@ html:not(.js) .reveal{opacity:1;transform:none}
 
 /* Sections */
 .section{position:relative;padding:clamp(72px,12vw,140px) 0;background:var(--bg)}
-.section-menu{z-index:2;margin-top:-9vh;border-radius:28px 28px 0 0;padding-top:clamp(64px,10vw,110px)}
+.section-choose{z-index:2;margin-top:-9vh;border-radius:28px 28px 0 0;padding-top:clamp(64px,10vw,110px)}
 .section .wrap + .wrap{margin-top:clamp(36px,6vw,64px)}
 .section-experience{background:var(--bg-2)}
 
@@ -164,11 +164,6 @@ html:not(.js) .reveal{opacity:1;transform:none}
   .grid-exp .frame{aspect-ratio:auto;min-height:520px}
 }
 
-.facts{list-style:none;margin:clamp(40px,6vw,64px) 0 0;padding:0;display:grid;gap:0;border-top:1px solid var(--line)}
-.facts li{display:flex;justify-content:space-between;gap:16px;align-items:baseline;padding:18px 0;border-bottom:1px solid var(--line)}
-.facts strong{font-family:var(--display);font-size:clamp(1.8rem,5vw,2.6rem);line-height:1;font-weight:700}
-.facts span{color:var(--ink-2);text-align:end}
-@media (min-width:900px){.facts{grid-template-columns:1fr 1fr;column-gap:40px}}
 
 .grid-visit{display:grid;gap:40px}
 .rows{list-style:none;margin:clamp(28px,5vw,44px) 0 0;padding:0;border-top:1px solid var(--line)}
@@ -223,3 +218,30 @@ html:not(.js) .reveal{opacity:1;transform:none}
 .page p+p{margin-top:14px}
 .page ul{padding-inline-start:20px}
 .page .back{display:inline-block;margin-top:40px}
+
+/* The palm sign: choose your way. Hotspot and glow positions are the kit's, in percent of the sign box. */
+.choose{display:grid;justify-items:center;gap:20px;text-align:center}
+.choose h2.display{font-size:clamp(3.4rem,13vw,7rem)}
+.choose-line{color:var(--ink-2);font-size:clamp(1.05rem,3vw,1.25rem);margin-top:-6px}
+.scene{perspective:1100px;width:min(92vw,460px);margin-top:10px}
+.sign{position:relative;aspect-ratio:1744/2336;border-radius:20px;overflow:hidden;background:var(--panel);transform-style:preserve-3d;transition:transform .35s cubic-bezier(.2,.7,.2,1)}
+.sign img{width:100%;height:100%;object-fit:cover;display:block}
+.sweep{position:absolute;inset:0;pointer-events:none;mix-blend-mode:screen;opacity:0;background:linear-gradient(105deg,transparent 40%,rgba(255,214,150,.75) 50%,transparent 60%) no-repeat;background-size:300% 100%;background-position:120% 0;-webkit-mask-image:radial-gradient(ellipse 19% 6% at 24.8% 44%,#000 70%,transparent 100%),radial-gradient(ellipse 22% 7.5% at 23.4% 61%,#000 70%,transparent 100%),radial-gradient(ellipse 14.5% 6.5% at 65.3% 44%,#000 70%,transparent 100%),radial-gradient(ellipse 14.5% 5.5% at 69.7% 52%,#000 70%,transparent 100%);mask-image:radial-gradient(ellipse 19% 6% at 24.8% 44%,#000 70%,transparent 100%),radial-gradient(ellipse 22% 7.5% at 23.4% 61%,#000 70%,transparent 100%),radial-gradient(ellipse 14.5% 6.5% at 65.3% 44%,#000 70%,transparent 100%),radial-gradient(ellipse 14.5% 5.5% at 69.7% 52%,#000 70%,transparent 100%)}
+.sign.lit .sweep{animation:sweep 2.2s ease-in-out .2s 1 both}
+@keyframes sweep{0%{opacity:1;background-position:120% 0}85%{opacity:1}100%{opacity:0;background-position:-20% 0}}
+.glow{position:absolute;pointer-events:none;border-radius:50%;opacity:0;background:radial-gradient(closest-side,rgba(230,40,50,.62),rgba(209,38,31,.18) 70%,rgba(209,38,31,0));mix-blend-mode:hard-light;filter:blur(2px);transition:opacity .25s ease}
+.g1{left:5.8%;top:38%;width:38%;height:12%}
+.g2{left:2.4%;top:53.5%;width:42%;height:15%}
+.g3{left:51%;top:37.5%;width:28.6%;height:13%}
+.g4{left:55.4%;top:46.5%;width:28.6%;height:11%}
+.leaf{position:absolute;display:block;outline:none;-webkit-tap-highlight-color:transparent;border-radius:28px}
+.restaurant{left:3%;top:38%;width:42%;height:30%}
+.street{left:52%;top:37.5%;width:31%;height:19%}
+.leaf:focus-visible{box-shadow:0 0 0 3px var(--ink);outline:none}
+.sign:has(.restaurant:hover,.restaurant:focus-visible) .g-rest,
+.sign:has(.street:hover,.street:focus-visible) .g-street,
+.sign.press-rest .g-rest,.sign.press-street .g-street{opacity:1}
+.sign.press-rest{transform:rotateY(-7deg) scale(.985)}
+.sign.press-street{transform:rotateY(7deg) scale(.985)}
+.legend{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-top:6px}
+@media (prefers-reduced-motion:reduce){.sign.lit .sweep{animation:none}.sign{transition:none}.sign.press-rest,.sign.press-street{transform:none}}
