@@ -5,15 +5,15 @@ Built from `yoko-ono-kit/` only. Folder to deploy: `yoko-ono-v4/` (static, no bu
 ## What is in the folder
 - `index.html`, `privacy.html`, `accessibility.html`, `robots.txt`
 - `.htaccess` (Apache hosts) and `_headers` (Cloudflare Pages): HTTPS only, the studio hardening block, strict CSP with no inline code.
-- `assets/hero/frames/` the 181 kit frames and `poster.webp`, untouched.
+- `assets/hero/frames-mobile/` and `assets/hero/frames-desktop/` (172 frames each) plus the two posters, copied from `yoko-ono-kit/hero-v2/` untouched.
 - `assets/photos/` the 11 kit photos as webp at 800 and 1400 px, metadata dropped. Originals stay in the kit.
 - `assets/brand/logo.svg` the kit logo with its fill changed to `currentColor`, plus `favicon.svg`.
 - `assets/fonts/` Karantina 700 (display) and Assistant 400/600 (body), self-hosted copies already in this repository.
 
-## The hero
-Canvas scroll walkthrough, the way `yoko-ono-kit/hero/demo.html` does it: 500vh section, sticky stage, frame = progress × 180.
-Frames 1 to 30 load first, the rest stream in four lanes behind a thin red progress line. Poster until frame 1 draws.
-Phones: full-screen cover. Desktop (900 px and wider, landscape): a centred 9:16 column over a blurred, darkened copy of the same frame.
+## The hero (v2, 4 November 2026)
+Canvas scroll walkthrough from `yoko-ono-kit/hero-v2/`, the way its demo does it: 500vh section, sticky stage, frame = progress × 171. Full screen on phones and desktop (object-fit cover). No column, no blurred side panels.
+Two frame sets, 172 frames each: a portrait viewport loads `frames-mobile` (720×1280), a landscape viewport loads `frames-desktop` (1280×720). Only the current set is fetched; a rotate swaps sets. Frames 1 to 30 load first, the rest stream in four lanes behind a thin red progress line, and a frame that fails with a transient host error is retried twice. The matching poster shows until frame 1 draws.
+Captions by scroll progress: "סושי. מנות חמות. קוקטיילים." on the street (0 to 20 percent), "נכנסים." at the door (20 to 30), "הגעתם. שבו." in the dining room (40 to 70), "השולחן שלכם מחכה." while the waiter serves (85 to 100). The booking button stays pinned the whole walk.
 Reduced motion, Save-Data, 2G, no canvas or no JavaScript: poster only, 100vh, headline and buttons still there.
 
 ## Switches the owner decides

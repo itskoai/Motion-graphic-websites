@@ -9,12 +9,13 @@
 <meta property="og:type" content="restaurant">
 <meta property="og:title" content="יוקו אונו · פיוז׳ן אסייתי, רעננה">
 <meta property="og:description" content="סושי, מנות חמות וקוקטיילים. כשר למהדרין. אחוזה 124, רעננה.">
-<meta property="og:image" content="assets/hero/poster.webp">
+<meta property="og:image" content="assets/hero/poster-desktop.webp">
 <meta property="og:locale" content="he_IL">
 <link rel="icon" href="assets/brand/favicon.svg" type="image/svg+xml">
 <link rel="preload" href="assets/fonts/karantina-700.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/fonts/assistant-400-hebrew.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="assets/hero/poster.webp" as="image" type="image/webp">
+<link rel="preload" href="assets/hero/poster-mobile.webp" as="image" type="image/webp" media="(max-aspect-ratio: 1/1)">
+<link rel="preload" href="assets/hero/poster-desktop.webp" as="image" type="image/webp" media="(min-aspect-ratio: 1/1)">
 <link rel="stylesheet" href="assets/site.css">
 <script src="assets/head.js"></script>
 <script type="application/ld+json">
@@ -54,8 +55,10 @@
 <main id="top">
   <section class="hero" id="hero" aria-label="כניסה ליוקו אונו">
     <div class="stage" id="stage">
-      <canvas class="walk-bg" id="walk-bg" aria-hidden="true"></canvas>
-      <img class="poster" id="poster" src="assets/hero/poster.webp" width="720" height="1280" alt="החזית האדומה של מסעדת יוקו אונו ברחוב אחוזה בלילה, עם שלט YOKO ONO ופנסים דולקים" fetchpriority="high" decoding="async">
+      <picture>
+        <source media="(min-aspect-ratio: 1/1)" srcset="assets/hero/poster-desktop.webp" width="1280" height="720">
+        <img class="poster" id="poster" src="assets/hero/poster-mobile.webp" width="720" height="1280" alt="החזית האדומה של מסעדת יוקו אונו ברחוב אחוזה בלילה, עם שלט YOKO ONO ופנסים דולקים" fetchpriority="high" decoding="async">
+      </picture>
       <canvas class="walk" id="walk" aria-hidden="true"></canvas>
       <div class="scrim" aria-hidden="true"></div>
       <div class="load" id="load" aria-hidden="true"></div>
@@ -71,6 +74,9 @@
           </div>
           <div class="band band-c" aria-hidden="true">
             <p class="display">הגעתם.<br>שבו.</p>
+          </div>
+          <div class="band band-d" aria-hidden="true">
+            <p class="display">השולחן שלכם<br>מחכה.</p>
           </div>
         </div>
         <div class="cta-row">

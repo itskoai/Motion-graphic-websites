@@ -13,7 +13,7 @@
   var html = document.documentElement;
   var $ = function (id) { return document.getElementById(id); };
   var nav = $('nav'), navToggle = $('nav-toggle'), navLinks = $('nav-links');
-  var hero = $('hero'), stage = $('stage'), walk = $('walk'), bg = $('walk-bg'), poster = $('poster');
+  var hero = $('hero'), stage = $('stage'), walk = $('walk');
   var ui = $('hero-ui'), cue = $('cue'), loadBar = $('load'), mobileBar = $('mobile-bar');
   var reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
 
@@ -58,10 +58,13 @@
   }
 
   /* ---------- The walk ---------- */
-  var N = 181, imgs = [], loaded = 0, cur = -1, band = 'a', cueHidden = false, live = false, ticking = false, engineOn = false;
-  var ctx = null, bctx = null, dpr = 1, columnMode = false;
+  /* Two frame sets, one per orientation: portrait viewports load frames-mobile (720x1280), landscape
+     viewports load frames-desktop (1280x720). Only the current set is fetched; a rotate swaps sets. */
+  var N = 172, imgs = [], loaded = 0, cur = -1, band = 'a', cueHidden = false, live = false, ticking = false, engineOn = false;
+  var ctx = null, dpr = 1, set = '', gen = 0;
 
-  function src(i) { return 'assets/hero/frames/f_' + String(i).padStart(3, '0') + '.webp'; }
+  function pickSet() { return stage.clientWidth / stage.clientHeight >= 1 ? 'frames-desktop' : 'frames-mobile'; }
+  function src(i) { return 'assets/hero/' + set + '/f_' + String(i).padStart(3, '0') + '.webp'; }
   function ready(im) { return im && im.complete && im.naturalWidth > 0; }
   function nearest(i) {
     if (ready(imgs[i])) return imgs[i];
@@ -71,7 +74,8 @@
     }
     return null;
   }
-  function onLoad() {
+  function onLoad(g) {
+    if (g !== gen) return; /* a frame from the set we left behind */
     loaded++;
     loadBar.style.width = (loaded / N * 100).toFixed(1) + '%';
     if (loaded === N) loadBar.classList.add('is-done');
@@ -79,9 +83,10 @@
   }
   /* One frame request: a transient host error (a 503 on a cold cache) is retried twice before the
      frame is given up; a given-up frame is skipped by nearest(), never a blank screen. */
-  function fetchFrame(i, done) {
+  function fetchFrame(i, g, done) {
     var tries = 0;
     function go() {
+      if (g !== gen) return;
       var im = new Image();
       im.decoding = 'async';
       im.onload = done;
@@ -94,12 +99,16 @@
     }
     go();
   }
-  function loadAll() {
+  function loadSet() {
+    var g = ++gen;
+    imgs = []; loaded = 0; cur = -1;
+    loadBar.classList.remove('is-done');
+    loadBar.style.width = '0%';
     var first = 30, next = first + 1, lanes = 4;
-    for (var i = 1; i <= first; i++) fetchFrame(i, onLoad);
+    for (var i = 1; i <= first; i++) fetchFrame(i, g, function () { onLoad(g); });
     function lane() {
-      if (next > N) return;
-      fetchFrame(next++, function () { onLoad(); lane(); });
+      if (g !== gen || next > N) return;
+      fetchFrame(next++, g, function () { onLoad(g); lane(); });
     }
     for (var k = 0; k < lanes; k++) lane();
   }
@@ -113,13 +122,10 @@
   function size() {
     if (!engineOn) return;
     dpr = Math.min(window.devicePixelRatio || 1, 2);
-    columnMode = getComputedStyle(bg).display !== 'none';
-    var w = walk.clientWidth, h = walk.clientHeight;
-    walk.width = Math.round(w * dpr); walk.height = Math.round(h * dpr);
-    if (columnMode) {
-      bg.width = Math.max(48, Math.round(stage.clientWidth / 14));
-      bg.height = Math.max(48, Math.round(stage.clientHeight / 14));
-    }
+    var want = pickSet();
+    if (want !== set) { set = want; loadSet(); }
+    walk.width = Math.round(walk.clientWidth * dpr);
+    walk.height = Math.round(walk.clientHeight * dpr);
     cur = -1;
     draw();
   }
@@ -131,18 +137,27 @@
     return Math.min(1, Math.max(0, -r.top / range));
   }
 
+  /* Caption bands by scroll progress: the street, the door, the dining room, the serving moment. */
+  function bandFor(p) {
+    if (p < 0.20) return 'a';
+    if (p < 0.31) return 'b';
+    if (p >= 0.40 && p <= 0.70) return 'c';
+    if (p >= 0.85) return 'd';
+    return 'none';
+  }
+
   function draw() {
     if (!engineOn) return;
     var p = progress();
     var i = Math.round(p * (N - 1));
 
-    var b = p < 0.14 ? 'a' : (p >= 0.30 && p < 0.58) ? 'b' : p >= 0.82 ? 'c' : 'none';
+    var b = bandFor(p);
     if (b !== band) {
       band = b;
       ui.setAttribute('data-band', b);
-      ui.querySelector('.band-a').setAttribute('aria-hidden', b === 'a' ? 'false' : 'true');
-      ui.querySelector('.band-b').setAttribute('aria-hidden', b === 'b' ? 'false' : 'true');
-      ui.querySelector('.band-c').setAttribute('aria-hidden', b === 'c' ? 'false' : 'true');
+      Array.prototype.forEach.call(ui.querySelectorAll('.band'), function (el) {
+        el.setAttribute('aria-hidden', el.classList.contains('band-' + b) ? 'false' : 'true');
+      });
     }
     var hideCue = p > 0.04;
     if (hideCue !== cueHidden) { cueHidden = hideCue; cue.classList.toggle('is-hidden', hideCue); }
@@ -151,7 +166,6 @@
     var im = nearest(i);
     if (!im) return;
     cover(walk, ctx, im);
-    if (columnMode) cover(bg, bctx, im);
     cur = i;
     if (!live) { live = true; hero.classList.add('is-live'); }
   }
@@ -165,11 +179,9 @@
   function startEngine() {
     if (engineOn || reduce.matches || html.classList.contains('is-static')) return;
     ctx = walk.getContext('2d', { alpha: false });
-    bctx = bg.getContext('2d', { alpha: false });
-    if (!ctx || !bctx) { html.classList.add('is-static'); return; }
+    if (!ctx) { html.classList.add('is-static'); return; }
     engineOn = true;
     ctx.imageSmoothingQuality = 'high';
-    loadAll();
     size();
     if ('ResizeObserver' in window) {
       new ResizeObserver(function () { size(); }).observe(stage);
@@ -179,7 +191,7 @@
   }
 
   function stopEngine() {
-    engineOn = false; live = false;
+    engineOn = false; live = false; gen++;
     hero.classList.remove('is-live');
     html.classList.add('is-static');
     ui.setAttribute('data-band', 'a');
