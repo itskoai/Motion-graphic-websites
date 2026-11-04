@@ -51,6 +51,13 @@ Double-clicking `index.html` shows the still gate photo and the room in its arch
 
 Not tested here: a real iPhone or Android device (the environment has no device). The first thing to check on a phone is the walk at the top of the page and the arch at its end.
 
+## Live receipts (measured from the Higgsfield sandbox against https://yoko-ono-raanana.higgsfield.app/, 4 November 2026; this build environment's own network cannot reach that host)
+- Every file answers 200: the page, styles, scripts, both walk encodes (4.5 MB and 2.4 MB), posters, share image, logo, fonts, photographs, robots and sitemap. `privacy.html` and `accessibility.html` redirect to `/privacy` and `/accessibility` on this host; both serve.
+- A real headless Chromium in the sandbox: desktop profile loaded in 1.4 s, phone profile in 0.9 s; the film decoded (9.77 s), the walk followed the scroll to its last frame and the arch contracted fully at the end, on both profiles. The screenshots of the settle were inspected.
+- Assets carry a one-year immutable cache header; the HTML is revalidated on every visit. Security headers come from `_headers` (HSTS, nosniff, referrer policy, a strict Content-Security-Policy merged with the host's own).
+- One console message on the live page is the host's own injected viewer script being blocked by that policy. It is not from the site and does not exist on an Apache host.
+- The click beacon cannot land on this host (no PHP); it only works on the PHP host, as described below.
+
 ## Weights
 Page 25 KB, styles 38 KB, scripts 24 KB, fonts 444 KB total (Hebrew and Latin subsets of Frank Ruhl Libre, Heebo and Cormorant Garamond; only three are preloaded), the walk 4.5 MB on desktop and large phones (720x1280) and 2.4 MB on small phones (540x960), streamed behind the gate poster and a progress ring; photographs 26 to 480 KB each by size; the whole folder 15 MB including the full-size lightbox files.
 
