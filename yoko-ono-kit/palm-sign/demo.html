@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Yoko Ono palm sign demo</title>
+<style>
+  :root{--red:#d1262f;--ink:#f3ece2;--bg:#0c0a09}
+  html,body{margin:0;background:var(--bg);color:var(--ink);font-family:system-ui,sans-serif}
+  .choose{padding:72px 16px;display:grid;justify-items:center;gap:20px}
+  .choose h2{margin:0;font-size:clamp(34px,8vw,64px);line-height:1;text-align:center}
+  .choose p{margin:0;opacity:.75;text-align:center}
+  .sign{position:relative;width:min(92vw,460px);aspect-ratio:576/800;border-radius:20px;overflow:hidden}
+  .sign img{width:100%;height:100%;object-fit:cover;display:block}
+  .leaf{position:absolute;display:block;border-radius:40% 50% 45% 50%;outline:none;
+        background:radial-gradient(closest-side,rgba(209,38,47,0),rgba(209,38,47,0));
+        transition:background .25s ease, box-shadow .25s ease}
+  .leaf:hover,.leaf:focus-visible,.leaf:active{background:radial-gradient(closest-side,rgba(209,38,47,.38),rgba(209,38,47,0));box-shadow:0 0 0 2px rgba(209,38,47,.7)}
+  .sign.hint .leaf{animation:pulse 1.4s ease 2}
+  @keyframes pulse{50%{background:radial-gradient(closest-side,rgba(209,38,47,.32),rgba(209,38,47,0))}}
+  .restaurant{left:2.6%;top:37.5%;width:44.3%;height:30.6%}
+  .street{left:53%;top:38.1%;width:33.9%;height:19.4%}
+  .legend{display:flex;gap:12px;flex-wrap:wrap;justify-content:center}
+  .legend a{color:var(--ink);text-decoration:none;border:1px solid rgba(243,236,226,.4);border-radius:999px;padding:10px 18px;min-height:44px;box-sizing:border-box;display:inline-flex;align-items:center}
+  .legend a.primary{background:var(--red);border-color:var(--red)}
+  @media (prefers-reduced-motion:reduce){.sign.hint .leaf{animation:none}}
+</style>
+</head>
+<body>
+<section class="choose" aria-labelledby="choose-title">
+  <h2 id="choose-title">בחרו את הדרך שלכם.</h2>
+  <p>לחצו על השלט.</p>
+  <div class="sign" id="sign">
+    <img src="palm-sign.webp" width="1152" height="1600" alt="שלט עץ בצורת דקל ליד הבר: מסעדה, שירות מלא. סטריט סושי, שירות עצמי.">
+    <a class="leaf restaurant" href="https://ontopo.com/he/il/page/14510630" target="_blank" rel="noopener" aria-label="מסעדה, שירות מלא: הזמינו שולחן"></a>
+    <a class="leaf street" href="https://wolt.com/he/isr/hasharon/restaurant/yoko-ono" target="_blank" rel="noopener" aria-label="סטריט סושי, שירות עצמי: הזמינו בוולט"></a>
+  </div>
+  <div class="legend">
+    <a class="primary" href="https://ontopo.com/he/il/page/14510630" target="_blank" rel="noopener">מסעדה · הזמינו שולחן</a>
+    <a href="https://wolt.com/he/isr/hasharon/restaurant/yoko-ono" target="_blank" rel="noopener">סטריט סושי · וולט</a>
+  </div>
+</section>
+<script>
+const s=document.getElementById('sign');
+new IntersectionObserver((e,o)=>{if(e[0].isIntersecting){s.classList.add('hint');o.disconnect();}},{threshold:.6}).observe(s);
+</script>
+</body>
+</html>
