@@ -16,8 +16,11 @@ Two frame sets, 172 frames each: a portrait viewport loads `frames-mobile` (720�
 Captions by scroll progress: "סושי. מנות חמות. קוקטיילים." on the street (0 to 20 percent), "נכנסים." at the door (20 to 30), "הגעתם. שבו." in the dining room (40 to 70), "השולחן שלכם מחכה." while the waiter serves (85 to 100). The booking button stays pinned the whole walk.
 Reduced motion, Save-Data, 2G, no canvas or no JavaScript: poster only, 100vh, headline and buttons still there.
 
+## Cache rule (4 November 2026)
+Everything under `assets/` is served with a one-year immutable cache, so a file that changes must change its name: `site-v5.js`, `site-v5.css`, `head-v5.js` today, `-v6` next time, with the three references in `index.html`, `privacy.html` and `accessibility.html` updated. The pages themselves are `no-cache` (in `_headers` for the Higgsfield host and `.htaccess` for Apache), so a returning phone always fetches the fresh HTML and the new file names. The first hero v2 deploy broke this rule and froze the walk on phones that had cached the old script.
+
 ## Switches the owner decides
-- **Menu buttons** go to Wolt until the menu site is confirmed. One line in `assets/site.js`: `MENU_SITE_CONFIRMED = false` → `true`.
+- **Menu buttons** go to Wolt until the menu site is confirmed. One line in `assets/site-v5.js`: `MENU_SITE_CONFIRMED = false` → `true`.
 - **Opening hours** are shown with the line "לפי מערכת ההזמנות. כדאי לוודא בטלפון, במיוחד בחגים." Edit them in `index.html` under "שעות פעילות" once confirmed.
 - **Privacy and accessibility pages** are honest drafts (no cookies, no analytics, no forms, nothing collected). Owner to confirm the wording before launch. They carry `noindex`.
 - **Private events** are not mentioned anywhere.

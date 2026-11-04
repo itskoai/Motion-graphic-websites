@@ -16,6 +16,12 @@
 AddType font/woff2 .woff2
 AddType image/webp .webp
 AddDefaultCharset utf-8
+# Pages are revalidated on every visit; the versioned files under assets/ carry a one-year cache instead.
+<IfModule mod_headers.c>
+  <FilesMatch "\.html$">
+    Header set Cache-Control "no-cache"
+  </FilesMatch>
+</IfModule>
 # ---- Security hardening (generated from security/htaccess-hardening.conf; keep both copies in sync) ----
 # Headers: the browser refuses to be framed, sniff types, leak referrers, or load anything from other sites.
 <IfModule mod_headers.c>
