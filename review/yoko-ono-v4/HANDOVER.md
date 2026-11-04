@@ -22,6 +22,9 @@ Everything under `assets/` is served with a one-year immutable cache, so a file 
 ## The palm sign (4 November 2026)
 Right after the hero: the carved palm sign from `yoko-ono-kit/palm-sign/` as the "choose your way" element, replacing the earlier restaurant / street sushi list. The left leaves (מסעדה, שירות מלא) link to Ontopo, the right leaves (סטריט סושי, שירות עצמי) to Wolt. A light sweep crosses the lettering once when the sign is 60 percent on screen; a tap glows that side red and leans the sign, then the link opens in the same tab after 420 ms. Hover and keyboard focus show the glow. Reduced motion: no sweep, no lean, the link opens at once. Two pill buttons under the sign are the plain fallback. Hotspot and glow positions are the kit's and must not change.
 
+## The Japanese evening background (4 November 2026)
+`assets/ambient-v7.css` and `assets/ambient-v7.js` are copied from `yoko-ono-kit/ambient/` unchanged and linked in `index.html` right after the site stylesheet and the site script. The script builds the layer before the palm sign section: gold paper umbrellas, red lantern light and hanging lanterns at the page edges behind every section after the hero, with depth parallax on scroll, paused off screen and in hidden tabs, static under reduced motion. Positions, opacities and timings live only in those two files; change them there, in the kit first.
+
 ## Switches the owner decides
 - **Menu buttons** go to Wolt until the menu site is confirmed. One line in `assets/site-v6.js`: `MENU_SITE_CONFIRMED = false` → `true`.
 - **Opening hours** are shown with the line "לפי מערכת ההזמנות. כדאי לוודא בטלפון, במיוחד בחגים." Edit them in `index.html` under "שעות פעילות" once confirmed.
