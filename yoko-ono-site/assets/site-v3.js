@@ -19,6 +19,61 @@
   var END_720 = 'assets/media/walk-end-720.jpg', END_1080 = 'assets/media/walk-end-1080.jpg';
   var mode = window.yokoDecide ? window.yokoDecide() : { hero: 'static', stage: 'door', reduce: false, phone: false };
 
+  /* ---------- the phone walk: a frame sequence drawn on a canvas. No video decoder, no autoplay policy, no low-power quirk. ---------- */
+  var door = $('#door'), frames = $('#frames'), fctx = frames && frames.getContext ? frames.getContext('2d', { alpha: false }) : null;
+  var FR = { n: +door.getAttribute('data-frames') || 0, base: door.getAttribute('data-frames-base') || '', imgs: [], loaded: 0, started: false, ready: false, drawn: -1, failed: false };
+  var lastFrameAttr = -1;
+  function padFrame(i) { var s = String(i + 1); while (s.length < 4) s = '0' + s; return s; }
+  function sizeFrames() {
+    if (!fctx) return;
+    var r = door.getBoundingClientRect(), dpr = Math.min(window.devicePixelRatio || 1, 2);
+    var w = Math.max(1, Math.min(1080, Math.round(r.width * dpr))), h = Math.max(1, Math.min(1920, Math.round(r.height * dpr)));
+    if (frames.width !== w || frames.height !== h) { frames.width = w; frames.height = h; FR.drawn = -1; }
+  }
+  function nearestLoaded(i) {
+    if (FR.imgs[i]) return i;
+    for (var d = 1; d < FR.n; d++) { if (i - d >= 0 && FR.imgs[i - d]) return i - d; if (i + d < FR.n && FR.imgs[i + d]) return i + d; }
+    return -1;
+  }
+  function drawFrame(i) {
+    if (!fctx || !FR.n) return;
+    var j = nearestLoaded(clamp(Math.round(i), 0, FR.n - 1));
+    if (j < 0 || j === FR.drawn) return;
+    var img = FR.imgs[j], cw = frames.width, ch = frames.height;
+    var s = Math.max(cw / img.naturalWidth, ch / img.naturalHeight), dw = img.naturalWidth * s, dh = img.naturalHeight * s;
+    try { fctx.drawImage(img, (cw - dw) / 2, (ch - dh) / 2, dw, dh); FR.drawn = j; } catch (e) { /* not decodable yet: the next tick draws */ }
+    if (FR.drawn !== lastFrameAttr) { lastFrameAttr = FR.drawn; stage.setAttribute('data-frame', FR.drawn); }
+  }
+  function currentFrame() { return Math.min(1, shown / PROG_END) * (FR.n - 1); }
+  function startFrames() {
+    if (FR.started || !FR.n || !fctx) return; FR.started = true;
+    sizeFrames();
+    var order = [], seen = {};
+    [8, 4, 2, 1].forEach(function (step) { for (var i = 0; i < FR.n; i += step) { if (!seen[i]) { seen[i] = true; order.push(i); } } });
+    var next = 0, active = 0, failedCount = 0;
+    var firstTimer = setTimeout(function () { if (!FR.ready) { FR.failed = true; failVideo(); } }, 20000);
+    function pump() {
+      while (active < 6 && next < order.length) {
+        (function (i) {
+          active++;
+          var img = new Image(); img.decoding = 'async';
+          img.onload = function () {
+            active--; FR.imgs[i] = img; FR.loaded++;
+            ring.style.setProperty('--ld', Math.round(100 * (1 - FR.loaded / FR.n)));
+            if (!FR.ready) { FR.ready = true; clearTimeout(firstTimer); stage.classList.add('video-ready'); shown = target = heroProgress(); if (rafId === null) tick(performance.now()); }
+            else if (rafId === null) drawFrame(currentFrame());
+            pump();
+          };
+          img.onerror = function () { active--; failedCount++; if (failedCount > FR.n / 2 && !FR.ready) { FR.failed = true; clearTimeout(firstTimer); failVideo(); } pump(); };
+          img.src = FR.base + padFrame(i) + '.webp';
+        })(order[next++]);
+      }
+    }
+    pump();
+  }
+  function startWalk() { if (mode.stage === 'full') startFrames(); else startBlobFetch(); }
+  window.addEventListener('resize', function () { if (FR.ready) { sizeFrames(); drawFrame(currentFrame()); } });
+
   /* ---------- split every .split line into words, once, with seeded thresholds ---------- */
   function rng(seed) { var s = seed >>> 0; return function () { s = (s * 1664525 + 1013904223) >>> 0; return s / 4294967296; }; }
   $$('.split').forEach(function (el, ei) {
@@ -103,7 +158,9 @@
     shown += (target - shown) * (1 - Math.pow(1 - k, dt / 16.667));
     if (Math.abs(target - shown) < 0.0005) { shown = target; rafId = null; lastTick = 0; }
     else rafId = requestAnimationFrame(tick);
-    if (video.duration) {
+    if (mode.stage === 'full' && FR.ready) {
+      drawFrame(currentFrame());
+    } else if (video.duration) {
       var t = Math.min(1, shown / PROG_END) * Math.max(0, video.duration - 0.04);
       if (Math.abs(t - filmTime) > 0.012) { filmTime = t; requestSeek(t); }
     }
@@ -178,10 +235,10 @@
     poster.classList.add('on');
     doorPoster.style.backgroundImage = 'url(' + (mode.hero === 'static' ? room : gate) + ')';
     posterImg = new Image();
-    posterImg.onload = function () { if (mode.stage === 'door' && mode.hero === 'scrub') drawBackdrop(posterImg); stage.classList.add('open'); if (mode.hero === 'scrub') { startBlobFetch(); requestAnimationFrame(loadRamp); } };
-    posterImg.onerror = function () { stage.classList.add('open'); if (mode.hero === 'scrub') { startBlobFetch(); requestAnimationFrame(loadRamp); } };
+    posterImg.onload = function () { if (mode.stage === 'door' && mode.hero === 'scrub') drawBackdrop(posterImg); stage.classList.add('open'); if (mode.hero === 'scrub') { startWalk(); requestAnimationFrame(loadRamp); } };
+    posterImg.onerror = function () { stage.classList.add('open'); if (mode.hero === 'scrub') { startWalk(); requestAnimationFrame(loadRamp); } };
     posterImg.src = gate;
-    setTimeout(function () { stage.classList.add('open'); if (mode.hero === 'scrub') startBlobFetch(); }, 4000);
+    setTimeout(function () { stage.classList.add('open'); if (mode.hero === 'scrub') startWalk(); }, 4000);
   }
   function initHeroOnce() { if (heroInit) return; heroInit = true; paintPosters(); }
 
@@ -190,6 +247,7 @@
   function enableScrub() {
     if (scrubOn) return; scrubOn = true;
     initHeroOnce();
+    if (heroInit && posterImg && (posterImg.complete || stage.classList.contains('open'))) startWalk();
     doorPoster.style.backgroundImage = 'url(' + (hiRes() ? POSTER_1080 : POSTER_720) + ')';
     window.addEventListener('scroll', onHeroScroll, { passive: true });
     bands.forEach(function (b) { b.op = -1; b.k = -1; }); shownS = -1;
@@ -212,7 +270,9 @@
       bands.forEach(function (b) { b.style.opacity = ''; b.style.setProperty('--k', '1'); b.op = -1; b.k = -1; });
     } else enableScrub();
     if (prevStage !== mode.stage) {
+      if (mode.hero === 'scrub') startWalk();
       if (mode.stage === 'door' && mode.hero === 'scrub') drawBackdrop(videoReady ? video : (posterImg || video));
+      if (mode.stage === 'full' && FR.ready) { sizeFrames(); drawFrame(currentFrame()); }
       bands.forEach(function (b) { b.op = -1; b.k = -1; }); shownS = -1;
       if (mode.hero === 'scrub') updateCaptions(shown);
     }

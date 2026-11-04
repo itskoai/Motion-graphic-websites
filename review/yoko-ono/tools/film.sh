@@ -18,6 +18,8 @@ echo "== 540 $(date +%T)"
 ffmpeg -v error -y -i $R/enc/film-master.mp4 -vf "scale=540:960:flags=lanczos" -crf 23 $SCRUB $SITE/walk-540.mp4
 echo "== webm test copy $(date +%T)"
 ffmpeg -v error -y -i $SITE/walk-720.mp4 -c:v libvpx-vp9 -crf 30 -b:v 0 -g 8 -keyint_min 8 -row-mt 1 -cpu-used 2 -an $R/enc/walk-720.webm
+echo "== phone frame sequence $(date +%T)"
+rm -rf $SITE/../walk/ph && mkdir -p $SITE/../walk/ph && ffmpeg -v error -y -i $R/enc/film-master.mp4 -vf "fps=12,scale=540:960:flags=lanczos" -c:v libwebp -quality 72 -compression_level 6 -pix_fmt yuv420p $SITE/../walk/ph/f_%04d.webp
 echo "== posters $(date +%T)"
 ffmpeg -v error -y -i $R/enc/film-master.mp4 -frames:v 1 -vf "scale=1080:1920" -q:v 2 $SITE/walk-poster-1080.jpg
 ffmpeg -v error -y -i $R/enc/film-master.mp4 -frames:v 1 -vf "scale=720:1280" -q:v 3 $SITE/walk-poster-720.jpg

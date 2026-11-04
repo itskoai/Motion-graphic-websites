@@ -5,7 +5,7 @@
 |---|---|
 | The website (this folder is what goes online) | `yoko-ono-site/` |
 | Page text (Hebrew, real HTML) | `yoko-ono-site/index.html` |
-| Styles and scripts (no build step) | `yoko-ono-site/assets/site.css`, `assets/head.js`, `assets/site.js` |
+| Styles and scripts (no build step) | `yoko-ono-site/assets/site-v3.css`, `assets/head-v3.js`, `assets/site-v3.js` |
 | Click counter (PHP, only on a PHP host) | `yoko-ono-site/api/click.php` |
 | Privacy and accessibility pages | `yoko-ono-site/privacy.html`, `accessibility.html` |
 | The brief (version 3) | `review/yoko-ono/PROMPT.md` |
@@ -20,6 +20,11 @@ Nothing in the walk is generated. The three phone clips were tone-mapped from th
 
 Plain HTML, CSS and JavaScript on purpose (no React, Tailwind, Motion or GSAP): fastest first paint, a strict Content-Security-Policy with no inline code, the folder deploys to any host, and the scrub engine is the one proven in version 2.
 
+## The walk on phones, and why the file names carry "v3"
+On phones the walk is no longer a video: it is a sequence of 117 WebP frames (12 per second, 540x960, 2.8 MB in all) drawn on a canvas as the visitor scrolls. A video on iPhone can stay blank when the phone is in Low Power Mode or until the visitor taps it; a frame sequence has none of those rules, so the walk shows on every iPhone and Android in every mode. Desktops keep the 720p video. The frames live in `assets/walk/ph/` and are made by `tools/film.sh`.
+
+The styles, scripts, logo, icons and share image are named with a `-v3` suffix because the hosts send a one-year cache header for everything under `assets/`. A phone that had opened the previous build kept the old files under the old names, which is what a blank hero with unstyled text looks like. New names mean every visitor gets the new files; keep that habit when these files change again.
+
 ## Things only the owner can confirm (before telling customers the site is final)
 1. **Hours.** The page shows Sunday to Thursday 12:00 to 23:00, Friday 11:30 to 14:30, Saturday night 20:30 to 23:00, the reservation system's hours as read in version 2. Wolt lists different delivery hours per day (for example Thursday until midnight, Saturday from 20:00). The owner decides which dine-in schedule is right; then edit the three rows under `שעות פעילות` in `index.html` and the `openingHoursSpecification` block near the top of the same file.
 2. **Kashrut.** The site says כשר למהדרין, which is what the restaurant says about itself. Listings name בד״ץ. If the owner wants the supervising body named, add it next to the line in the find-us section.
@@ -32,7 +37,7 @@ Plain HTML, CSS and JavaScript on purpose (no React, Tailwind, Motion or GSAP): 
 - Any text: edit `index.html`. The lines of the walk live in the `.band` blocks inside `#stage`; the experience copy is the `#experience` block.
 - A photo: run `python3 -I review/yoko-ono/tools/photos.py` after dropping the stripped source into `review/yoko-ono/photos-raw/` (it writes the 640, 1000, 1600 and full sizes), then reference it in `index.html`. Source photos never enter git.
 - The walk: `review/yoko-ono/tools/masters.sh` (tone-map and stabilize the raw clips in `review/yoko-ono/raw/`) then `tools/film.sh` (join, encode, posters). The cut points are documented at the top of `film.sh`.
-- Colours and type: the tokens at the top of `assets/site.css`.
+- Colours and type: the tokens at the top of `assets/site-v3.css`.
 - The share image and icons: `node review/yoko-ono/tools/icons.mjs` (renders `review/yoko-ono/og/og.html`).
 
 ## Preview
@@ -59,10 +64,10 @@ Not tested here: a real iPhone or Android device (the environment has no device)
 - The click beacon cannot land on this host (no PHP); it only works on the PHP host, as described below.
 
 ## Weights
-Page 25 KB, styles 38 KB, scripts 24 KB, fonts 444 KB total (Hebrew and Latin subsets of Frank Ruhl Libre, Heebo and Cormorant Garamond; only three are preloaded), the walk 4.5 MB on desktop and large phones (720x1280) and 2.4 MB on small phones (540x960), streamed behind the gate poster and a progress ring; photographs 26 to 480 KB each by size; the whole folder 15 MB including the full-size lightbox files.
+Page 25 KB, styles 39 KB, scripts 27 KB, the phone frame sequence 2.8 MB, fonts 444 KB total (Hebrew and Latin subsets of Frank Ruhl Libre, Heebo and Cormorant Garamond; only three are preloaded), the walk 4.5 MB on desktop and large phones (720x1280) and 2.4 MB on small phones (540x960), streamed behind the gate poster and a progress ring; photographs 26 to 480 KB each by size; the whole folder 15 MB including the full-size lightbox files.
 
 ## The click counter
-`assets/site.js` sends `navigator.sendBeacon('api/click.php', e=<event>)` when a visitor uses reserve, menu, delivery, call, directions, Instagram, Facebook, the skip, or opens the gallery. `api/click.php` stores one line per click: the minute (UTC), the event name, and whether the page was in its phone or desktop layout. No IP address, no browser details, no cookie, no identifier. The file is `clicks-YYYY-MM.jsonl` in a `site-leads` folder next to the web root (the same convention as the studio's lead backend), or guarded files under `api/data` if that folder cannot be created. Each month's file is capped at 2 MB. On an unpatched PHP (the PHP2Shell tripwire, same table as `lead.php`) nothing is written. On a host without PHP, such as the preview, the beacon fails silently and the only trace is a network error in the browser console after a click; the site is unaffected. To read the counts: `grep -c '"e":"reserve"' site-leads/clicks-2026-11.jsonl` and so on.
+`assets/site-v3.js` sends `navigator.sendBeacon('api/click.php', e=<event>)` when a visitor uses reserve, menu, delivery, call, directions, Instagram, Facebook, the skip, or opens the gallery. `api/click.php` stores one line per click: the minute (UTC), the event name, and whether the page was in its phone or desktop layout. No IP address, no browser details, no cookie, no identifier. The file is `clicks-YYYY-MM.jsonl` in a `site-leads` folder next to the web root (the same convention as the studio's lead backend), or guarded files under `api/data` if that folder cannot be created. Each month's file is capped at 2 MB. On an unpatched PHP (the PHP2Shell tripwire, same table as `lead.php`) nothing is written. On a host without PHP, such as the preview, the beacon fails silently and the only trace is a network error in the browser console after a click; the site is unaffected. To read the counts: `grep -c '"e":"reserve"' site-leads/clicks-2026-11.jsonl` and so on.
 
 ## Hosting
 The nonofficial preview runs on the Higgsfield host (a Cloudflare worker serving the static folder; security headers come from `_headers`). The same folder deploys to any Apache host such as Hostinger: upload the CONTENTS of `yoko-ono-site/` including the hidden `.htaccess`, then replace the absolute URLs marked `DEPLOY STEP` in `index.html` (canonical, Open Graph, structured data), plus `robots.txt` and `sitemap.xml`, with the real domain. Before any upload: `python3 -I security/guard.py --deploy yoko-ono-site` must say OK. The click counter only works on the PHP host.

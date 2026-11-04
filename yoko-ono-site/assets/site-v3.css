@@ -107,6 +107,11 @@ html[data-stage="door"][data-hero="scrub"] .poster{display:none}
 .door-poster{position:absolute;inset:0;background:var(--canvas) center/cover no-repeat}
 .film{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .6s var(--ease)}
 .stage.video-ready .film{opacity:1}
+.frames{position:absolute;inset:0;width:100%;height:100%;opacity:0;transition:opacity .6s var(--ease)}
+.stage.video-ready .frames{opacity:1}
+html[data-stage="door"] .frames{display:none}
+html[data-stage="full"] .film{display:none}
+html[data-hero="static"] .frames{display:none}
 .door-scrim{position:absolute;inset:0;pointer-events:none;background:linear-gradient(to bottom,rgba(16,16,16,.45),rgba(16,16,16,0) 22%,rgba(16,16,16,0) 62%,rgba(16,16,16,.55) 100%)}
 .ring{position:absolute;left:50%;bottom:28px;margin-left:-20px;opacity:.9;transition:opacity .5s var(--ease)}
 .ring-track{fill:none;stroke:rgba(244,239,231,.18);stroke-width:1.5}

@@ -31,7 +31,7 @@ const attrs = p => p.evaluate(() => ({ hero: document.documentElement.dataset.he
 const probe = p => p.evaluate(() => {
   const v = document.getElementById('film'), st = document.getElementById('stage');
   const bands = [...document.querySelectorAll('.band[data-range]')].map(b => ({ op: +getComputedStyle(b).opacity, k: +getComputedStyle(b).getPropertyValue('--k') || 0, on: b.classList.contains('on') }));
-  return { t: +v.currentTime.toFixed(2), dur: +(v.duration || 0).toFixed(2), bands, s: +getComputedStyle(st).getPropertyValue('--s') || 0, y: Math.round(scrollY), settled: st.classList.contains('settled'), past: document.body.classList.contains('past-hero') };
+  return { t: +v.currentTime.toFixed(2), frame: +(st.getAttribute('data-frame') || -1), dur: +(v.duration || 0).toFixed(2), bands, s: +getComputedStyle(st).getPropertyValue('--s') || 0, y: Math.round(scrollY), settled: st.classList.contains('settled'), past: document.body.classList.contains('past-hero') };
 });
 async function scrollTo(page, frac) {
   await page.evaluate(f => { const h = document.getElementById('top'); const range = h.offsetHeight - innerHeight; window.scrollTo(0, Math.round(range * f)); }, frac);
@@ -124,7 +124,9 @@ try {
     await page.screenshot({ path: path.join(out, `${label}-top.png`) });
     const s = [];
     for (const f of [0.5, 0.76, 1]) { await scrollTo(page, f); s.push(await probe(page)); await page.screenshot({ path: path.join(out, `${label}-p${f}.png`) }); }
-    check(`${label}: film follows scroll, settle on at the end`, s[2].t > s[0].t + 3 && s[2].bands[2].op > 0.98 && s[2].s > 0.99, s.map(x => [x.t, x.s]));
+    check(`${label}: the frame sequence follows scroll to its last frame, settle on at the end`, s[0].frame > 50 && s[2].frame === 116 && s[2].bands[2].op > 0.98 && s[2].s > 0.99, s.map(x => [x.frame, x.s]));
+    const reqs = { mp4: page.requested.filter(u => /walk-(720|540)\.mp4/.test(u)).length, frames: page.requested.filter(u => /walk\/ph\/f_\d+\.webp/.test(u)).length };
+    check(`${label}: phones fetch the frame sequence and never the video`, reqs.mp4 === 0 && reqs.frames >= 100, reqs);
     const ctaVisible = await page.evaluate(() => { const b = document.querySelector('.settle-cta .btn-gold').getBoundingClientRect(); const bar = document.getElementById('stickyCta').getBoundingClientRect(); return { btnBottom: Math.round(b.bottom), barTop: Math.round(bar.top), vh: innerHeight, past: document.body.classList.contains('past-hero') }; });
     check(`${label}: at the settle the buttons sit above the fold and the sticky bar is not yet shown`, ctaVisible.btnBottom <= ctaVisible.vh && !ctaVisible.past, ctaVisible);
     await page.evaluate(() => window.scrollTo(0, document.getElementById('top').offsetHeight + 200)); await page.waitForTimeout(900);

@@ -9,8 +9,8 @@ const page = await browser.newPage({ viewport: { width: 1200, height: 630 }, dev
 await page.goto('file://' + path.join(root, 'review/yoko-ono/og/og.html'), { waitUntil: 'load' });
 await page.evaluate(() => document.fonts.ready); await page.waitForTimeout(600);
 await page.screenshot({ path: path.join(root, 'review/yoko-ono/og/og.png'), type: 'png' });
-const svg = fs.readFileSync(path.join(root, 'yoko-ono-site/assets/media/favicon.svg'), 'utf8');
-for (const [size, file] of [[32, 'favicon-32.png'], [192, 'favicon-192.png'], [180, 'touch-icon-180.png']]) {
+const svg = fs.readFileSync(path.join(root, 'yoko-ono-site/assets/media/favicon-v3.svg'), 'utf8');
+for (const [size, file] of [[32, 'favicon-32-v3.png'], [192, 'favicon-192-v3.png'], [180, 'touch-icon-180-v3.png']]) {
   const p = await browser.newPage({ viewport: { width: size, height: size }, deviceScaleFactor: 1 });
   await p.setContent(`<body style="margin:0;background:#101010">${svg.replace('<svg ', `<svg width="${size}" height="${size}" style="display:block" `)}</body>`);
   await p.screenshot({ path: path.join(root, 'yoko-ono-site/assets/media/', file) });
