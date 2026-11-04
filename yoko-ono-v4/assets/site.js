@@ -77,26 +77,29 @@
     if (loaded === N) loadBar.classList.add('is-done');
     schedule();
   }
-  function load(i) {
-    var im = new Image();
-    im.decoding = 'async';
-    im.onload = onLoad;
-    im.onerror = onLoad; /* a missing frame is skipped by nearest(), never a blank screen */
-    im.src = src(i);
-    imgs[i - 1] = im;
+  /* One frame request: a transient host error (a 503 on a cold cache) is retried twice before the
+     frame is given up; a given-up frame is skipped by nearest(), never a blank screen. */
+  function fetchFrame(i, done) {
+    var tries = 0;
+    function go() {
+      var im = new Image();
+      im.decoding = 'async';
+      im.onload = done;
+      im.onerror = function () {
+        if (++tries <= 2) { setTimeout(go, 1200 * tries); return; }
+        done();
+      };
+      im.src = src(i);
+      imgs[i - 1] = im;
+    }
+    go();
   }
   function loadAll() {
     var first = 30, next = first + 1, lanes = 4;
-    for (var i = 1; i <= first; i++) load(i);
+    for (var i = 1; i <= first; i++) fetchFrame(i, onLoad);
     function lane() {
       if (next > N) return;
-      var i = next++;
-      var im = new Image();
-      im.decoding = 'async';
-      im.onload = function () { onLoad(); lane(); };
-      im.onerror = function () { onLoad(); lane(); };
-      im.src = src(i);
-      imgs[i - 1] = im;
+      fetchFrame(next++, function () { onLoad(); lane(); });
     }
     for (var k = 0; k < lanes; k++) lane();
   }
