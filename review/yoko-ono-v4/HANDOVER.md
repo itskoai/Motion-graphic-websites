@@ -31,5 +31,16 @@ Reduced motion, Save-Data, 2G, no canvas or no JavaScript: poster only, 100vh, h
 
 Screenshots: `screenshots/`.
 
+## Live preview (4 November 2026)
+https://yoko-ono-v4.higgsfield.app/ on the Higgsfield host, the same way v3 was deployed: the folder's contents sit in `app/public/` of the host's template repo, the og title, description, image and favicon are set in `app/src/app-meta.json`, then deploy and publish. v3 at https://yoko-ono-raanana.higgsfield.app/ is untouched.
+
+Measured from the Higgsfield sandbox against the live URL in a real Chromium (this cloud environment cannot reach higgsfield.app):
+- Page, script, frames, fonts and both inner pages answer 200. Frames carry a one-year immutable cache header.
+- Security headers come from the host and include the site's own strict Content-Security-Policy (script-src 'self', style-src 'self').
+- iPhone profile: the walk is live 5.7 s after navigation with all 181 frames loaded; captions at 0, 35, 60, 85 and 100 percent are the right ones. Desktop profile: the column mode is on.
+- One console message on the live page is the host's own injected viewer script being blocked by the site's policy. It is not from the site and does not exist on an Apache host.
+
+To update the preview after a change: `python3 -I security/guard.py --deploy yoko-ono-v4`, copy the folder's contents into `app/public/` of the host repo, commit, push, deploy.
+
 ## Before upload
 `python3 -I security/guard.py --deploy yoko-ono-v4` must say OK. Upload the folder's contents including `.htaccess`.
