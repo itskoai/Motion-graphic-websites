@@ -25,6 +25,9 @@ Right after the hero: the carved palm sign from `yoko-ono-kit/palm-sign/` as the
 ## The Japanese evening background (4 November 2026)
 `assets/ambient-v7.css` and `assets/ambient-v7.js` are copied from `yoko-ono-kit/ambient/` unchanged and linked in `index.html` right after the site stylesheet and the site script. The script builds the layer before the palm sign section: gold paper umbrellas, red lantern light and hanging lanterns at the page edges behind every section after the hero, with depth parallax on scroll, paused off screen and in hidden tabs, static under reduced motion. Positions, opacities and timings live only in those two files; change them there, in the kit first.
 
+## המגרש and the food belt (5 November 2026)
+From `yoko-ono-kit/games/`, files unchanged. The games section sits between the experience section and the directions, with a nav link "המגרש". The copy states only what exists: a big screen for games, a foosball table, the restaurant's own dice table. The dice are two 3D cubes thrown across a still of the real table, fair rolls via crypto; a double gets confetti and "דאבל! עכשיו תנסו את זה על השולחן האמיתי." No prize, discount or rules anywhere: the owner has not confirmed any, so none may be added. The conveyor script turns the menu photos into plates on a moving belt: hover or touch stops it, a tap opens the photo large, Escape closes, reduced motion gives a static strip.
+
 ## Switches the owner decides
 - **Menu buttons** go to Wolt until the menu site is confirmed. One line in `assets/site-v6.js`: `MENU_SITE_CONFIRMED = false` → `true`.
 - **Opening hours** are shown with the line "לפי מערכת ההזמנות. כדאי לוודא בטלפון, במיוחד בחגים." Edit them in `index.html` under "שעות פעילות" once confirmed.

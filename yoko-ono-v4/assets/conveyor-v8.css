@@ -1,0 +1,37 @@
+/* YOKO ONO: the food photos ride a kaiten-zushi conveyor belt. Small plates, along the side,
+   always moving. Touch or hover stops the belt, tap opens the photo large. */
+.grid-food.belt{display:block;max-width:none;padding:0;margin-top:clamp(28px,5vw,48px);position:relative;overflow:hidden;
+  --plate:clamp(150px,19vw,230px);
+  -webkit-mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent)}
+/* the rail: dark lacquer with a moving chevron track and two steel edges */
+.belt-rail{position:relative;padding:22px 0 30px}
+.belt-rail::before{content:"";position:absolute;left:0;right:0;top:calc(22px + var(--plate) * .58);height:calc(var(--plate) * .5);
+  background:repeating-linear-gradient(90deg,rgba(243,236,226,.05) 0 2px,transparent 2px 46px),linear-gradient(#1d1916,#141110);
+  border-top:2px solid rgba(201,168,106,.35);border-bottom:2px solid rgba(201,168,106,.2);box-shadow:0 18px 40px -20px #000;
+  animation:belt-track 2.6s linear infinite}
+@keyframes belt-track{to{background-position:48px 0,0 0}}
+.belt-track{display:flex;gap:clamp(18px,3vw,34px);width:max-content;animation:belt-run var(--dur,60s) linear infinite;position:relative}
+.belt:hover .belt-track,.belt:hover .belt-rail::before,.belt.hold .belt-track,.belt.hold .belt-rail::before{animation-play-state:paused}
+@keyframes belt-run{from{transform:translateX(0)}to{transform:translateX(var(--shift))}}
+
+/* each dish sits on a round plate with a colored rim, like the plates on a sushi belt */
+.grid-food.belt .frame{margin:0;width:var(--plate);height:var(--plate);aspect-ratio:auto;grid-column:auto;border-radius:50%;padding:calc(var(--plate) * .075);overflow:visible;position:relative;cursor:zoom-in;flex:none;
+  background:radial-gradient(circle,#f4ede1 0 62%,var(--rim,#c9a86a) 62% 70%,#f4ede1 70% 74%,var(--rim,#c9a86a) 74%);
+  box-shadow:0 14px 26px -12px rgba(0,0,0,.85);transition:transform .35s var(--ease,ease)}
+.grid-food.belt .frame:nth-child(4n+1){--rim:#d1261f}.grid-food.belt .frame:nth-child(4n+2){--rim:#c9a86a}.grid-food.belt .frame:nth-child(4n+3){--rim:#1f3b5c}.grid-food.belt .frame:nth-child(4n){--rim:#2b2b2b}
+.grid-food.belt .frame img{width:100%;height:100%;object-fit:cover;border-radius:50%;display:block;transform:none}
+.grid-food.belt .frame::after{display:none}
+.grid-food.belt .frame:hover,.grid-food.belt .frame:focus-visible{transform:translateY(-8px) scale(1.04);outline:none}
+.grid-food.belt .frame:focus-visible{box-shadow:0 0 0 3px var(--ink,#f3ece2)}
+
+/* large view */
+.plate-view{position:fixed;inset:0;z-index:200;display:grid;place-items:center;padding:20px;background:rgba(8,6,5,.88);backdrop-filter:blur(6px);opacity:0;transition:opacity .25s}
+.plate-view.open{opacity:1}
+.plate-view img{max-width:min(92vw,900px);max-height:84vh;border-radius:18px;box-shadow:0 40px 100px -30px #000}
+.plate-view button{position:absolute;top:16px;inset-inline-start:16px;width:48px;height:48px;border-radius:50%;border:1px solid rgba(243,236,226,.4);background:rgba(12,10,9,.6);color:var(--ink,#f3ece2);font-size:26px;line-height:1;cursor:pointer}
+
+@media (prefers-reduced-motion:reduce){
+  .belt-track,.belt-rail::before{animation:none}
+  .grid-food.belt{overflow-x:auto;scroll-snap-type:x mandatory}
+  .grid-food.belt .frame{scroll-snap-align:center}
+}
