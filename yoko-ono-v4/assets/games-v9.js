@@ -1,11 +1,13 @@
-/* YOKO ONO: the dice table. Two real 3D dice thrown across a photo of the restaurant's own
-   dice table: they fly in from the near edge, bounce off the far wall and settle below the logo.
+/* YOKO ONO: the dice table, rebuilt in code (wood, felt, the real logo). Two real 3D dice
+   are thrown across it: they fly in from the near edge, bounce off the far wall and settle below the logo.
    Fair rolls (crypto random). No prize text: the result only invites people to try the real table. */
 (function () {
   'use strict';
   var tray = document.getElementById('tray');
   var btn = document.getElementById('roll');
   var out = document.getElementById('dice-result');
+  var you = document.getElementById('score-you'), board = document.querySelector('.board');
+  var score = 0;
   if (!tray || !btn || !out || !tray.animate) return;
 
   var reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -46,9 +48,9 @@
     var done = 0;
     dice.forEach(function (d, i) {
       /* land below the logo, left of the red marker, never on top of each other */
-      var endX = W * (0.2 + i * 0.2 + rnd(8) / 100) , endY = H * (0.64 + rnd(14) / 100);
+      var endX = W * (0.27 + i * 0.26 + rnd(10) / 100), endY = H * (0.76 + rnd(8) / 100);
       var startX = W * (0.3 + i * 0.25), startY = H * 1.05;
-      var wallY = H * (0.17 + rnd(6) / 100), midX = (startX + endX) / 2 + (i ? 1 : -1) * W * 0.08;
+      var wallY = H * (0.14 + rnd(6) / 100), midX = (startX + endX) / 2 + (i ? 1 : -1) * W * 0.08;
       var spinX = 720 + 360 * rnd(2), spinY = 720 + 360 * rnd(2), turn = (i ? -1 : 1) * (8 + rnd(18));
       var f = SHOW[vals[i]];
       var T = function (x, y, z, rx, ry, rz) { return 'translate3d(' + (x - s / 2) + 'px,' + (y - s / 2) + 'px,' + z + 'px) rotateZ(' + rz + 'deg)'; };
@@ -77,6 +79,8 @@
     if (v[0] === v[1]) {
       out.classList.add('win');
       out.textContent = 'דאבל! עכשיו תנסו את זה על השולחן האמיתי.';
+      if (you) { you.textContent = String(++score); you.classList.remove('bump'); void you.offsetWidth; you.classList.add('bump'); }
+      if (board) { board.classList.remove('flash'); void board.offsetWidth; board.classList.add('flash'); }
       if (!reduce.matches) confetti();
     } else {
       out.textContent = 'יצא ' + v[0] + ' ו-' + v[1] + '. על השולחן האמיתי זה מרגיש אחרת.';
@@ -89,7 +93,7 @@
       var p = document.createElement('span');
       p.className = 'spark';
       p.style.background = colors[k % 4];
-      p.style.left = (W * .5) + 'px'; p.style.top = (H * .55) + 'px';
+      p.style.left = (W * .5) + 'px'; p.style.top = (H * .7) + 'px';
       tray.appendChild(p);
       var a = Math.PI * 2 * k / 36 + rnd(30) / 100, r = W * (.25 + rnd(30) / 100);
       p.animate([

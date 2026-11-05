@@ -1,0 +1,102 @@
+/* YOKO ONO: המגרש. A night pitch under floodlights, an LED scoreboard, and the restaurant's own
+   dice table rebuilt in code (wood, felt, the real vector logo in gold), so it is sharp on any screen. */
+
+.section-games{position:relative;overflow:hidden;isolation:isolate;
+  background:linear-gradient(180deg,var(--bg,#0c0a09) 0,transparent 14%,transparent 86%,var(--bg,#0c0a09) 100%),
+             repeating-linear-gradient(180deg,#0d2a1a 0 90px,#0b2416 90px 180px);}
+.pitch{position:absolute;inset:0;z-index:-1;pointer-events:none}
+.pitch::after{content:"";position:absolute;inset:0;background:radial-gradient(ellipse 75% 60% at 50% 48%,transparent 40%,rgba(8,6,5,.82) 100%)}
+.pitch-lines{position:absolute;inset:0;width:100%;height:100%}
+.pitch-lines *{fill:none;stroke:rgba(243,236,226,.16);stroke-width:3}
+.pitch-lines .dot{fill:rgba(243,236,226,.25);stroke:none}
+.flood{position:absolute;top:-18%;width:60%;height:70%;background:radial-gradient(ellipse at center,rgba(255,250,235,.16),transparent 62%);filter:blur(8px)}
+.flood-l{left:-14%}.flood-r{right:-14%}
+
+.games-inner{display:grid;grid-template-columns:minmax(0,1fr);gap:clamp(28px,5vw,56px);justify-items:center;text-align:center}
+.games-inner > *{min-width:0;max-width:100%}
+.games-head .display{margin-inline:auto}
+.games-head .kicker{justify-content:center}
+
+/* LED scoreboard */
+.board{width:min(100%,640px);background:#070605;border-radius:14px;padding:14px 18px 10px;
+  box-shadow:0 0 0 1px rgba(243,236,226,.08),0 0 0 6px #15110f,0 0 0 7px rgba(201,168,106,.25),0 30px 70px -30px #000}
+.board-row{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:12px}
+.board-team{font-family:var(--display);font-size:clamp(22px,4.4vw,34px);letter-spacing:.02em;color:#f6d98f;
+  text-shadow:0 0 6px rgba(246,217,143,.55)}
+.board-score{display:flex;align-items:center;gap:8px;font-family:var(--display);font-size:clamp(46px,9vw,74px);line-height:1;color:#ff4b3a;
+  text-shadow:0 0 8px rgba(255,75,58,.7),0 0 24px rgba(255,75,58,.35)}
+.board-score b{display:inline-block;min-width:1.1ch;font-weight:700;padding:4px 10px;background:#110c0b;border-radius:8px;
+  background-image:radial-gradient(rgba(255,255,255,.05) 1px,transparent 1.4px);background-size:5px 5px}
+.board-score i{font-style:normal;opacity:.8}
+.board-score b.bump{animation:bump .7s cubic-bezier(.2,.9,.3,1.4)}
+@keyframes bump{0%{transform:scale(1)}35%{transform:scale(1.35)}100%{transform:scale(1)}}
+.board-ticker{margin-top:10px;overflow:hidden;width:100%;contain:inline-size;white-space:nowrap;font-size:.92rem;color:#f6d98f;opacity:.85;
+  -webkit-mask-image:linear-gradient(90deg,transparent,#000 10%,#000 90%,transparent);mask-image:linear-gradient(90deg,transparent,#000 10%,#000 90%,transparent)}
+.board-ticker span{display:inline-block;padding-inline-end:1ch;animation:ticker 22s linear infinite}
+@keyframes ticker{to{transform:translateX(100%)}}
+.board.flash{animation:flash .9s ease 2}
+@keyframes flash{50%{box-shadow:0 0 0 1px rgba(243,236,226,.08),0 0 0 6px #15110f,0 0 0 7px rgba(255,75,58,.9),0 0 60px rgba(255,75,58,.45)}}
+
+/* The dice table, built from wood and felt */
+.dice-stage{display:grid;gap:22px;justify-items:center;width:100%}
+.table3d{perspective:1300px;width:min(100%,560px)}
+.tray{position:relative;aspect-ratio:3/4;border-radius:18px;transform:rotateX(14deg);transform-origin:50% 60%;transform-style:preserve-3d;
+  padding:6.5%;
+  background:
+    repeating-linear-gradient(92deg,rgba(255,255,255,.035) 0 2px,transparent 2px 9px),
+    repeating-linear-gradient(88deg,rgba(0,0,0,.12) 0 1px,transparent 1px 23px),
+    linear-gradient(135deg,#8a5a35,#6b4226 40%,#7d5030 60%,#5a361e);
+  box-shadow:inset 0 2px 0 rgba(255,220,180,.25),inset 0 -3px 0 rgba(0,0,0,.4),0 50px 80px -30px rgba(0,0,0,.95),0 0 0 1px rgba(0,0,0,.5)}
+.handle{position:absolute;top:1.6%;left:50%;width:16%;height:3.2%;transform:translateX(-50%);border-radius:6px;
+  background:linear-gradient(#2a2420,#0e0b0a);box-shadow:inset 0 1px 0 rgba(255,255,255,.15),0 2px 4px rgba(0,0,0,.6)}
+.felt{position:absolute;inset:6.5%;border-radius:8px;overflow:hidden;
+  background:
+    radial-gradient(ellipse 70% 55% at 50% 40%,rgba(120,255,190,.10),transparent 70%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .18 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"),
+    linear-gradient(180deg,#0f6a47,#0b5639 60%,#094630);
+  box-shadow:inset 0 0 0 2px rgba(0,0,0,.35),inset 0 18px 30px -12px rgba(0,0,0,.55),inset 0 -14px 26px -14px rgba(0,0,0,.5)}
+.crest{position:absolute;left:50%;top:44%;width:74%;aspect-ratio:1929/1842;transform:translate(-50%,-50%);
+  background:linear-gradient(160deg,#f0d38b,#c9a35a 45%,#e6c27a 60%,#b48a45);
+  -webkit-mask:url("brand/logo.svg") center/contain no-repeat;mask:url("brand/logo.svg") center/contain no-repeat;
+  filter:drop-shadow(0 1px 0 rgba(0,0,0,.35));opacity:.95}
+.sheen{position:absolute;inset:-20%;background:linear-gradient(115deg,transparent 38%,rgba(255,255,255,.08) 46%,rgba(255,255,255,.02) 52%,transparent 60%);pointer-events:none}
+
+/* The dice */
+.die{position:absolute;left:0;top:0;width:12.5%;aspect-ratio:1;opacity:0;transform-style:preserve-3d;will-change:transform;z-index:2}
+.die::after{content:"";position:absolute;inset:30% -12% -30% -12%;border-radius:50%;background:radial-gradient(closest-side,rgba(0,0,0,.6),transparent);transform:translateZ(-30px);filter:blur(3px)}
+.cube{position:absolute;inset:0;transform-style:preserve-3d;will-change:transform}
+.face{position:absolute;inset:0;border-radius:18%;background:radial-gradient(circle at 32% 28%,#fffdf6,#f1e8d8 58%,#d8ccb6);
+  box-shadow:inset 0 0 0 1px rgba(0,0,0,.07),inset -2px -3px 7px rgba(0,0,0,.13);backface-visibility:hidden;
+  display:grid;grid-template:repeat(3,1fr)/repeat(3,1fr);padding:15%}
+.face i{width:64%;aspect-ratio:1;border-radius:50%;background:radial-gradient(circle at 38% 32%,#3b2b25,#0f0a08);place-self:center;box-shadow:inset 0 1px 1px rgba(0,0,0,.6)}
+.face.red-one i{background:radial-gradient(circle at 38% 32%,#ff6656,#b8150e);width:80%}
+
+.dice-ui{display:grid;gap:10px;justify-items:center}
+.roll-btn{min-width:220px}
+.dice-result{margin:0;min-height:3em;max-width:36ch;color:var(--ink-2,#b8ada0)}
+.dice-result.win{color:var(--ink,#f3ece2);font-family:var(--display);font-size:clamp(30px,6.5vw,48px);line-height:1.05}
+.spark{position:absolute;width:8px;height:14px;border-radius:2px;pointer-events:none;z-index:5}
+
+/* What is in the corner: three crisp line icons */
+.corner{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(12px,3vw,28px);width:min(100%,900px)}
+.corner li{display:grid;justify-items:center;gap:6px;padding:22px 14px;border-radius:18px;background:rgba(8,6,5,.45);box-shadow:inset 0 0 0 1px rgba(243,236,226,.08);backdrop-filter:blur(4px)}
+.corner svg{width:54px;height:54px;fill:none;stroke:#e1c27f;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.corner svg .ball,.corner svg circle{fill:#e1c27f;stroke:none}
+.corner svg .red{fill:#e8392f}
+.corner svg .rods rect{fill:#e8392f;stroke:none;transform-box:fill-box;transform-origin:center;transition:transform .5s cubic-bezier(.2,.9,.3,1.3)}
+.corner li:hover .rods rect{transform:rotate(180deg)}
+.corner svg .pulse{stroke:#e8392f;stroke-dasharray:60;stroke-dashoffset:60;animation:draw 3s ease-in-out infinite}
+@keyframes draw{40%,70%{stroke-dashoffset:0}100%{stroke-dashoffset:-60}}
+.corner strong{font-family:var(--display);font-size:clamp(22px,3.4vw,28px);font-weight:700;color:var(--ink,#f3ece2);line-height:1}
+.corner span{font-size:.95rem;color:var(--ink-2,#b8ada0)}
+
+@media (max-width:720px){
+  .corner{grid-template-columns:1fr;max-width:420px}
+  .corner li{grid-template-columns:54px 1fr;justify-items:start;text-align:start;column-gap:14px;padding:16px}
+  .corner li svg{grid-row:span 2}
+  .tray{transform:rotateX(10deg)}
+}
+@media (prefers-reduced-motion:reduce){
+  .board-ticker span,.corner svg .pulse{animation:none}
+  .tray{transform:none}
+}
