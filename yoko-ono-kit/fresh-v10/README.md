@@ -19,3 +19,9 @@ No inline style attributes (the CSP blocks them).
 They do events that come to the client; they do market tables (one long table with their food spread out, guests come and take); events WhatsApp = the site's phone number. No prices, sizes, menus or club rules.
 
 Tested together on the v4 site at iPhone 13 and 1440×900: zero console errors, no horizontal overflow, the club panel opens and closes, the van and the plates animate on entry.
+
+## v11 add-on (6 Nov evening)
+- breeze-v11.css → assets/. Link it right AFTER fresh-v10.css (it becomes the last stylesheet).
+  1. Yuzu yellow (#f2c230) in small accents only: the kicker dash, the club star and the panel's top bar, the start pin on the events route, one plate rim on the food belt, the visit-row underline, a soft sun glow in the closing section, and text selection. Buttons stay red.
+  2. Breeze: the background umbrellas drift and tilt in gusts, and the lanterns swing harder, as if a light sea wind passes. Off under reduced motion.
+- events-v10.css updated: the van now stops just before the red pin instead of on it.
