@@ -24,7 +24,6 @@ Verified by the owner's earlier brief (review/yoko-ono/PROMPT.md, branch claude/
 
 ## NEEDS OWNER CONFIRMATION (show nothing as final until confirmed)
 - Opening hours. Listings disagree. The reservation system shows Sun–Thu 12:00–23:00, Fri 11:30–14:30 and Sat night 20:30–23:00.
-- Private events. Don't mention them unless confirmed.
 - Privacy and accessibility page wording.
 
 ## Do not invent
