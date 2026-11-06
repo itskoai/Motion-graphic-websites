@@ -35,6 +35,9 @@ Facts used: events that come to the client, market tables, events WhatsApp = the
 Beyond the README: `fresh-v10.css` was also added to `privacy.html` and `accessibility.html` (after `site-v6.css`) so the draft inner pages match the light theme when opened from the footer. Remove that one line on each page if the owner prefers.
 Checked locally and on the live link at iPhone 13 and 1440×900: zero console errors, no horizontal overflow, the panel opens and closes, the van and plates animate.
 
+## Breeze v11 (6 November 2026, evening)
+`breeze-v11.css` from the same kit folder, linked right after `fresh-v10.css` as the LAST stylesheet: yuzu yellow in small accents only (kicker dash, club star and panel bar, the route's start pin, one plate rim on the belt, the visit-row underline, a sun glow in the closing section, text selection; buttons stay red) and a gust animation on the background umbrellas and lanterns, off under reduced motion. The kit's updated events stylesheet (the van now stops just before the red pin) is served as `assets/events-v11.css`, byte for byte the kit's `events-v10.css`, because of the cache rule above: a changed asset gets a new name, or phones keep the old one for a year. `events-v10.css` was removed from the site.
+
 ## Switches the owner decides
 - **Menu buttons** go to Wolt until the menu site is confirmed. One line in `assets/site-v6.js`: `MENU_SITE_CONFIRMED = false` → `true`.
 - **Opening hours** are shown with the line "לפי מערכת ההזמנות. כדאי לוודא בטלפון, במיוחד בחגים." Edit them in `index.html` under "שעות פעילות" once confirmed.

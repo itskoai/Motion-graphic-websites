@@ -1,0 +1,42 @@
+/* YOKO ONO v11: two small fresh touches on top of v10. Load AFTER fresh-v10.css.
+   1. Yuzu: a citrus yellow in small accents only (never on buttons or long text).
+   2. Breeze: the paper umbrellas and lanterns move as if a light sea wind passes, in gusts. */
+
+:root{--yuzu:#f2c230;--yuzu-deep:#d9a514}
+::selection{background:#fbe7a1}
+
+/* Yuzu accents */
+.kicker::before{background:var(--yuzu-deep);height:3px;border-radius:2px}
+.club-btn svg{fill:var(--yuzu)}
+.club-panel::before{background:linear-gradient(90deg,var(--yuzu),#2a8c86)}
+.club-perks li::marker{color:var(--yuzu-deep)}
+.route .pin{fill:var(--yuzu-deep)}
+.route .van .win{fill:#fbe7a1}
+.grid-food.belt .frame:nth-child(4n+2){--rim:var(--yuzu)}
+.row::after{background:var(--yuzu-deep)}
+.section-close::before{content:"";position:absolute;width:min(46vw,420px);aspect-ratio:1;inset-inline-end:-8vw;top:8%;border-radius:50%;
+  background:radial-gradient(circle,rgba(242,194,48,.28),rgba(242,194,48,0) 68%);pointer-events:none}
+.dice-result.win{text-shadow:0 2px 0 rgba(242,194,48,.55)}
+
+/* Breeze: gusts, not a metronome. Each element gets its own rhythm from the --f and --d the ambient script sets. */
+.ambient .a-umb svg{animation:a-breeze calc(var(--f,22s) * .6) cubic-bezier(.45,.05,.4,1) var(--d,0s) infinite}
+.ambient .a-lan svg{animation:a-lan-breeze calc(var(--f,6s) * 1.4) cubic-bezier(.45,.05,.4,1) var(--d,0s) infinite}
+@keyframes a-breeze{
+  0%  {transform:translateX(0) rotate(-1.5deg)}
+  18% {transform:translateX(16px) rotate(3.5deg)}
+  32% {transform:translateX(9px) rotate(.5deg)}
+  50% {transform:translateX(22px) rotate(4deg)}
+  68% {transform:translateX(6px) rotate(-1deg)}
+  84% {transform:translateX(12px) rotate(2deg)}
+  100%{transform:translateX(0) rotate(-1.5deg)}
+}
+@keyframes a-lan-breeze{
+  0%  {transform:rotate(-2deg)}
+  20% {transform:rotate(7deg)}
+  34% {transform:rotate(1deg)}
+  52% {transform:rotate(8.5deg)}
+  70% {transform:rotate(-1deg)}
+  86% {transform:rotate(4deg)}
+  100%{transform:rotate(-2deg)}
+}
+@media (prefers-reduced-motion:reduce){.ambient .a-umb svg,.ambient .a-lan svg{animation:none}}
