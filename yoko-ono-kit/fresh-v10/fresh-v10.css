@@ -1,0 +1,101 @@
+/* YOKO ONO v10: "Japanese summer". Load LAST, after every other stylesheet.
+   Rice-paper white, indigo ink, sea-glass mint, the restaurant's red for actions only,
+   and the seigaiha waves from the bottom of the logo as the site's sea. The night walk stays night. */
+
+:root{
+  --bg:#f6f1e7;          /* rice paper */
+  --bg-2:#eaf3ef;        /* sea mist */
+  --panel:#ffffff;
+  --ink:#16233b;         /* indigo ink */
+  --ink-2:#46546b;
+  --ink-3:#7a8597;
+  --line:rgba(22,35,59,.12);
+  --sea:#2a8c86;         /* sea glass, deep */
+  --mint:#cfe9e1;        /* sea glass, light */
+  --gold:#b8913f;
+  --red:#d1261f;
+  --red-2:#e8392f;
+  /* seigaiha: the logo's waves, as a tile */
+  --waves:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='40' viewBox='0 0 80 40'%3E%3Cg fill='none' stroke='%232a8c86' stroke-width='1.4' opacity='.55'%3E%3Cpath d='M0 40a20 20 0 0 1 40 0M6 40a14 14 0 0 1 28 0M12 40a8 8 0 0 1 16 0M40 40a20 20 0 0 1 40 0M46 40a14 14 0 0 1 28 0M52 40a8 8 0 0 1 16 0M-20 20a20 20 0 0 1 40 0M-14 20a14 14 0 0 1 28 0M-8 20a8 8 0 0 1 16 0M20 20a20 20 0 0 1 40 0M26 20a14 14 0 0 1 28 0M32 20a8 8 0 0 1 16 0M60 20a20 20 0 0 1 40 0M66 20a14 14 0 0 1 28 0M72 20a8 8 0 0 1 16 0'/%3E%3C/g%3E%3C/svg%3E");
+}
+html{background:var(--bg);color:var(--ink)}
+::selection{background:var(--mint);color:var(--ink)}
+
+/* The walk keeps its night palette */
+.hero{--bg:#0c0a09;--ink:#f6f1e7;--ink-2:#e2dacd;--line:rgba(243,236,226,.16);color:var(--ink)}
+.hero .btn-ghost{color:#f6f1e7;border-color:rgba(246,241,231,.6)}
+
+/* Nav: light over the walk, a paper bar once solid */
+.nav{--ink:#f6f1e7;--ink-2:#efe8dc;color:var(--ink)}
+.nav.is-solid{--ink:#16233b;--ink-2:#46546b;background:rgba(246,241,231,.86);border-bottom:1px solid rgba(22,35,59,.1)}
+@media (max-width:760px){
+  .nav-links{background:rgba(246,241,231,.97);border-bottom:1px solid var(--line)}
+  .nav-links a{color:#16233b;border-top-color:rgba(22,35,59,.1)}
+  .nav.is-open{--ink:#16233b;background:rgba(246,241,231,.97)}
+}
+
+/* Sections: paper and mist, the first one rises over the walk like a sheet */
+.section-choose{background:var(--bg);box-shadow:0 -30px 60px -30px rgba(0,0,0,.35)}
+.section-experience{background:linear-gradient(180deg,transparent,var(--bg-2) 14%,var(--bg-2) 86%,transparent)}
+.section-close{background:radial-gradient(ellipse 70% 55% at 50% 100%,rgba(42,140,134,.18),transparent 70%)}
+.section-close::after{content:"";position:absolute;inset:auto 0 0;height:120px;background:var(--waves) repeat-x bottom/80px 40px;opacity:.55;-webkit-mask-image:linear-gradient(transparent,#000);mask-image:linear-gradient(transparent,#000);pointer-events:none}
+.kicker{color:var(--sea)}
+.kicker::before{background:var(--sea)}
+.lede,.choose-line,.address{color:var(--ink-2)}
+
+/* Buttons */
+.btn-ghost{color:var(--ink);border-color:rgba(22,35,59,.35);backdrop-filter:none}
+.btn-ghost:hover{border-color:var(--ink);background:rgba(22,35,59,.05)}
+.btn-primary{box-shadow:0 12px 28px -10px rgba(209,38,31,.45)}
+
+/* Photos: soft paper shadow instead of the dark wash */
+.frame{background:#eee7da;box-shadow:0 24px 50px -28px rgba(22,35,59,.45)}
+.frame::after{background:linear-gradient(to top,rgba(22,35,59,.18),transparent 40%);mix-blend-mode:normal}
+.sign{background:#eee7da;box-shadow:0 30px 70px -30px rgba(22,35,59,.55)}
+
+/* Visit rows and hours */
+.row span,.note{color:var(--ink-3)}
+.row::after{background:var(--sea)}
+.hours dt{color:var(--ink-2)}
+
+/* Footer: deep indigo, the page's anchor */
+.footer{--ink:#f6f1e7;--ink-2:#c9d3e0;--ink-3:#97a3b6;--line:rgba(246,241,231,.14);background:#16233b;color:var(--ink);border-top:0;position:relative}
+.footer::before{content:"";position:absolute;inset:-39px 0 auto;height:40px;background:var(--waves) repeat-x bottom/80px 40px;filter:brightness(.4) saturate(1.4);opacity:.9}
+
+/* Phone bar */
+.mobile-bar{background:rgba(246,241,231,.94);border-top:1px solid var(--line)}
+.mobile-bar .btn-ghost,.mobile-bar .btn-icon{color:var(--ink);border-color:rgba(22,35,59,.3)}
+
+/* Inner pages */
+.page p,.page li{color:var(--ink-2)}
+
+/* ---- Ambient layer (ambient-v7.js) restyled for daylight: the real ceiling's paper umbrellas ---- */
+.ambient .a-orb{background:radial-gradient(circle,rgba(207,233,225,.9) 0%,rgba(42,140,134,.18) 45%,transparent 70%);mix-blend-mode:multiply;filter:blur(var(--b,6px))}
+.ambient .a-orb > i{background:radial-gradient(circle,rgba(255,255,255,.7),transparent 45%)}
+.ambient .a-umb{opacity:calc(var(--o,.1) * 2.6);color:#e4704f}
+.ambient .a-umb:nth-of-type(3n){color:#2a8c86}
+.ambient .a-umb:nth-of-type(3n+1){color:#e5a93b}
+.ambient .a-umb:nth-of-type(4n){color:#7b6fc4}
+.ambient .a-lan .line{stroke:#16233b;opacity:.55}
+.ambient .a-lan .core{fill:#e4704f}
+
+/* ---- The food conveyor (conveyor-v8): light wood rail ---- */
+.belt-rail::before{background:repeating-linear-gradient(90deg,rgba(22,35,59,.06) 0 2px,transparent 2px 46px),linear-gradient(#e9dfcd,#dccfb7);border-top-color:rgba(184,145,63,.55);border-bottom-color:rgba(184,145,63,.35);box-shadow:0 18px 30px -22px rgba(22,35,59,.5)}
+.grid-food.belt .frame{box-shadow:0 16px 26px -14px rgba(22,35,59,.45)}
+
+/* ---- המגרש (games-v9): a daytime pitch, the scoreboard stays an LED board ---- */
+.section-games{background:linear-gradient(180deg,var(--bg) 0,transparent 12%,transparent 88%,var(--bg) 100%),repeating-linear-gradient(180deg,#8fcf9a 0 90px,#83c58f 90px 180px)}
+.pitch::after{background:radial-gradient(ellipse 80% 65% at 50% 48%,transparent 50%,rgba(246,241,231,.55) 100%)}
+.pitch-lines *{stroke:rgba(255,255,255,.75)}
+.pitch-lines .dot{fill:#fff}
+.flood{background:radial-gradient(ellipse at center,rgba(255,252,240,.55),transparent 62%)}
+.section-games .display,.section-games .kicker{color:#0f3d2a}
+.section-games .kicker::before{background:#0f3d2a}
+.corner li{background:rgba(255,255,255,.78);box-shadow:0 14px 30px -18px rgba(15,61,42,.45)}
+.corner strong{color:#16233b}
+.corner span{color:#46546b}
+.corner svg{stroke:#2a8c86}
+.corner svg .ball,.corner svg circle{fill:#2a8c86}
+.dice-result{color:#16233b}
+.dice-result.win{color:#0f3d2a}
+.board{box-shadow:0 0 0 1px rgba(255,255,255,.4),0 0 0 6px #1d2a24,0 0 0 7px rgba(184,145,63,.5),0 30px 60px -30px rgba(15,61,42,.6)}

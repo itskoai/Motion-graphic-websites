@@ -15,6 +15,13 @@ Verified by the owner's earlier brief (review/yoko-ono/PROMPT.md, branch claude/
 - Directions: Google Maps link to the address above
 - Kashrut: "כשר למהדרין", as the restaurant describes itself. Don't name the supervising body until the owner confirms it.
 
+## Added 6 Nov (owner, through the studio)
+- Events: they do events that come to the client (they arrive at the client's place and run the event there).
+- Market tables (שולחנות שוק): one table with their food spread out, guests come and take. A client books this as an event.
+- WhatsApp for events: the same number as the site's phone, 077-938-6192 (wa.me/972779386192).
+- Members' club: exists, rules not defined yet. Show only a placeholder.
+- Design: the owner wants a fresh, light site, not black.
+
 ## NEEDS OWNER CONFIRMATION (show nothing as final until confirmed)
 - Opening hours. Listings disagree. The reservation system shows Sun–Thu 12:00–23:00, Fri 11:30–14:30 and Sat night 20:30–23:00.
 - Private events. Don't mention them unless confirmed.
