@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>יוקו אונו · פיוז׳ן אסייתי, רעננה</title>
 <meta name="description" content="יוקו אונו, מסעדת פיוז׳ן אסייתי כשרה למהדרין ברעננה: סושי, מנות חמות וקוקטיילים. אחוזה 124, רעננה. הזמנת שולחן אונליין.">
-<meta name="theme-color" content="#0c0a09">
+<meta name="theme-color" content="#f6f1e7">
 <meta property="og:type" content="restaurant">
 <meta property="og:title" content="יוקו אונו · פיוז׳ן אסייתי, רעננה">
 <meta property="og:description" content="סושי, מנות חמות וקוקטיילים. כשר למהדרין. אחוזה 124, רעננה.">
@@ -20,6 +20,9 @@
 <link rel="stylesheet" href="assets/ambient-v7.css">
 <link rel="stylesheet" href="assets/games-v9.css">
 <link rel="stylesheet" href="assets/conveyor-v8.css">
+<link rel="stylesheet" href="assets/events-v10.css">
+<link rel="stylesheet" href="assets/club-v10.css">
+<link rel="stylesheet" href="assets/fresh-v10.css">
 <script src="assets/head-v6.js"></script>
 <script type="application/ld+json">
 {
@@ -46,6 +49,7 @@
     <a href="#menu">תפריט</a>
     <a href="#experience">החוויה</a>
     <a href="#games">המגרש</a>
+    <a href="#events">אירועים</a>
     <a href="#visit">איך מגיעים</a>
   </nav>
   <div class="nav-end">
@@ -228,6 +232,48 @@
     </div>
   </section>
 
+  <!-- אירועים: paste after #games, before #visit -->
+  <section class="section section-events" id="events" aria-labelledby="events-title">
+    <div class="wrap events-head">
+      <p class="kicker">אירועים</p>
+      <h2 class="display" id="events-title">האירוע אצלכם.<br>המטבח שלנו.</h2>
+      <p class="lede">יוקו אונו מגיעים עד אליכם. אנחנו מביאים את האירוע למקום שלכם, וגם עורכים שולחנות שוק.</p>
+    </div>
+
+    <div class="wrap events-grid">
+      <article class="event-card event-mobile">
+        <div class="route" aria-hidden="true">
+          <svg viewBox="0 0 320 120" focusable="false">
+            <path class="road" d="M14 96C70 96 70 30 130 30S200 92 252 82 300 40 306 36"/>
+            <circle class="pin pin-a" cx="14" cy="96" r="7"/>
+            <g class="pin-b" transform="translate(306 36)"><path d="M0 0c-9 0-16 7-16 16 0 12 16 26 16 26s16-14 16-26C16 7 9 0 0 0z" transform="translate(0 -42)"/><circle cx="0" cy="-26" r="5.5" class="hole"/></g>
+            <g class="van"><rect x="-17" y="-11" width="34" height="18" rx="4"/><rect x="5" y="-8" width="10" height="7" rx="1.5" class="win"/><circle cx="-9" cy="8" r="4" class="wheel"/><circle cx="9" cy="8" r="4" class="wheel"/></g>
+          </svg>
+        </div>
+        <h3>אירועים שזזים</h3>
+        <p>מזמינים אותנו, ואנחנו מגיעים עד אליכם ועושים את האירוע במקום שלכם.</p>
+      </article>
+
+      <article class="event-card event-market">
+        <div class="market" aria-hidden="true">
+          <div class="market-table">
+            <span class="dish"><img src="assets/photos/nigiri-800.webp" alt="" loading="lazy" decoding="async"></span>
+            <span class="dish"><img src="assets/photos/salmon-roll-800.webp" alt="" loading="lazy" decoding="async"></span>
+            <span class="dish"><img src="assets/photos/dumplings-800.webp" alt="" loading="lazy" decoding="async"></span>
+            <span class="dish"><img src="assets/photos/cucumber-rolls-800.webp" alt="" loading="lazy" decoding="async"></span>
+          </div>
+        </div>
+        <h3>שולחנות שוק</h3>
+        <p>שולחן אחד ארוך עם האוכל שלנו פרוס עליו, והאורחים ניגשים ולוקחים.</p>
+      </article>
+    </div>
+
+    <div class="wrap cta-row events-cta">
+      <a class="btn btn-primary" href="https://wa.me/972779386192?text=%D7%94%D7%99%D7%99%2C%20%D7%90%D7%A9%D7%9E%D7%97%20%D7%9C%D7%A9%D7%9E%D7%95%D7%A2%20%D7%A2%D7%9C%20%D7%90%D7%99%D7%A8%D7%95%D7%A2%20%D7%A2%D7%9D%20%D7%99%D7%95%D7%A7%D7%95%20%D7%90%D7%95%D7%A0%D7%95" target="_blank" rel="noopener">דברו איתנו בוואטסאפ</a>
+      <a class="btn btn-ghost" href="tel:+972779386192">התקשרו <span dir="ltr">077-938-6192</span></a>
+    </div>
+  </section>
+
   <section class="section section-visit" id="visit">
     <div class="wrap grid-visit">
       <div>
@@ -294,5 +340,6 @@
 <script src="assets/ambient-v7.js"></script>
 <script src="assets/games-v9.js"></script>
 <script src="assets/conveyor-v8.js"></script>
+<script src="assets/club-v10.js"></script>
 </body>
 </html>

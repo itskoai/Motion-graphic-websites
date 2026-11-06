@@ -1,0 +1,25 @@
+/* YOKO ONO: the members' club button and panel. Small, paper and indigo, never over the booking bar. */
+.club-btn{position:fixed;z-index:45;inset-inline-start:16px;bottom:max(16px,env(safe-area-inset-bottom));display:inline-flex;align-items:center;gap:8px;
+  min-height:44px;padding:8px 16px 8px 14px;border-radius:999px;border:1px solid rgba(22,35,59,.14);background:rgba(255,255,255,.92);color:#16233b;
+  font:600 .95rem/1 var(--body);cursor:pointer;box-shadow:0 12px 30px -14px rgba(22,35,59,.55);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+  transition:transform .35s var(--ease),bottom .45s var(--ease),box-shadow .25s}
+.club-btn:hover{transform:translateY(-2px);box-shadow:0 16px 34px -14px rgba(22,35,59,.6)}
+.club-btn svg{width:18px;height:18px;fill:#e5a93b}
+.club-btn[aria-expanded="true"]{background:#16233b;color:#f6f1e7}
+@media (max-width:760px){body.bar-on .club-btn{bottom:calc(84px + env(safe-area-inset-bottom))}}
+
+.club-panel{position:fixed;z-index:46;inset-inline-start:16px;bottom:calc(max(16px,env(safe-area-inset-bottom)) + 56px);width:min(340px,calc(100vw - 32px));
+  max-height:min(70vh,520px);overflow:auto;background:#fffdf8;color:#16233b;border-radius:20px;padding:22px 22px 20px;
+  box-shadow:0 30px 60px -24px rgba(22,35,59,.6),inset 0 0 0 1px rgba(22,35,59,.08);opacity:0;transform:translateY(10px) scale(.98);transform-origin:bottom left;transition:opacity .22s,transform .3s var(--ease)}
+.club-panel.open{opacity:1;transform:none}
+.club-panel::before{content:"";position:absolute;inset:0 0 auto;height:6px;border-radius:20px 20px 0 0;background:linear-gradient(90deg,#d1261f,#e5a93b,#2a8c86)}
+@media (max-width:760px){body.bar-on .club-panel{bottom:calc(140px + env(safe-area-inset-bottom))}}
+.club-panel h2{font-family:var(--display);font-size:2rem;line-height:.95;margin:4px 0 10px;padding-inline-end:36px}
+.club-intro{color:#46546b}
+.club-perks,.club-terms{margin:14px 0 0;padding-inline-start:18px;display:grid;gap:6px}
+.club-perks li::marker{color:#d1261f}
+.club-terms{font-size:.88rem;color:#7a8597}
+.club-cta{margin-top:16px}
+.club-close{position:absolute;top:12px;inset-inline-end:12px;width:36px;height:36px;border-radius:50%;border:1px solid rgba(22,35,59,.15);background:transparent;color:#16233b;font-size:22px;line-height:1;cursor:pointer}
+.club-panel [hidden]{display:none}
+@media (prefers-reduced-motion:reduce){.club-panel,.club-btn{transition:none}}
